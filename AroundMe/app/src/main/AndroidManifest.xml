@@ -18,7 +18,8 @@
         <activity android:name=".Activity.LoginActivity" />
         <activity android:name=".Activity.LandingActivity" />
         <activity android:name=".Activity.homepage" />
-        <activity android:name=".Activity.add_group"></activity>
+        <activity android:name=".Activity.add_group" />
+        <activity android:name=".Activity.group_chat"></activity>
     </application>
 
 </manifest>
