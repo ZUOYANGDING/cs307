@@ -17,7 +17,8 @@
         </activity>
         <activity android:name=".Activity.LoginActivity" />
         <activity android:name=".Activity.LandingActivity" />
-        <activity android:name=".Activity.homepage"></activity>
+        <activity android:name=".Activity.homepage" />
+        <activity android:name=".Activity.add_group"></activity>
     </application>
 
 </manifest>

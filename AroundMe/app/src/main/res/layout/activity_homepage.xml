@@ -41,7 +41,9 @@
             android:id="@+id/searchBar"
             android:layout_weight="0.95"
             android:layout_marginLeft="20dp"
-            android:layout_width="200dp" />
+            android:layout_width="200dp" >
+
+        </SearchView>
 
         <ImageButton
             android:layout_width="50dp"
@@ -55,15 +57,27 @@
             android:layout_marginRight="5dp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="0dp"
+        android:background="#ffD9C55D"
+        android:id="@+id/bottomBar"></LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/topBar"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/bottomBar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
+
 </RelativeLayout>

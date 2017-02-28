@@ -20,5 +20,5 @@
         android:textAllCaps="false"
         android:textAlignment="center"
         android:background="@drawable/logo"
-        android:layout_height="210dp" />
+        android:layout_height="180dp" />
 </RelativeLayout>
