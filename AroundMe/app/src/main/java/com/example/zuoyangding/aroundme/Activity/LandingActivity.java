@@ -28,8 +28,8 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
     //image module
     ImageView landing_iv;
-    Button landing_bUploadName;
-    EditText landing_etUploadName;
+    //Button landing_bUploadName;
+    //EditText landing_etUploadName;
 
     //private static int RESULT_LOAD_IMAGE = 1;
 
@@ -57,12 +57,12 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
         //image module
         landing_iv = (ImageView) findViewById(R.id.imageButton);
-        landing_bUploadName = (Button) findViewById(R.id.bUploadName);
-        landing_etUploadName = (EditText) findViewById(R.id.etUploadName);
+        //landing_bUploadName = (Button) findViewById(R.id.bUploadName);
+        //landing_etUploadName = (EditText) findViewById(R.id.etUploadName);
 
         landing_iv.setOnClickListener(this);
-        landing_bUploadName.setOnClickListener(this);
-        Log.v("6666666","!!!");
+        //landing_bUploadName.setOnClickListener(this);
+        //Log.v("6666666","!!!");
     }
 
     @Override
@@ -70,7 +70,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         switch (v.getId()){
             case R.id.imageButton:
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                Log.v("6666666","!!!");
+                //Log.v("R.id.imageButton","!!!");
                 startActivityForResult(galleryIntent, 1);
                 break;
             //case R.id.bUploadName:
@@ -82,7 +82,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && requestCode == RESULT_OK && data != null){
-            Log.v("555","!!!");
+            //Log.v("Uri","!!!");
 
             Uri selectedImage = data.getData();
             landing_iv.setImageURI(selectedImage);

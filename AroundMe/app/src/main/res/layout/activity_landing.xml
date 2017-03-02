@@ -71,7 +71,6 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:id="@+id/intro"
-            android:layout_weight="1"
             android:textSize="24sp"
             android:textColor="@color/common_google_signin_btn_text_dark_focused" />
     </LinearLayout>
@@ -152,17 +151,16 @@
         android:id="@+id/landing_Edit" />
 
 
+    <!--<EditText-->
+        <!--android:id="@+id/etUploadName"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
 
-    <EditText
-        android:id="@+id/etUploadName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/bUploadName"
-        android:text="Change Avatar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <!--<Button-->
+        <!--android:id="@+id/bUploadName"-->
+        <!--android:text="Change Avatar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
 
     <ImageView
         android:layout_width="150dp"
@@ -172,11 +170,14 @@
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
         android:paddingTop="0dp"
-        android:background="@null"
         app:srcCompat="@drawable/avatar"
-        android:layout_marginTop="19dp"
-        android:layout_below="@+id/bUploadName"
-        android:layout_centerHorizontal="true" />
+        android:background="@null"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp" />
+    <!--android:layout_below="@+id/etUploadName"-->
+    <!--android:layout_below="@+id/bUploadName"-->
+
 
 
 </RelativeLayout>
