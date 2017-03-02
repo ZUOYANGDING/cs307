@@ -13,7 +13,8 @@ import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.Birt
 import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.Nickname;
 import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.info;
 
-public class LandingActivity extends AppCompatActivity {
+
+public class LandingActivity implements PicCutDemoActivity extends AppCompatActivity {
 
     Button landing_Edit;
 
