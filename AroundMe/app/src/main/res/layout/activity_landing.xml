@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_landing"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+
+    tools:context="com.example.zuoyangding.aroundme.Activity.LandingActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/birthdayLayout"
+        android:layout_below="@+id/nicknameLayout"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"
+        android:layout_width="120dp">
+
+        <TextView
+            android:text="Birthday"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/birthday"
+            android:layout_weight="1"
+            android:textSize="24sp"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="50dp"
+        android:id="@+id/nicknameLayout"
+        android:layout_below="@+id/imageButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_width="120dp">
+
+        <TextView
+            android:text="Nickname"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/nickname"
+            android:layout_weight="1"
+            android:textSize="24sp"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:fontFamily="sans-serif" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/introLayout"
+        android:layout_below="@+id/birthdayLayout"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"
+        android:layout_width="120dp">
+
+        <TextView
+            android:text="Intro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/intro"
+            android:textSize="24sp"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_below="@+id/nicknameLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="16dp"
+        android:id="@+id/enterBirthdayLayout"
+        android:layout_height="50dp"
+        android:layout_width="200dp">
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/landing_Birthday"
+            android:textSize="24sp"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:fontFamily="sans-serif"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="100dp"
+        android:id="@+id/enterIntroLayout"
+        android:layout_below="@+id/enterBirthdayLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="200dp">
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/landing_intro"
+            android:textSize="24sp"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:fontFamily="sans-serif"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="50dp"
+        android:layout_width="200dp"
+        android:id="@+id/enterNicknameLayout"
+        android:layout_marginRight="16dp"
+        android:layout_below="@+id/imageButton"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp">
+    </LinearLayout>
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/landing_Nickname"
+        android:textSize="24sp"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:fontFamily="sans-serif"
+        android:layout_alignTop="@+id/enterNicknameLayout"
+        android:layout_alignStart="@+id/enterBirthdayLayout"
+        android:layout_above="@+id/enterBirthdayLayout"
+        android:layout_alignEnd="@+id/enterNicknameLayout"
+        android:gravity="center"/>
+
+    <Button
+        android:text="Edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/enterIntroLayout"
+        android:layout_toEndOf="@+id/introLayout"
+        android:id="@+id/landing_Edit" />
+
+
+    <!--<EditText-->
+        <!--android:id="@+id/etUploadName"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/bUploadName"-->
+        <!--android:text="Change Avatar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/imageButton"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="0dp"
+        app:srcCompat="@drawable/avatar"
+        android:background="@null"
+        android:layout_marginTop="28dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    <!--android:layout_below="@+id/etUploadName"-->
+    <!--android:layout_below="@+id/bUploadName"-->
+
+
+
+</RelativeLayout>
