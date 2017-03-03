@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase mDatabase;
     //private Firebase firebase;
+    private Boolean authFlag = false;
     private DatabaseReference mUserReference;
 
 
@@ -65,49 +66,56 @@ public class LoginActivity extends AppCompatActivity {
                 //String email = user.getEmail();
                 //mUserReference = mDatabase.getReference().child(userID);
                 if (user != null) {
-                    final String userID = user.getUid();
-                    final String email = user.getEmail();
-                    //mUserReference = mDatabase.getReference().child("Users").child(userID);
-                    //System.out.println("the user is " + user.getEmail());
-                    //String userID = user.getUid();
-//                    if ( == null) {
-//                        Intent register = new Intent(LoginActivity.this, LandingActivity.class);
-//                        register.putExtra("userIDkey", userID);
-//                        startActivity(register);
-//                    } else {
-//                        Intent home = new Intent(LoginActivity.this, homepage.class);
-//                        startActivity(home);
-//                    }
-                    System.out.println("HERE IS THE USER ID GIVEN BY GOOGLE: " + userID);
+                    if (authFlag == false) {
+                        final String userID = user.getUid();
+                        System.out.println("here");
+                        final String email = user.getEmail();
 
-                    mUserReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            //User uCheck = dataSnapshot.getValue(User.class);
-                            if (!dataSnapshot.exists()) {
-                                User u = new User(userID, email, null, new ArrayList<String>());
-                                u.setGoogleAccount(email);
-                                u.setUserID(userID);
-                                System.out.println("I am here");
-                                mUserReference.child(userID).setValue(u);
-                                Intent register = new Intent(LoginActivity.this, LandingActivity.class);
-                                register.putExtra("userKey", userID);
-                                startActivity(register);
-                            } else {
-                                System.out.println("jump to homepage");
-                                Intent home = new Intent(LoginActivity.this, homepage.class);
-                                startActivity(home);
+                        //mUserReference = mDatabase.getReference().child("Users").child(userID);
+                        //System.out.println("the user is " + user.getEmail());
+                        //String userID = user.getUid();
+                        //                    if ( == null) {
+                        //                        Intent register = new Intent(LoginActivity.this, LandingActivity.class);
+                        //                        register.putExtra("userIDkey", userID);
+                        //                        startActivity(register);
+                        //                    } else {
+                        //                        Intent home = new Intent(LoginActivity.this, homepage.class);
+                        //                        startActivity(home);
+                        //                    }
+                        System.out.println("HERE IS THE USER ID GIVEN BY GOOGLE: " + userID);
+
+                        mUserReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                //User uCheck = dataSnapshot.getValue(User.class);
+                                if (!dataSnapshot.exists()) {
+                                    User u = new User(userID, email, null, new ArrayList<String>());
+                                    u.setGoogleAccount(email);
+                                    u.setUserID(userID);
+                                    System.out.println("I am here");
+                                    mUserReference.child(userID).setValue(u);
+                                    Intent register = new Intent(LoginActivity.this, LandingActivity.class);
+                                    register.putExtra("userKey", userID);
+                                    startActivity(register);
+                                } else {
+                                    System.out.println("jump to homepage");
+                                    Intent home = new Intent(LoginActivity.this, homepage.class);
+                                    startActivity(home);
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-                    //Intent next = new Intent(LoginActivity.this, LandingActivity.class);
-                    //startActivity(next);
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+                        //Intent next = new Intent(LoginActivity.this, LandingActivity.class);
+                        //startActivity(next);
+                        authFlag = true;
+                    } else {
+
+                    }
                 } else {
-                    //error
+                        //erro
                 }
             }
         };
@@ -140,6 +148,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
+    }
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
     @Override //make android forget the signin
     protected void onDestroy(){
