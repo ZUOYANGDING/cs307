@@ -147,13 +147,13 @@ public class homepage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
         lv = (ListView) findViewById(R.id.homepage_list);
-        click();
+        click("TEST1");
     }
 
-    public void click() {
+    public void click(String groupName) {
 
         groupInfo = database.getReference("Group");
-        DatabaseReference ref = groupInfo.child("TEST1");
+        final DatabaseReference ref = groupInfo.child(groupName);
 
         //一直进不去这里
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
