@@ -6,10 +6,11 @@
 
     <TextView
         android:text="Group Name"
-        android:gravity="center"
-        android:textSize="16sp"
+        android:gravity=""
+        android:textSize="30sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_weight="0.06" />
+        android:id="@+id/homepage_list_textView"
+        android:layout_weight="0.06"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"/>
 </LinearLayout>
