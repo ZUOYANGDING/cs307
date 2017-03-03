@@ -20,15 +20,34 @@
         android:id="@+id/topBar"
         android:background="#ffD9C55D">
 
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/back_button"
+            android:id="@+id/backButton"
+            android:background="@null"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp" />
+
         <TextView
             android:text="Group name"
             android:id="@+id/groupName"
             android:layout_height="60dp"
             android:layout_width="150dp"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="50dp"
             android:textSize="24sp"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:gravity="fill_vertical|center_horizontal" />
+
+        <CheckBox
+            android:text="Vote"
+            android:layout_height="50dp"
+            android:id="@+id/checkBox"
+            android:textColor="@color/buttonTextColor"
+            android:buttonTint="@color/buttonTextColor"
+            android:layout_width="80dp"
+            android:layout_marginLeft="40dp" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -57,7 +76,8 @@
             android:textColor="?android:attr/textColorPrimaryInverseNoDisable"
             android:layout_width="250dp"
             android:layout_marginTop="10dp"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:hint="Enter message" />
 
         <ImageButton
             android:layout_width="50dp"
