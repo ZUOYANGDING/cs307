@@ -39,10 +39,12 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         landing_Nickname = (TextView) findViewById(R.id.landing_Nickname);
         landing_Birthday = (TextView) findViewById(R.id.landing_Birthday);
         landing_info = (TextView) findViewById(R.id.landing_intro);
+        //landing_iv = (ImageView) findViewById(R.id.imageButton);
 
         landing_Nickname.setText(global_variable.getUser_name());
         landing_Birthday.setText(global_variable.getBirthday());
         landing_info.setText(global_variable.getIntroduction());
+        //landing_iv = global_variable.getProfile_pic();
 
         landing_Edit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -65,10 +67,12 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Global_variable global_variable = (Global_variable)getApplicationContext();
         //if (requestCode == 1 && requestCode == RESULT_OK && data != null){
             //Uri imgUri = Uri.parse("content://storage/emulated/0/DCIM/Camera/IMG_20160303_012710796.jpg");
             Uri imgUri = data.getData();
             landing_iv.setImageURI(imgUri);
+            global_variable.setProfile_pic(landing_iv);
         //}
     }
 }
