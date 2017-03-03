@@ -8,13 +8,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.example.zuoyangding.aroundme.DataModels.GroupClass;
 import com.example.zuoyangding.aroundme.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class add_group extends AppCompatActivity {
 
     ImageButton backButton;
+    Button addGroup;
 
     EditText groupName;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("Group");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +29,7 @@ public class add_group extends AppCompatActivity {
         setContentView(R.layout.activity_add_group);
 
         backButton = (ImageButton) findViewById(R.id.imageButton2);
+        addGroup = (Button) findViewById(R.id.createGroup);
 
         groupName = (EditText) findViewById(R.id.enterGroupName);
 
@@ -32,10 +40,27 @@ public class add_group extends AppCompatActivity {
                 GroupClass group = new GroupClass();
                 group.setGroupName(String. valueOf(groupName.getText()));
 
+
                 Intent i = new Intent(add_group.this, homepage.class);
                 startActivity(i);
             }
         });
+
+        addGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                GroupClass group = new GroupClass();
+
+                group.setGroupName(String.valueOf(groupName.getText()));
+
+                DatabaseReference inst = myRef.child(groupName.getText().toString()).push();
+
+                inst.setValue(group);
+            }
+        });
+
+
 
     }
 }
