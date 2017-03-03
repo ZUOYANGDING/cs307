@@ -34,19 +34,27 @@
             android:id="@+id/groupName"
             android:layout_height="60dp"
             android:layout_width="150dp"
-            android:layout_marginLeft="50dp"
             android:textSize="24sp"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:gravity="fill_vertical|center_horizontal" />
 
         <CheckBox
-            android:text="Vote"
-            android:layout_height="50dp"
-            android:id="@+id/checkBox"
+            android:text="Joined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/joined"
+            android:layout_weight="1"
             android:textColor="@color/buttonTextColor"
-            android:buttonTint="@color/buttonTextColor"
-            android:layout_width="80dp"
-            android:layout_marginLeft="40dp" />
+            android:buttonTint="@color/buttonTextColor" />
+
+        <CheckBox
+            android:text="Voted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/voted"
+            android:layout_weight="1"
+            android:textColor="@color/buttonTextColor"
+            android:buttonTint="@color/buttonTextColor" />
 
     </LinearLayout>
 
