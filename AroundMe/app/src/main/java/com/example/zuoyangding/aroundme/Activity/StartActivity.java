@@ -3,6 +3,7 @@ package com.example.zuoyangding.aroundme.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,15 +17,20 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        startButton = (Button) findViewById(R.id.start_btn );
+        Thread myThread = new Thread() {
 
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent login = new Intent(StartActivity.this, LoginActivity.class);
-                startActivity(login);
+            public void run() {
+                try {
+                    sleep(2500);
+                    Intent i = new Intent(StartActivity.this, LoginActivity.class);
+                    startActivity(i);
+                    finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        });
-
+        };
+        myThread.start();
     }
+
 }

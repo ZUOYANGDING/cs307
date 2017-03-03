@@ -99,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
     }
 
 
@@ -114,6 +115,10 @@ public class LoginActivity extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
+
+                Intent i = new Intent(LoginActivity.this, homepage.class);
+                LoginActivity.this.startActivity(i);
+
             } else {
                 // Google Sign In failed, update UI appropriately
                 Log.d("Firebase", " Authorization error:" + result.getStatus());
