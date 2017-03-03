@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.zuoyangding.aroundme.R;
+import com.firebase.client.Firebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by Kenny on 2/28/2017.
@@ -23,13 +26,14 @@ public class editLandingActivity extends AppCompatActivity {
     TextView edit_landing_Birthday;
     TextView edit_landing_info;
     TextView edit_landing_error;
-
+    private DatabaseReference mDatabase;
     Button saveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_landing);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
         edit_landing_Nickname = (TextView) findViewById(R.id.edit_landing_Nickname);
@@ -52,6 +56,12 @@ public class editLandingActivity extends AppCompatActivity {
                 if (Nickname.length() == 0 || Birthday.length() == 0) {
                     edit_landing_error.setText("Please fill in all fields");
                 } else {
+                    User new_u = new User("Makeup_ID",
+                                            global_variable.getUser_name(),
+                                            global_variable.getEmail(),
+                                            global_variable.getBirthday(),
+                                            global_variable.getIntroduction());
+                    mDatabase.child("Users").child(new_u.user_id).setValue(new_u);
                     Intent i=new Intent(editLandingActivity.this, LandingActivity.class);
                     editLandingActivity.this.startActivity(i);
                 }
