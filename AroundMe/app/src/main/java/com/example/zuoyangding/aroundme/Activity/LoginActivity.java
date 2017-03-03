@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.zuoyangding.aroundme.DataModels.User;
 import com.example.zuoyangding.aroundme.R;
 import com.firebase.client.Firebase;
 import com.google.android.gms.auth.api.Auth;
@@ -24,8 +25,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -48,20 +54,58 @@ public class LoginActivity extends AppCompatActivity {
         googleBtn = (SignInButton) findViewById(R.id.google_btn);
 
         mDatabase = FirebaseDatabase.getInstance();
-        mUserReference = mDatabase.getReference();
+        mUserReference = mDatabase.getReference().child("Users");
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+                //String userID = user.getUid();
+                //String email = user.getEmail();
+                //mUserReference = mDatabase.getReference().child(userID);
                 if (user != null) {
-                    System.out.println("the user is " + user.getEmail());
-                    String userID = user.getUid();
-                    
+                    final String userID = user.getUid();
+                    final String email = user.getEmail();
+                    //mUserReference = mDatabase.getReference().child("Users").child(userID);
+                    //System.out.println("the user is " + user.getEmail());
+                    //String userID = user.getUid();
+//                    if ( == null) {
+//                        Intent register = new Intent(LoginActivity.this, LandingActivity.class);
+//                        register.putExtra("userIDkey", userID);
+//                        startActivity(register);
+//                    } else {
+//                        Intent home = new Intent(LoginActivity.this, homepage.class);
+//                        startActivity(home);
+//                    }
                     System.out.println("HERE IS THE USER ID GIVEN BY GOOGLE: " + userID);
-                    Intent next = new Intent(LoginActivity.this, LandingActivity.class);
-                    startActivity(next);
+
+                    mUserReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            //User uCheck = dataSnapshot.getValue(User.class);
+                            if (!dataSnapshot.exists()) {
+                                User u = new User(userID, email, null, new ArrayList<String>());
+                                u.setGoogleAccount(email);
+                                u.setUserID(userID);
+                                System.out.println("I am here");
+                                mUserReference.child(userID).setValue(u);
+                                Intent register = new Intent(LoginActivity.this, LandingActivity.class);
+                                register.putExtra("userKey", userID);
+                                startActivity(register);
+                            } else {
+                                System.out.println("jump to homepage");
+                                Intent home = new Intent(LoginActivity.this, homepage.class);
+                                startActivity(home);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+                    //Intent next = new Intent(LoginActivity.this, LandingActivity.class);
+                    //startActivity(next);
                 } else {
                     //error
                 }
@@ -99,10 +143,10 @@ public class LoginActivity extends AppCompatActivity {
     }
     @Override //make android forget the signin
     protected void onDestroy(){
-        mAuth.getInstance().signOut();
+        //mAuth.getInstance().signOut();
 
         //System.out.println("i am here");
-        //firebase.unauth(); //make firebase forget the token
+        mAuth.getInstance().signOut();
         super.onDestroy();
 
 
@@ -164,4 +208,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
 }
