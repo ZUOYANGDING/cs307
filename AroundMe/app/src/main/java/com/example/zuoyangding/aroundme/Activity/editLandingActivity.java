@@ -42,11 +42,13 @@ public class editLandingActivity extends AppCompatActivity {
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                Global_variable global_variable = (Global_variable)getApplicationContext();
                 Nickname = edit_landing_Nickname.getText().toString();
+                global_variable.setUser_name(Nickname);
                 Birthday = edit_landing_Birthday.getText().toString();
+                global_variable.setBirthday(Birthday);
                 info = edit_landing_info.getText().toString();
-
+                global_variable.setIntroduction(info);
                 if (Nickname.length() == 0 || Birthday.length() == 0) {
                     edit_landing_error.setText("Please fill in all fields");
                 } else {
