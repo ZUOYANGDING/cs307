@@ -11,6 +11,7 @@ public class Global_variable extends Application{
         private String user_id;
         private String user_name;
         private String birthday;
+        private String email;
         private String introduction;
         private ImageView profile_pic;
     public Global_variable(){
@@ -27,6 +28,9 @@ public class Global_variable extends Application{
     }
     public void setBirthday(String birthday){
         this.birthday = birthday;
+    }
+    public void setEmail(String email){
+        this.email = email;
     }
     public void setIntroduction(String introduction){
         this.introduction = introduction;
@@ -45,6 +49,9 @@ public class Global_variable extends Application{
     }
     public String getIntroduction(){
         return this.introduction;
+    }
+    public String getEmail(){
+        return this.email;
     }
     public ImageView getProfile_pic(){
         return this.profile_pic;
