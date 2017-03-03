@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.zuoyangding.aroundme.DataModels.User;
 import com.example.zuoyangding.aroundme.R;
 import com.firebase.client.Firebase;
 import com.google.firebase.database.DatabaseReference;
@@ -56,12 +57,13 @@ public class editLandingActivity extends AppCompatActivity {
                 if (Nickname.length() == 0 || Birthday.length() == 0) {
                     edit_landing_error.setText("Please fill in all fields");
                 } else {
-                    User new_u = new User(global_variable.getUser_id(),
+                    User new_u = new User("vL5xCS5dfCOyOi7Pe6m5EzFjfz73",
                                             global_variable.getUser_name(),
                                             global_variable.getEmail(),
                                             global_variable.getBirthday(),
-                                            global_variable.getIntroduction());
-                    mDatabase.child("Users").child(new_u.user_id).setValue(new_u);
+                                            global_variable.getIntroduction(),null);
+
+                    mDatabase.child("Users").child(new_u.getUserID()).setValue(new_u);
                     Intent i=new Intent(editLandingActivity.this, LandingActivity.class);
                     editLandingActivity.this.startActivity(i);
                 }

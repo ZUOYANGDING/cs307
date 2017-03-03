@@ -10,12 +10,17 @@ public class User {
     private String userID;
     private String googleAccount;
     private String nickName;
+    private String introduction;
+    private String birthday;
     private List<String> groupIDs;
     //private String profile_image;
     //private String profile;
 
-    public User(String userID, String googleAccount, String nickName, List<String> groupIDs) {
+    public User(String userID, String googleAccount, String nickName, String birthday, String introduction, List<String> groupIDs) {
         this.userID = userID;
+        this.nickName = nickName;
+        this.birthday = birthday;
+        this.introduction = introduction;
         this.googleAccount = googleAccount;
         this.nickName = nickName;
         this.groupIDs = groupIDs;
@@ -35,6 +40,15 @@ public class User {
         this.googleAccount = googleAccount;
     }
 
+    public String getNickName(){
+        return nickName;
+    }
+    public String getBirthday(){
+        return birthday;
+    }
+    public String getIntroduction(){
+        return introduction;
+    }
     public List<String> getGroupIDs() {
         return this.groupIDs;
     }
