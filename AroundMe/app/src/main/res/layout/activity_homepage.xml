@@ -65,7 +65,24 @@ tools:context="com.example.zuoyangding.aroundme.Activity.homepage">
     android:layout_centerHorizontal="true"
     android:layout_marginBottom="0dp"
     android:background="#ffD9C55D"
-    android:id="@+id/bottomBar"></LinearLayout>
+    android:id="@+id/bottomBar">
+
+    <ImageButton
+        app:srcCompat="@drawable/home_button"
+        android:id="@+id/homeButton"
+        android:background="@null"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="80dp" />
+
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/favorites_button"
+        android:id="@+id/favoritesButton"
+        android:background="@null"
+        android:layout_marginLeft="80dp" />
+</LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
