@@ -14,6 +14,7 @@ public class Global_variable extends Application{
         private String email;
         private String introduction;
         private ImageView profile_pic;
+
     public Global_variable(){
         user_id = "undefined";
         user_name = "307";
