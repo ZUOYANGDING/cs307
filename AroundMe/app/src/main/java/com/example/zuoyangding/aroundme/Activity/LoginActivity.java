@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase mDatabase;
-    private Firebase firebase;
+    //private Firebase firebase;
     private DatabaseReference mUserReference;
 
 
@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.getInstance().signOut();
 
         //System.out.println("i am here");
-        firebase.unauth(); //make firebase forget the token
+        //firebase.unauth(); //make firebase forget the token
         super.onDestroy();
 
 
@@ -164,5 +164,4 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
 }
