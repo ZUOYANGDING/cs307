@@ -30,8 +30,6 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
     //image module
     ImageView landing_iv;
-    //Button landing_bUploadName;
-    //EditText landing_etUploadName;
     //private static int RESULT_LOAD_IMAGE = 1;
 
     @Override
