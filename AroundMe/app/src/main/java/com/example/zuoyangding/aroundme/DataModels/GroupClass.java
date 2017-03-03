@@ -1,4 +1,4 @@
-package com.example.zuoyangding.aroundme.Activity;
+package com.example.zuoyangding.aroundme.DataModels;
 
 /**
  * Created by Kenny on 3/2/2017.
