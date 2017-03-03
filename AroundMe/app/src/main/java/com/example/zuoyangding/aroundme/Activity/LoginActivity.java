@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             //User uCheck = dataSnapshot.getValue(User.class);
                             if (!dataSnapshot.exists()) {
-                                User u = new User(userID, email, null, new ArrayList<String>());
+                                User u = new User(userID, email, null, null, null, new ArrayList<String>());
                                 u.setGoogleAccount(email);
                                 u.setUserID(userID);
                                 System.out.println("I am here");
