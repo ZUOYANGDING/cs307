@@ -56,7 +56,7 @@ public class editLandingActivity extends AppCompatActivity {
                 if (Nickname.length() == 0 || Birthday.length() == 0) {
                     edit_landing_error.setText("Please fill in all fields");
                 } else {
-                    User new_u = new User("Makeup_ID",
+                    User new_u = new User(global_variable.getUser_id(),
                                             global_variable.getUser_name(),
                                             global_variable.getEmail(),
                                             global_variable.getBirthday(),
