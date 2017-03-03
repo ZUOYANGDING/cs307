@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.zuoyangding.aroundme.R;
+import com.firebase.client.Firebase;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -35,10 +36,12 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase mDatabase;
+    private Firebase firebase;
     private DatabaseReference mUserReference;
 
 
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("jump to login3");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -53,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+                    System.out.println("the user is " + user.getEmail());
                     String userID = user.getUid();
                     
                     System.out.println("HERE IS THE USER ID GIVEN BY GOOGLE: " + userID);
@@ -92,6 +96,17 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
+    }
+    @Override //make android forget the signin
+    protected void onDestroy(){
+        mAuth.getInstance().signOut();
+
+        //System.out.println("i am here");
+        firebase.unauth(); //make firebase forget the token
+        super.onDestroy();
+
+
+        //mAuth.getInstance().signOut();
     }
 
 
