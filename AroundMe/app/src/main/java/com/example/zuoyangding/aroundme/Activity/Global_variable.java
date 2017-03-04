@@ -1,7 +1,10 @@
 package com.example.zuoyangding.aroundme.Activity;
 
 import android.app.Application;
+import android.net.Uri;
 import android.widget.ImageView;
+
+import java.net.URL;
 
 /**
  * Created by siyujiang on 3/3/17.
@@ -57,4 +60,5 @@ public class Global_variable extends Application{
     public ImageView getProfile_pic(){
         return this.profile_pic;
     }
+    public void setImageURI_Pic(Uri imgUri) {this.profile_pic.setImageURI(imgUri);}
 }

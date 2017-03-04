@@ -25,6 +25,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
     //image module
     ImageView landing_iv;
+    Button landing_change;
     //private static int RESULT_LOAD_IMAGE = 1;
 
     @Override
@@ -55,7 +56,9 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
         //image module
         landing_iv = (ImageView) findViewById(R.id.imageButton);
-        landing_iv.setOnClickListener(this);
+        landing_change = (Button) findViewById(R.id.change);
+        landing_iv = global_variable.getProfile_pic();
+        landing_change.setOnClickListener(this);
     }
 
     @Override
@@ -67,12 +70,11 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Global_variable global_variable = (Global_variable)getApplicationContext();
+        //Global_variable global_variable = (Global_variable)getApplicationContext();
         //if (requestCode == 1 && requestCode == RESULT_OK && data != null){
-            //Uri imgUri = Uri.parse("content://storage/emulated/0/DCIM/Camera/IMG_20160303_012710796.jpg");
             Uri imgUri = data.getData();
             landing_iv.setImageURI(imgUri);
-            global_variable.setProfile_pic(landing_iv);
+            //global_variable.setImageURI_Pic(imgUri);
         //}
     }
 }
