@@ -7,8 +7,10 @@ package com.example.zuoyangding.aroundme.DataModels;
 public class GroupClass {
 
     public String groupName;
-
-    public void setGroupName(String groupName) {
+    public String key;
+    public GroupClass(String groupName, String key) {
         this.groupName = groupName;
+        this.key = key;
     }
+
 }
