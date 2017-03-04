@@ -11,7 +11,7 @@ public class User {
     private String googleAccount;
     private String nickName;
     private String introduction;
-    private String birthday;
+    private String  birthday;
     private List<String> groupIDs;
     //private String profile_image;
     //private String profile;

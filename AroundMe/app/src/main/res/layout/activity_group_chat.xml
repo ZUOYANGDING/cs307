@@ -20,15 +20,34 @@
         android:id="@+id/topBar"
         android:background="#ffD9C55D">
 
+        <Button
+            android:text="Voted"
+            android:id="@+id/voted_button"
+            android:background="#ffB9A336"
+            android:textColor="@color/buttonTextColor"
+            android:layout_width="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="60dp" />
+
         <TextView
             android:text="Group name"
             android:id="@+id/groupName"
             android:layout_height="60dp"
             android:layout_width="150dp"
-            android:layout_marginLeft="100dp"
             android:textSize="24sp"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:gravity="fill_vertical|center_horizontal" />
+            android:gravity="fill_vertical|center_horizontal"
+            android:layout_marginLeft="40dp" />
+
+        <Button
+            android:text="Joined"
+            android:id="@+id/joined_button"
+            android:background="#ffB9A336"
+            android:layout_marginLeft="30dp"
+            android:textColor="@color/buttonTextColor"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+
     </LinearLayout>
 
     <LinearLayout

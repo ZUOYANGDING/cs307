@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase mDatabase;
     //private Firebase firebase;
-    private Boolean authFlag = false;
     private DatabaseReference mUserReference;
 
 
@@ -53,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         googleBtn = (SignInButton) findViewById(R.id.google_btn);
-
+        final Global_variable global_variable = (Global_variable)getApplicationContext();
         mDatabase = FirebaseDatabase.getInstance();
         mUserReference = mDatabase.getReference().child("Users");
 
@@ -66,59 +65,51 @@ public class LoginActivity extends AppCompatActivity {
                 //String email = user.getEmail();
                 //mUserReference = mDatabase.getReference().child(userID);
                 if (user != null) {
-                    if (authFlag == false) {
-                        final String userID = user.getUid();
-                        System.out.println("here");
-                        final String email = user.getEmail();
+                    final String userID = user.getUid();
+                    global_variable.setUser_id(userID);
+                    final String email = user.getEmail();
+                    global_variable.setEmail(email);
+                    //mUserReference = mDatabase.getReference().child("Users").child(userID);
+                    //System.out.println("the user is " + user.getEmail());
+                    //String userID = user.getUid();
+//                    if ( == null) {
+//                        Intent register = new Intent(LoginActivity.this, LandingActivity.class);
+//                        register.putExtra("userIDkey", userID);
+//                        startActivity(register);
+//                    } else {
+//                        Intent home = new Intent(LoginActivity.this, homepage.class);
+//                        startActivity(home);
+//                    }
+                    System.out.println("HERE IS THE USER ID GIVEN BY GOOGLE: " + userID);
 
-                        //mUserReference = mDatabase.getReference().child("Users").child(userID);
-                        //System.out.println("the user is " + user.getEmail());
-                        //String userID = user.getUid();
-                        //                    if ( == null) {
-                        //                        Intent register = new Intent(LoginActivity.this, LandingActivity.class);
-                        //                        register.putExtra("userIDkey", userID);
-                        //                        startActivity(register);
-                        //                    } else {
-                        //                        Intent home = new Intent(LoginActivity.this, homepage.class);
-                        //                        startActivity(home);
-                        //                    }
-                        System.out.println("HERE IS THE USER ID GIVEN BY GOOGLE: " + userID);
-
-                        mUserReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Global_variable global_variable = (Global_variable)getApplicationContext();
-                                //User uCheck = dataSnapshot.getValue(User.class);
-                                if (!dataSnapshot.exists()) {
-                                    User u = new User(userID, email ,null,null, null, new ArrayList<String>());
-                                    u.setGoogleAccount(email);
-                                    global_variable.setEmail(email);
-                                    u.setUserID(userID);
-                                    global_variable.setUser_id(userID);
-                                    System.out.println("I am here");
-                                    mUserReference.child(userID).setValue(u);
-                                    Intent register = new Intent(LoginActivity.this, LandingActivity.class);
-                                    //register.putExtra("userKey", userID);
-                                    startActivity(register);
-                                } else {
-                                    System.out.println("jump to homepage");
-                                    Intent home = new Intent(LoginActivity.this, homepage.class);
-                                    startActivity(home);
-                                }
+                    mUserReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            //User uCheck = dataSnapshot.getValue(User.class);
+                            if (!dataSnapshot.exists()) {
+                                User u = new User(userID, email, null, null, null, new ArrayList<String>());
+                                u.setGoogleAccount(email);
+                                u.setUserID(userID);
+                                System.out.println("I am here");
+                                mUserReference.child(userID).setValue(u);
+                                Intent register = new Intent(LoginActivity.this, LandingActivity.class);
+                                register.putExtra("userKey", userID);
+                                startActivity(register);
+                            } else {
+                                System.out.println("jump to homepage");
+                                Intent home = new Intent(LoginActivity.this, homepage.class);
+                                startActivity(home);
                             }
+                        }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                            }
-                        });
-                        //Intent next = new Intent(LoginActivity.this, LandingActivity.class);
-                        //startActivity(next);
-                        authFlag = true;
-                    } else {
-
-                    }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+                    //Intent next = new Intent(LoginActivity.this, LandingActivity.class);
+                    //startActivity(next);
                 } else {
-                    //erro
+                    //error
                 }
             }
         };
@@ -138,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        googleBtn.setOnClickListener(new View.OnClickListener() {
+        googleBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 signIn();
@@ -148,20 +139,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart(){
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
-
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
-
     @Override //make android forget the signin
-    protected void onDestroy() {
+    protected void onDestroy(){
         //mAuth.getInstance().signOut();
 
         //System.out.println("i am here");
@@ -173,11 +156,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
 
     }
+
 
 
     @Override
@@ -225,5 +210,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
 }
