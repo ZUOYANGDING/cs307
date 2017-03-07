@@ -172,9 +172,9 @@
         android:paddingTop="0dp"
         app:srcCompat="@drawable/avatar"
         android:background="@null"
+        android:layout_marginTop="28dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp" />
+        android:layout_centerHorizontal="true" />
     <!--android:layout_below="@+id/etUploadName"-->
     <!--android:layout_below="@+id/bUploadName"-->
 

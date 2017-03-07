@@ -20,14 +20,14 @@
         android:id="@+id/topBar"
         android:background="#ffD9C55D">
 
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:srcCompat="@drawable/back_button"
-            android:id="@+id/backButton"
-            android:background="@null"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp" />
+        <Button
+            android:text="Voted"
+            android:id="@+id/voted_button"
+            android:background="#ffB9A336"
+            android:textColor="@color/buttonTextColor"
+            android:layout_width="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="60dp" />
 
         <TextView
             android:text="Group name"
@@ -36,25 +36,17 @@
             android:layout_width="150dp"
             android:textSize="24sp"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:gravity="fill_vertical|center_horizontal" />
+            android:gravity="fill_vertical|center_horizontal"
+            android:layout_marginLeft="40dp" />
 
-        <CheckBox
+        <Button
             android:text="Joined"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/joined"
-            android:layout_weight="1"
+            android:id="@+id/joined_button"
+            android:background="#ffB9A336"
+            android:layout_marginLeft="30dp"
             android:textColor="@color/buttonTextColor"
-            android:buttonTint="@color/buttonTextColor" />
-
-        <CheckBox
-            android:text="Voted"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/voted"
-            android:layout_weight="1"
-            android:textColor="@color/buttonTextColor"
-            android:buttonTint="@color/buttonTextColor" />
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
 
     </LinearLayout>
 
@@ -84,8 +76,7 @@
             android:textColor="?android:attr/textColorPrimaryInverseNoDisable"
             android:layout_width="250dp"
             android:layout_marginTop="10dp"
-            android:textAlignment="center"
-            android:hint="Enter message" />
+            android:textAlignment="center" />
 
         <ImageButton
             android:layout_width="50dp"
