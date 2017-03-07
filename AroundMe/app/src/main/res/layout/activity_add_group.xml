@@ -11,30 +11,6 @@
     android:paddingTop="0dp"
     tools:context="com.example.zuoyangding.aroundme.Activity.add_group">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_marginTop="20dp"
-        android:id="@+id/enterGroupName"
-        android:hint="Enter group name"
-        android:textSize="24sp"
-        android:layout_below="@+id/groupName"
-        android:layout_alignStart="@+id/groupName" />
-
-    <TextView
-        android:text="Group name:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="80dp"
-        android:id="@+id/groupName"
-        android:textSize="24sp"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -75,5 +51,41 @@
             android:layout_alignStart="@+id/enterGroupName"
             android:layout_weight="1" />
     </LinearLayout>
+
+    <TextView
+        android:text="Group name:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/groupName"
+        android:textSize="24sp"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:layout_below="@+id/topBar"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_marginTop="22dp"
+        android:id="@+id/enterGroupName"
+        android:hint="Enter group name"
+        android:textSize="24sp"
+        android:layout_below="@+id/groupName"
+        android:layout_alignStart="@+id/groupName" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/Topics"
+        android:hint="Enter Topics"
+        android:layout_marginTop="67dp"
+        android:textSize="24sp"
+        android:layout_below="@+id/enterGroupName"
+        android:layout_alignStart="@+id/enterGroupName" />
 
 </RelativeLayout>

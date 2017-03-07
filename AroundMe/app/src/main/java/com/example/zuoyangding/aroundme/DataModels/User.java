@@ -1,5 +1,6 @@
 package com.example.zuoyangding.aroundme.DataModels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,11 +13,11 @@ public class User {
     private String nickName;
     private String introduction;
     private String  birthday;
-    private List<String> groupIDs;
+    private ArrayList<String> groupIDs;
     //private String profile_image;
     //private String profile;
 
-    public User(String userID, String googleAccount, String nickName, String birthday, String introduction, List<String> groupIDs) {
+    public User(String userID, String googleAccount, String nickName, String birthday, String introduction, ArrayList<String> groupIDs) {
         this.userID = userID;
         this.nickName = nickName;
         this.birthday = birthday;
@@ -52,7 +53,7 @@ public class User {
     public List<String> getGroupIDs() {
         return this.groupIDs;
     }
-    public void setGroupIDs(List<String> groupIDs) {
+    public void setGroupIDs(ArrayList<String> groupIDs) {
         this.groupIDs = groupIDs;
     }
 }
