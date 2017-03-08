@@ -71,8 +71,9 @@ tools:context="com.example.zuoyangding.aroundme.Activity.homepage">
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/group_list"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/topBar"
-        android:layout_alignParentStart="true" />
+        android:layout_above="@+id/bottomBar" />
 
 
 </RelativeLayout>
