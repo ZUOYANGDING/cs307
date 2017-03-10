@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -34,32 +35,39 @@ public class homepage extends AppCompatActivity {
 
     ListView groupList;
 
+    final ArrayList<GroupClass> nameList = new ArrayList<GroupClass>();
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference ref = database.getReference().child("Group");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
-        final ArrayList<GroupClass> nameList = new ArrayList<GroupClass>();
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference databaseReference = database.getReference();
-//        databaseReference.child("Group").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-//                Log.d("test1", "" + children);
-//                for(DataSnapshot child : children) {
-//                    GroupClass value = child.getValue(GroupClass.class);
-//                    nameList.add(value);
-//                    Log.d("test", " " + value);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+//                GroupClass g = dataSnapshot.getValue(GroupClass.class);
+//                Log.d("test", "test: " + g);
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for (DataSnapshot child : children) {
+                    Log.d("test", "test: " + child);
+                    GroupClass g = child.getValue(GroupClass.class);
+                    String groupName = g.groupName;
+                    Log.d("test1", "grouName: " + groupName);
+
+                    nameList.add(g);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
         addGroupButton = (ImageButton) findViewById(R.id.addGroupButton);
