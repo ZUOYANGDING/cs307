@@ -11,53 +11,7 @@ android:paddingRight="0dp"
 android:paddingTop="0dp"
 tools:context="com.example.zuoyangding.aroundme.Activity.homepage">
 
-<LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_alignParentTop="true"
-    android:layout_height="60dp"
-    tools:background="#ffD9C55D"
-    android:id="@+id/topBar"
-    android:weightSum="1">
-
-    <ImageButton
-        android:id="@+id/profileButton"
-        android:background="@null"
-        android:layout_height="50dp"
-        android:scaleType="centerCrop"
-        android:layout_width="50dp"
-        android:paddingBottom="0dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:paddingTop="0dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        app:srcCompat="@drawable/avatar" />
-
-    <SearchView
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:id="@+id/searchBar"
-        android:layout_weight="0.95"
-        android:layout_marginLeft="20dp"
-        android:layout_width="200dp" >
-
-    </SearchView>
-
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:srcCompat="@drawable/add"
-        android:id="@+id/addGroupButton"
-        android:background="@null"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
-</LinearLayout>
-
-<LinearLayout
+    <LinearLayout
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="60dp"
@@ -73,6 +27,53 @@ tools:context="com.example.zuoyangding.aroundme.Activity.homepage">
         android:id="@+id/group_list"
         android:layout_below="@+id/topBar"
         android:layout_alignParentStart="true" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        tools:background="#ffD9C55D"
+        android:id="@+id/topBar"
+        android:weightSum="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <ImageButton
+            android:id="@+id/profileButton"
+            android:background="@null"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:layout_width="50dp"
+            android:paddingBottom="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="0dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/avatar" />
+
+        <SearchView
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/searchBar"
+            android:layout_weight="0.95"
+            android:layout_marginLeft="20dp"
+            android:layout_width="200dp" >
+
+        </SearchView>
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/add"
+            android:id="@+id/addGroupButton"
+            android:background="@null"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
+    </LinearLayout>
 
 
 </RelativeLayout>
