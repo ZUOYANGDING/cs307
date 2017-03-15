@@ -1,22 +1,17 @@
 package com.example.zuoyangding.aroundme.Activity;
 
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.app.Application;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.zuoyangding.aroundme.DataModels.chatMessage;
 import com.example.zuoyangding.aroundme.R;
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.FirebaseApp;
 
 
 public class group_chat extends AppCompatActivity {
