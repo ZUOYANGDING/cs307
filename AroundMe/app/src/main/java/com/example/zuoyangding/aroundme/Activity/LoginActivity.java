@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                     final String userID = user.getUid();
                     global_variable.setUser_id(userID);
                     final String email = user.getEmail();
-                    global_variable.setEmail(email);
+                    //global_variable.setEmail(email);
                     //mUserReference = mDatabase.getReference().child("Users").child(userID);
                     //System.out.println("the user is " + user.getEmail());
                     //String userID = user.getUid();
@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             //User uCheck = dataSnapshot.getValue(User.class);
                             if (!dataSnapshot.exists()) {
-                                User u = new User(userID, email, null, null, null, new ArrayList<String>());
+                                User u = new User(userID, email, null, null, null, null);
                                 u.setGoogleAccount(email);
                                 u.setUserID(userID);
                                 System.out.println("I am here");

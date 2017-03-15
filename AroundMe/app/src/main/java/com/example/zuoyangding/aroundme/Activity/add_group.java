@@ -11,8 +11,11 @@ import android.widget.ImageButton;
 import com.example.zuoyangding.aroundme.DataModels.GroupClass;
 import com.example.zuoyangding.aroundme.DataModels.User;
 import com.example.zuoyangding.aroundme.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -20,7 +23,7 @@ public class add_group extends AppCompatActivity {
     //private FirebaseDatabase mDatabase;
 
     private DatabaseReference mGroupReference;
-    private DatabaseReference mUserRefernece;
+    //private DatabaseReference mUserRefernece;
     Button backButton;
 
     EditText groupName;
@@ -36,25 +39,48 @@ public class add_group extends AppCompatActivity {
         groupName = (EditText) findViewById(R.id.enterGroupName);
         groupTopic = (EditText) findViewById(R.id.Topics);
         mGroupReference = FirebaseDatabase.getInstance().getReference().child("Group");
-        mUserRefernece = FirebaseDatabase.getInstance().getReference().child("Users");
+        //mUserRefernece = FirebaseDatabase.getInstance().getReference().child("Users");
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String key = mGroupReference.child("Group").push().getKey();
+                final String key = mGroupReference.child("Group").push().getKey();
                 long start_date = System.nanoTime();
                 ArrayList<String> usr_ids = new ArrayList<String>();
+                //User new_u;
+
                 Global_variable global_variable = (Global_variable)getApplicationContext();
-                usr_ids.add(global_variable.getUser_id());
-                ArrayList<String> group_ids = new ArrayList<String>();
-                group_ids.add(key);
-                User new_u = new User(global_variable.getUser_id(),
-                        global_variable.getEmail(),
-                        global_variable.getUser_name(),
-                        global_variable.getBirthday(),
-                        global_variable.getIntroduction(),group_ids);
+                final DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
+                mref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ArrayList<String> group_ids = (ArrayList<String>) dataSnapshot.child("groupIDs").getValue();
+                        User new_u;
+                        if(group_ids != null) {
+                            group_ids.add(key);
+                            mref.child(dataSnapshot.child("userID").getValue().toString()).child("groupIDs").setValue(group_ids);
+
+                        }else {
+                            group_ids = new ArrayList<String>();
+                            group_ids.add(key);
+                            new_u = new User(dataSnapshot.child("userID").getValue().toString(),
+                                    dataSnapshot.child("googleAccount").getValue().toString(),
+                                    dataSnapshot.child("nickName").getValue().toString(),
+                                    dataSnapshot.child("birthday").getValue().toString(),
+                                    dataSnapshot.child("introduction").getValue().toString(),
+                                    group_ids);
+                            mref.child(dataSnapshot.child("userID").getValue().toString()).setValue(new_u);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
                 GroupClass group = new GroupClass(groupName.getText().toString(), key, groupTopic.getText().toString(), start_date, usr_ids);
                 mGroupReference.child(key).setValue(group);
-                mUserRefernece.child(global_variable.getUser_id()).setValue(new_u);
+                //mUserRefernece.child(global_variable.getUser_id()).setValue(new_u);
                 Intent i = new Intent(add_group.this, homepage.class);
                 startActivity(i);
             }

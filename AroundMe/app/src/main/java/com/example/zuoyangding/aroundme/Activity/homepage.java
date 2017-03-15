@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.zuoyangding.aroundme.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class homepage extends AppCompatActivity {
 
@@ -20,7 +22,7 @@ public class homepage extends AppCompatActivity {
 
         addGroupButton = (ImageButton) findViewById(R.id.addGroupButton);
         profileButton = (ImageButton) findViewById(R.id.profileButton);
-
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child("groupIDs");
         addGroupButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i=new Intent(homepage.this, add_group.class);

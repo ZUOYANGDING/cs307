@@ -18,9 +18,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.Birthday;
-import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.Nickname;
-import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.info;
+//import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.Birthday;
+//import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.Nickname;
+//import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.info;
 
 public class LandingActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -47,7 +47,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         landing_info = (TextView) findViewById(R.id.landing_intro);
 
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
-        mref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+        mref.child(global_variable.getUser_id()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //DataSnapshot usnap = dataSnapshot.child(global_variable.getUser_id());
@@ -96,7 +96,6 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
             //Uri imgUri = Uri.parse("content://storage/emulated/0/DCIM/Camera/IMG_20160303_012710796.jpg");
             Uri imgUri = data.getData();
             landing_iv.setImageURI(imgUri);
-            global_variable.setProfile_pic(landing_iv);
         //}
     }
 }
