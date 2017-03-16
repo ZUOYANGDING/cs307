@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 public class LandingActivity extends AppCompatActivity implements View.OnClickListener{
 
     Button landing_Edit;
-
+    Button landing_homepage;
     TextView landing_Nickname;
     TextView landing_Birthday;
     TextView landing_info;
@@ -45,6 +45,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         landing_Nickname = (TextView) findViewById(R.id.landing_Nickname);
         landing_Birthday = (TextView) findViewById(R.id.landing_Birthday);
         landing_info = (TextView) findViewById(R.id.landing_intro);
+        landing_homepage = (Button)findViewById(R.id.button3);
 
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
         mref.child(global_variable.getUser_id()).addValueEventListener(new ValueEventListener() {
@@ -82,6 +83,12 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         landing_Edit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i=new Intent(LandingActivity.this, editLandingActivity.class);
+                LandingActivity.this.startActivity(i);
+            }
+        });
+        landing_homepage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i=new Intent(LandingActivity.this, homepage.class);
                 LandingActivity.this.startActivity(i);
             }
         });
