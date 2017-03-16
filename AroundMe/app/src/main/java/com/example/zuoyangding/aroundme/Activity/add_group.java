@@ -62,13 +62,7 @@ public class add_group extends AppCompatActivity {
                         }else {
                             group_ids = new ArrayList<String>();
                             group_ids.add(key);
-                            new_u = new User(dataSnapshot.child("userID").getValue().toString(),
-                                    dataSnapshot.child("googleAccount").getValue().toString(),
-                                    dataSnapshot.child("nickName").getValue().toString(),
-                                    dataSnapshot.child("birthday").getValue().toString(),
-                                    dataSnapshot.child("introduction").getValue().toString(),
-                                    group_ids);
-                            mref.child(dataSnapshot.child("userID").getValue().toString()).setValue(new_u);
+                            mref.child(dataSnapshot.child("userID").getValue().toString()).child("groupIDs").setValue(group_ids);
                         }
                     }
 
