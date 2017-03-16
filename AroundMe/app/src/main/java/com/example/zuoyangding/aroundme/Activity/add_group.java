@@ -63,6 +63,8 @@ public class add_group extends AppCompatActivity {
                             group_ids = new ArrayList<String>();
                             group_ids.add(key);
                             new_u = new User(dataSnapshot.child("userID").getValue().toString(),
+                                    dataSnapshot.child("email").getValue().toString(),
+                                    dataSnapshot.child("password").getValue().toString(),
                                     dataSnapshot.child("googleAccount").getValue().toString(),
                                     dataSnapshot.child("nickName").getValue().toString(),
                                     dataSnapshot.child("birthday").getValue().toString(),
