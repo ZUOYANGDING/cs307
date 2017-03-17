@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.zuoyangding.aroundme.DataModels.User;
 import com.example.zuoyangding.aroundme.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,23 +25,23 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LandingActivity extends AppCompatActivity implements View.OnClickListener{
 
-    Button landing_Edit;
-    Button landing_homepage;
-    TextView landing_Nickname;
-    TextView landing_Birthday;
-    TextView landing_info;
-
+    private Button landing_Edit;
+    private Button landing_homepage;
+    private TextView landing_Nickname;
+    private TextView landing_Birthday;
+    private TextView landing_info;
+    private FirebaseAuth firebaseAuth;
+    private String userId;
     //image module
-    ImageView landing_iv;
+    private ImageView landing_iv;
     //private static int RESULT_LOAD_IMAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
-        final Global_variable global_variable = (Global_variable)getApplicationContext();
-        //global_variable.getUser_name();
-        //global_variable.getIntroduction();
+        firebaseAuth = FirebaseAuth.getInstance();
+        userId = firebaseAuth.getCurrentUser().getUid();
         landing_Edit = (Button) findViewById(R.id.landing_Edit);
         landing_Nickname = (TextView) findViewById(R.id.landing_Nickname);
         landing_Birthday = (TextView) findViewById(R.id.landing_Birthday);
@@ -48,7 +49,8 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         landing_homepage = (Button)findViewById(R.id.button3);
 
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
-        mref.child(global_variable.getUser_id()).addValueEventListener(new ValueEventListener() {
+
+        mref.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //DataSnapshot usnap = dataSnapshot.child(global_variable.getUser_id());
@@ -58,8 +60,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
                     landing_Nickname.setText(dataSnapshot.child("nickName").getValue().toString());
                     landing_Birthday.setText(dataSnapshot.child("birthday").getValue().toString());
                     landing_info.setText(dataSnapshot.child("introduction").getValue().toString());
-                }
-                else{
+                } else{
                     landing_Nickname.setText("undefined");
                     landing_Birthday.setText("undefined");
                     landing_info.setText("undefined");
