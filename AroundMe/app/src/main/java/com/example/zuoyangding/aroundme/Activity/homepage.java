@@ -26,8 +26,9 @@ public class homepage extends AppCompatActivity {
     private ListView listView;
     private ImageButton addGroupButton;
     private ImageButton profileButton;
-    private Button logout;
+//    private Button logout;
     private FirebaseAuth firebaseAuth;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,39 +36,42 @@ public class homepage extends AppCompatActivity {
         setContentView(R.layout.activity_homepage);
         listView = (ListView)findViewById(R.id.group_list);
         firebaseAuth = FirebaseAuth.getInstance();
-        logout = (Button) findViewById(R.id.logout_bt);
-
+//        logout = (Button) findViewById(R.id.logout_bt);
+        userId = firebaseAuth.getCurrentUser().getUid();
         addGroupButton = (ImageButton) findViewById(R.id.addGroupButton);
         profileButton = (ImageButton) findViewById(R.id.profileButton);
 
         final Global_variable global_variable = (Global_variable)getApplicationContext();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(global_variable.getUser_id()).child("groupIDs");
-        FirebaseListAdapter<String> firebaseListAdapter = new FirebaseListAdapter<String>(this,
-                String.class,
-                R.layout.list_element,
-                ref) {
-            @Override
-            protected void populateView(View v, final String model, int position) {
-                final View v1 = v;
-                DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Group");
-                mref.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        TextView t = (TextView) v1.findViewById(R.id.item1);
-                        t.setText(dataSnapshot.child(model).child("groupName").getValue().toString());
-                        TextView subt = (TextView)v1.findViewById(R.id.sub_item1);
-                        subt.setText(dataSnapshot.child(model).child("topic").getValue().toString());
-                    }
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("groupIDs");
+        if (ref != null) {
+            FirebaseListAdapter<String> firebaseListAdapter = new FirebaseListAdapter<String>(this,
+                    String.class,
+                    R.layout.list_element,
+                    ref) {
+                @Override
+                protected void populateView(View v, final String model, int position) {
+                    final View v1 = v;
+                    DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Group");
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        System.out.println("fetch group failed");
-                    }
-                });
-            }
-        };
-        listView.setAdapter(firebaseListAdapter);
+                    mref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            TextView t = (TextView) v1.findViewById(R.id.item1);
+                            t.setText(dataSnapshot.child(model).child("groupName").getValue().toString());
+                            TextView subt = (TextView) v1.findViewById(R.id.sub_item1);
+                            subt.setText(dataSnapshot.child(model).child("topic").getValue().toString());
+                        }
 
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            System.out.println("fetch group failed");
+                        }
+                    });
+
+                }
+            };
+            listView.setAdapter(firebaseListAdapter);
+        }
         addGroupButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i=new Intent(homepage.this, add_group.class);
@@ -82,14 +86,14 @@ public class homepage extends AppCompatActivity {
             }
         });
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.signOut();
-                finish();
-                Intent login = new Intent(homepage.this, LoginActivity.class);
-                startActivity(login);
-            }
-        });
+//        logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                firebaseAuth.signOut();
+//                finish();
+//                Intent login = new Intent(homepage.this, LoginActivity.class);
+//                startActivity(login);
+//            }
+//        });
     }
 }

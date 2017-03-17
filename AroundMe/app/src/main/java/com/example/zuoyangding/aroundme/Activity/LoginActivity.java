@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     private String password;
 
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("jump to login3");
+        //System.out.println("jump to login3");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         emailLogin = (Button) findViewById(R.id.email_login_btn);

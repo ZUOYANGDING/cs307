@@ -34,6 +34,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     private String userId;
     //image module
     private ImageView landing_iv;
+    private Button logout;
     //private static int RESULT_LOAD_IMAGE = 1;
 
     @Override
@@ -47,7 +48,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         landing_Birthday = (TextView) findViewById(R.id.landing_Birthday);
         landing_info = (TextView) findViewById(R.id.landing_intro);
         landing_homepage = (Button)findViewById(R.id.button3);
-
+        logout = (Button) findViewById(R.id.logout_bt);
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
 
         mref.child(userId).addValueEventListener(new ValueEventListener() {
@@ -55,17 +56,20 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //DataSnapshot usnap = dataSnapshot.child(global_variable.getUser_id());
 
-                if(dataSnapshot.child("nickName").getValue() != null
-                        && dataSnapshot.child("birthday").getValue() != null
-                        && dataSnapshot.child("introduction").getValue() != null) {
+                if(dataSnapshot.child("nickName").getValue() != null) {
                     landing_Nickname.setText(dataSnapshot.child("nickName").getValue().toString());
-                    landing_Birthday.setText(dataSnapshot.child("birthday").getValue().toString());
-                    landing_info.setText(dataSnapshot.child("introduction").getValue().toString());
-                } else{
+                } else {
                     landing_Nickname.setText("undefined");
+                }
+                if (dataSnapshot.child("birthday").getValue() != null) {
+                    landing_Birthday.setText(dataSnapshot.child("birthday").getValue().toString());
+                } else {
                     landing_Birthday.setText("undefined");
+                }
+                if (dataSnapshot.child("introduction").getValue() != null) {
+                    landing_info.setText(dataSnapshot.child("introduction").getValue().toString());
+                } else {
                     landing_info.setText("undefined");
-
                 }
             }
 
@@ -74,7 +78,15 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
             }
         });
-
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth.signOut();
+                finish();
+                Intent login = new Intent(LandingActivity.this, LoginActivity.class);
+                startActivity(login);
+            }
+        });
         //landing_iv = (ImageView) findViewById(R.id.imageButton);
     /*
         landing_Nickname.setText(global_variable.getUser_name());
@@ -117,4 +129,6 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
             landing_iv.setImageURI(imgUri);
         //}
     }
+
+
 }
