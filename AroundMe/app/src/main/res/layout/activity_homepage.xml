@@ -39,9 +39,8 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:id="@+id/searchBar"
-            android:layout_weight="0.95"
             android:layout_marginLeft="20dp"
-            android:layout_width="200dp" >
+            android:layout_width="157dp" >
 
         </SearchView>
 
@@ -54,7 +53,15 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            app:srcCompat="@drawable/add" />
+            app:srcCompat="@drawable/add"
+            android:layout_weight="0.05" />
+
+        <Button
+            android:id="@+id/logout_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.69"
+            android:text="Logout" />
     </LinearLayout>
 
     <LinearLayout
