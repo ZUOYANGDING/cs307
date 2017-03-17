@@ -4,29 +4,39 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.example.zuoyangding.aroundme.R;
+
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class homepage extends AppCompatActivity {
 
-    ImageButton addGroupButton;
-    ImageButton profileButton;
+
     private ListView listView;
+    private ImageButton addGroupButton;
+    private ImageButton profileButton;
+    private Button logout;
+    private FirebaseAuth firebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
         listView = (ListView)findViewById(R.id.group_list);
+        firebaseAuth = FirebaseAuth.getInstance();
+        logout = (Button) findViewById(R.id.logout_bt);
+
         addGroupButton = (ImageButton) findViewById(R.id.addGroupButton);
         profileButton = (ImageButton) findViewById(R.id.profileButton);
 
@@ -69,6 +79,16 @@ public class homepage extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i=new Intent(homepage.this, LandingActivity.class);
                 homepage.this.startActivity(i);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth.signOut();
+                finish();
+                Intent login = new Intent(homepage.this, LoginActivity.class);
+                startActivity(login);
             }
         });
     }

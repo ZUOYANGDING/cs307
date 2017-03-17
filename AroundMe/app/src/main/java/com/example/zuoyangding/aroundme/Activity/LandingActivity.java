@@ -54,6 +54,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //DataSnapshot usnap = dataSnapshot.child(global_variable.getUser_id());
+
                 if(dataSnapshot.child("nickName").getValue() != null
                         && dataSnapshot.child("birthday").getValue() != null
                         && dataSnapshot.child("introduction").getValue() != null) {
@@ -64,6 +65,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
                     landing_Nickname.setText("undefined");
                     landing_Birthday.setText("undefined");
                     landing_info.setText("undefined");
+
                 }
             }
 

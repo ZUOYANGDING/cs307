@@ -14,10 +14,14 @@ public class User {
     private String introduction;
     private String  birthday;
     private ArrayList<String> groupIDs;
+    private String email;
+    private String password;
     //private String profile_image;
     //private String profile;
 
-    public User(String userID, String googleAccount, String nickName, String birthday, String introduction, ArrayList<String> groupIDs) {
+    public User(String userID, String email, String password, String googleAccount, String nickName, String birthday, String introduction, ArrayList<String> groupIDs) {
+        this.email = email;
+        this.password = password;
         this.userID = userID;
         this.nickName = nickName;
         this.birthday = birthday;
@@ -26,27 +30,27 @@ public class User {
         this.nickName = nickName;
         this.groupIDs = groupIDs;
     }
-
     public String getUserID() {
         return this.userID;
     }
     public void setUserID(String userID) {
         this.userID =userID;
     }
-
     public String getGoogleAccount() {
         return this.googleAccount;
     }
     public void setGoogleAccount(String googleAccount){
         this.googleAccount = googleAccount;
     }
-
+    public void setNickName(String nickName) {this.nickName = nickName;}
     public String getNickName(){
         return nickName;
     }
     public String getBirthday(){
         return birthday;
     }
+    public void setBirthday(String birthday) {this.birthday = birthday;}
+    public void setIntroduction (String introduction) {this.introduction = introduction;}
     public String getIntroduction(){
         return introduction;
     }
@@ -56,4 +60,8 @@ public class User {
     public void setGroupIDs(ArrayList<String> groupIDs) {
         this.groupIDs = groupIDs;
     }
+    public void setEmail(String email) {this.email = email;}
+    public String getEmail() {return this.email;}
+    public void setPassword(String password) {this.password = password;}
+    public String getPassword() {return this.password;}
 }

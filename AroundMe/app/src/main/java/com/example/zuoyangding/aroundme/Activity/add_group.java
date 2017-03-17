@@ -92,6 +92,7 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
                             group_ids = new ArrayList<String>();
                             group_ids.add(key);
                             mref.child(dataSnapshot.child("userID").getValue().toString()).child("groupIDs").setValue(group_ids);
+
                         }
                     }
 
