@@ -10,8 +10,11 @@ import android.widget.TextView;
 import com.example.zuoyangding.aroundme.DataModels.User;
 import com.example.zuoyangding.aroundme.R;
 import com.firebase.client.Firebase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by Kenny on 2/28/2017.
@@ -19,9 +22,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class editLandingActivity extends AppCompatActivity {
 
-    public static String Nickname;
-    public static String Birthday;
-    public static String info;
+    public  String Nickname;
+    public  String Birthday;
+    public  String info;
 
     TextView edit_landing_Nickname;
     TextView edit_landing_Birthday;
@@ -49,21 +52,29 @@ public class editLandingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Global_variable global_variable = (Global_variable)getApplicationContext();
                 Nickname = edit_landing_Nickname.getText().toString();
-                global_variable.setUser_name(Nickname);
+                //global_variable.setUser_name(Nickname);
                 Birthday = edit_landing_Birthday.getText().toString();
-                global_variable.setBirthday(Birthday);
+                //global_variable.setBirthday(Birthday);
                 info = edit_landing_info.getText().toString();
-                global_variable.setIntroduction(info);
+                //global_variable.setIntroduction(info);
                 if (Nickname.length() == 0 || Birthday.length() == 0) {
                     edit_landing_error.setText("Please fill in all fields");
                 } else {
-                    User new_u = new User(global_variable.getUser_id(),
-                                            global_variable.getEmail(),
-                                            global_variable.getUser_name(),
-                                            global_variable.getBirthday(),
-                                            global_variable.getIntroduction(),null);
+                    final DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
+                    mref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            mref.child(dataSnapshot.child("userID").getValue().toString()).child("nickName").setValue(Nickname);
+                            mref.child(dataSnapshot.child("userID").getValue().toString()).child("introduction").setValue(info);
+                            mref.child(dataSnapshot.child("userID").getValue().toString()).child("birthday").setValue(Birthday);
+                        }
 
-                    mDatabase.child("Users").child(new_u.getUserID()).setValue(new_u);
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
                     Intent i=new Intent(editLandingActivity.this, LandingActivity.class);
                     editLandingActivity.this.startActivity(i);
                 }
