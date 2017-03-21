@@ -95,18 +95,6 @@ public class LoginActivity extends AppCompatActivity {
                     final String userID = user.getUid();
                     global_variable.setUser_id(userID);
                     final String email = user.getEmail();
-                    //global_variable.setEmail(email);
-                    //mUserReference = mDatabase.getReference().child("Users").child(userID);
-                    //System.out.println("the user is " + user.getEmail());
-                    //String userID = user.getUid();
-//                    if ( == null) {
-//                        Intent register = new Intent(LoginActivity.this, LandingActivity.class);
-//                        register.putExtra("userIDkey", userID);
-//                        startActivity(register);
-//                    } else {
-//                        Intent home = new Intent(LoginActivity.this, homepage.class);
-//                        startActivity(home);
-//                    }
                     System.out.println("HERE IS THE USER ID GIVEN BY GOOGLE: " + userID);
 
                     mUserReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -175,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
         //mAuth.getInstance().signOut();
 
         //System.out.println("i am here");
-        mAuth.getInstance().signOut();
+        mAuth.signOut();
         super.onDestroy();
 
 
