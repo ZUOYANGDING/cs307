@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     private DatabaseReference mUserReference;
     private String email;
     private String password;
+    private String userId;
 
     protected void onCreate(Bundle savedInstanceState) {
         //System.out.println("jump to login3");
@@ -262,6 +263,10 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_LONG).show();
                     }
                 } else {
+                    userId = mAuth.getCurrentUser().getUid();
+                    Global_variable global_variable = (Global_variable)getApplicationContext();
+                    global_variable.setUser_id(userId);
+                    System.out.println("THIS IS UID:" + userId);
                     Log.d(TAG, "SignInWithEmail:Success" + task.isSuccessful());
                     Log.d("Login", "Jump to homepage");
                     Intent homepage = new Intent(getApplicationContext(), homepage.class);
