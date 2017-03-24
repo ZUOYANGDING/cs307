@@ -1,11 +1,16 @@
 package com.example.zuoyangding.aroundme.Activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.provider.SyncStateContract;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -66,9 +71,25 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         landing_homepage = (Button)findViewById(R.id.button3);
         logout = (Button) findViewById(R.id.logout_bt);
 
+        //image module by Frank
+        landing_iv = (ImageView) findViewById(R.id.imageButton);
+        landing_iv.setOnClickListener(this);
         landing_imgStr = null;
-        DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
 
+        // image related permission check (one time check) by Frank
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    123);
+
+            // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+            // app-defined int constant that should be quite unique
+
+            return;
+        }
+
+        DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
         mref.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -100,8 +121,6 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 //                    landing_iv.setImageBitmap(bitmap);
                     Uri imgUri = Uri.parse(landing_imgStr);
                     landing_iv.setImageURI(imgUri);
-                } else {
-
                 }
             }
 
@@ -141,9 +160,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-        //image module
-        landing_iv = (ImageView) findViewById(R.id.imageButton);
-        landing_iv.setOnClickListener(this);
+
     }
 
     @Override
@@ -156,31 +173,30 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Global_variable global_variable = (Global_variable)getApplicationContext();
-        DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
-        //if (requestCode == 1 && requestCode == RESULT_OK && data != null){
-        //Uri imgUri = Uri.parse("content://storage/emulated/0/DCIM/Camera/IMG_20160303_012710796.jpg");
-        Uri imgUri = data.getData();
-        landing_iv.setImageURI(imgUri);
+        if (requestCode == 1 && requestCode == RESULT_OK && data != null){
+            //Uri imgUri = Uri.parse("content://storage/emulated/0/DCIM/Camera/IMG_20160303_012710796.jpg");
+            Uri imgUri = data.getData();
+            landing_iv.setImageURI(imgUri);
 //        Bitmap myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
 //        ByteArrayOutputStream bos = new ByteArrayOutputStream();
 //        myBitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
 //        byte[] imgbyte = bos.toByteArray();
 //        this.landing_imgStr = Base64.encodeToString(imgbyte, 0);
-        this.landing_imgStr = imgUri.toString();
+            this.landing_imgStr = imgUri.toString();
 
-        final DatabaseReference mref02 = FirebaseDatabase.getInstance().getReference().child("Users");
-        mref02.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mref02.child(dataSnapshot.child("userID").getValue().toString()).child("imgStr").setValue(landing_imgStr);
-            }
+            final DatabaseReference mref02 = FirebaseDatabase.getInstance().getReference().child("Users");
+            mref02.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    mref02.child(dataSnapshot.child("userID").getValue().toString()).child("imgStr").setValue(landing_imgStr);
+                }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-        //}
+                }
+            });
+        }
     }
 
 
