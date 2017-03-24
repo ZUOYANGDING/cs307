@@ -2,10 +2,12 @@ package com.example.zuoyangding.aroundme.Activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -74,14 +76,16 @@ public class homepage extends AppCompatActivity {
                 protected void populateView(View v, final String model, int position) {
                     final View v1 = v;
                     DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Group");
-
+                        final View vi = v;
                     mref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            vi.setTag(dataSnapshot.child(model).child("key").getValue().toString());
                             TextView t = (TextView) v1.findViewById(R.id.item1);
                             t.setText(dataSnapshot.child(model).child("groupName").getValue().toString());
                             TextView subt = (TextView) v1.findViewById(R.id.sub_item1);
                             subt.setText(dataSnapshot.child(model).child("topic").getValue().toString());
+                            String str = vi.getTag().toString();
                         }
 
                         @Override
@@ -94,6 +98,17 @@ public class homepage extends AppCompatActivity {
             listView.setAdapter(firebaseListAdapter);
             //firebaseListAdapter.cleanup();
         }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                View v = view;
+                String gid = v.getTag().toString();
+                //System.out.println(uid);
+                Intent i = new Intent(homepage.this, display_messageActivity.class);
+                i.putExtra("groupid",gid);
+                startActivity(i);
+            }
+        });
         addGroupButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i=new Intent(homepage.this, add_group.class);

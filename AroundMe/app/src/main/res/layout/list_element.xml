@@ -3,16 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/item1"
-            android:textSize="24sp"
             android:layout_width="wrap_content"
-            android:layout_height="50dp" />
+            android:layout_height="50dp"
+            android:textSize="24sp" />
     </TableRow>
+
     <TableRow>
         <TextView
             android:id="@+id/sub_item1"
