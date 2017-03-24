@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_register"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    tools:context="com.example.zuoyangding.aroundme.Activity.RegisterActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/top_bar"
+        android:id="@+id/topBar"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="250dp"
+            app:srcCompat="@drawable/user_registration"
+            android:id="@+id/imageView3"
+            android:scaleType="centerInside"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="40dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bottom_bar">
+
+        <Button
+            android:id="@+id/register_bt"
+            tools:layout_editor_absoluteX="11dp"
+            tools:layout_editor_absoluteY="435dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/register_button"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="100dp"
+            android:layout_width="220dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/topBar"
+        android:id="@+id/nickname_layout"
+        android:background="#fffff4b8">
+
+        <EditText
+            android:id="@+id/nickname_tx"
+            android:layout_width="match_parent"
+            android:ems="10"
+            android:hint="Nick Name..."
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="11dp"
+            tools:layout_editor_absoluteY="200dp"
+            android:layout_below="@+id/topBar"
+            android:layout_alignParentStart="true"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/nickname_layout"
+        android:id="@+id/email_layout">
+
+        <EditText
+            android:id="@+id/email_tx"
+            android:layout_width="match_parent"
+            android:ems="10"
+            android:hint="Email..."
+            android:inputType="textEmailAddress"
+            tools:layout_editor_absoluteX="10dp"
+            tools:layout_editor_absoluteY="105dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/nickname_tx"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/email_layout"
+        android:id="@+id/password_layout"
+        android:background="#fffff4b8">
+
+        <EditText
+            android:id="@+id/password_tx"
+            android:layout_width="match_parent"
+            android:ems="10"
+            android:hint="Password..."
+            android:inputType="textPassword"
+            tools:layout_editor_absoluteX="11dp"
+            tools:layout_editor_absoluteY="277dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/email_tx"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/password_layout"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/retype_layout">
+
+        <EditText
+            android:id="@+id/retype_password_tx"
+            android:layout_width="match_parent"
+            android:ems="10"
+            android:hint="Retype Password..."
+            android:inputType="textPassword"
+            tools:layout_editor_absoluteX="11dp"
+            tools:layout_editor_absoluteY="363dp"
+            android:layout_below="@+id/password_tx"
+            android:layout_alignParentStart="true"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp" />
+    </LinearLayout>
+
+</RelativeLayout>
+

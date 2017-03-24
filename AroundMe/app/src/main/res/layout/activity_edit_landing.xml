@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_landing"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+
+    tools:context="com.example.zuoyangding.aroundme.Activity.LandingActivity">
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/birthdayLayout"
+        android:layout_below="@+id/nicknameLayout"
+        android:layout_alignParentStart="true"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:text="Birthday"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/birthday"
+            android:textSize="24sp"
+            android:textColor="#B9A336" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/edit_landing_Birthday"
+            android:textSize="24sp"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:hint="Bithday" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/nicknameLayout"
+        android:layout_below="@+id/topBar"
+        android:layout_alignParentStart="true"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#fffff4b8">
+
+        <TextView
+            android:text="Nickname"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/nickname"
+            android:textSize="24sp"
+            android:textColor="#B9A336"
+            android:fontFamily="sans-serif"
+            android:layout_width="150dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/edit_landing_Nickname"
+            android:textSize="24sp"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:hint="Nickname"
+            android:layout_below="@+id/topBar"
+            android:layout_alignStart="@+id/enterBirthdayLayout"
+            android:layout_above="@+id/enterBirthdayLayout"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/introLayout"
+        android:layout_below="@+id/birthdayLayout"
+        android:layout_alignParentStart="true"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#fffff4b8">
+
+        <TextView
+            android:text="Intro"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/intro"
+            android:textSize="24sp"
+            android:textColor="#B9A336" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/edit_landing_intro"
+            android:textSize="24sp"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:hint="Info"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/topBar"
+        android:background="@drawable/top_bar">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bottom_bar"
+        android:id="@+id/bottomBar">
+
+        <Button
+            android:id="@+id/edit_landing_Save"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/introLayout"
+            android:background="@drawable/save_button"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="90dp"
+            android:layout_width="220dp" />
+    </LinearLayout>
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/edit_landing_error"
+        android:layout_weight="1"
+        android:textSize="24sp"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/edit_profile_button"
+        android:layout_above="@+id/nicknameLayout"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/imageView4"
+        android:layout_marginBottom="10dp" />
+
+</RelativeLayout>
