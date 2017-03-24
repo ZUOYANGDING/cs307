@@ -76,7 +76,6 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         landing_iv.setOnClickListener(this);
         landing_imgStr = null;
 
-        // image related permission check (one time check) by Frank
         if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -88,7 +87,6 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
             return;
         }
-
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
         mref.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -116,11 +114,15 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
                 //image module by Frank Hu
                 if (dataSnapshot.child("imgStr").getValue() != null) {
                     landing_imgStr = (String) dataSnapshot.child("imgStr").getValue();
-//                    byte[] imageByte = Base64.decode(landing_imgStr,Base64.DEFAULT);
-//                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte,0,imageByte.length);
-//                    landing_iv.setImageBitmap(bitmap);
-                    Uri imgUri = Uri.parse(landing_imgStr);
-                    landing_iv.setImageURI(imgUri);
+
+                    //Bitmap way
+                    byte[] imageByte = Base64.decode(landing_imgStr,Base64.DEFAULT);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte,0,imageByte.length);
+                    landing_iv.setImageBitmap(bitmap);
+
+                    //Uri way
+                    //Uri imgUri = Uri.parse(landing_imgStr);
+                    //landing_iv.setImageURI(imgUri);
                 }
             }
 
@@ -173,16 +175,24 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Global_variable global_variable = (Global_variable)getApplicationContext();
-        if (requestCode == 1 && requestCode == RESULT_OK && data != null){
-            //Uri imgUri = Uri.parse("content://storage/emulated/0/DCIM/Camera/IMG_20160303_012710796.jpg");
-            Uri imgUri = data.getData();
-            landing_iv.setImageURI(imgUri);
-//        Bitmap myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        myBitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
-//        byte[] imgbyte = bos.toByteArray();
-//        this.landing_imgStr = Base64.encodeToString(imgbyte, 0);
-            this.landing_imgStr = imgUri.toString();
+        //if (requestCode == 1 && requestCode == RESULT_OK && data != null){
+        Uri imgUri = data.getData();
+        landing_iv.setImageURI(imgUri);
+
+        //Bitmap way
+        Bitmap myBitmap = null;
+        try {
+            myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.PNG,100, bos);
+        byte[] imgbyte = bos.toByteArray();
+        this.landing_imgStr = Base64.encodeToString(imgbyte, Base64.DEFAULT);
+
+        //Uri way
+        //this.landing_imgStr = imgUri.toString();
 
             final DatabaseReference mref02 = FirebaseDatabase.getInstance().getReference().child("Users");
             mref02.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -196,7 +206,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
                 }
             });
-        }
+        //}
     }
 
 
