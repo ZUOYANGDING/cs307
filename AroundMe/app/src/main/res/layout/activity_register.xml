@@ -21,13 +21,13 @@
         android:layout_alignParentStart="true">
 
         <ImageView
-            android:layout_width="250dp"
             app:srcCompat="@drawable/user_registration"
             android:id="@+id/imageView3"
             android:scaleType="centerInside"
             android:layout_marginLeft="80dp"
             android:layout_marginTop="10dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:layout_width="200dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -46,17 +46,17 @@
             android:background="@drawable/register_button"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="70dp"
             android:layout_width="220dp" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
         android:layout_below="@+id/topBar"
         android:id="@+id/nickname_layout"
-        android:background="#fffff4b8">
+        android:background="#fffff4b8"
+        android:layout_height="50dp">
 
         <EditText
             android:id="@+id/nickname_tx"
@@ -68,7 +68,7 @@
             tools:layout_editor_absoluteY="200dp"
             android:layout_below="@+id/topBar"
             android:layout_alignParentStart="true"
-            android:layout_height="60dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_marginLeft="20dp" />
     </LinearLayout>
@@ -76,9 +76,9 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
         android:layout_below="@+id/nickname_layout"
-        android:id="@+id/email_layout">
+        android:id="@+id/email_layout"
+        android:layout_height="50dp">
 
         <EditText
             android:id="@+id/email_tx"
@@ -88,7 +88,7 @@
             android:inputType="textEmailAddress"
             tools:layout_editor_absoluteX="10dp"
             tools:layout_editor_absoluteY="105dp"
-            android:layout_height="60dp"
+            android:layout_height="match_parent"
             android:layout_below="@+id/nickname_tx"
             android:layout_alignParentStart="true"
             android:layout_weight="1"
@@ -98,11 +98,11 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/email_layout"
         android:id="@+id/password_layout"
-        android:background="#fffff4b8">
+        android:background="#fffff4b8"
+        android:layout_height="50dp">
 
         <EditText
             android:id="@+id/password_tx"
@@ -112,7 +112,7 @@
             android:inputType="textPassword"
             tools:layout_editor_absoluteX="11dp"
             tools:layout_editor_absoluteY="277dp"
-            android:layout_height="60dp"
+            android:layout_height="match_parent"
             android:layout_below="@+id/email_tx"
             android:layout_alignParentStart="true"
             android:layout_weight="1"
@@ -122,10 +122,10 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
         android:layout_below="@+id/password_layout"
         android:layout_centerHorizontal="true"
-        android:id="@+id/retype_layout">
+        android:id="@+id/retype_layout"
+        android:layout_height="50dp">
 
         <EditText
             android:id="@+id/retype_password_tx"
@@ -137,7 +137,7 @@
             tools:layout_editor_absoluteY="363dp"
             android:layout_below="@+id/password_tx"
             android:layout_alignParentStart="true"
-            android:layout_height="60dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="20dp" />
     </LinearLayout>
 
