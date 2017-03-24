@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.AdapterView;
 
 import com.example.zuoyangding.aroundme.R;
 
@@ -97,8 +98,31 @@ public class homepage extends AppCompatActivity {
 //
 //            }
 //        });
-
         final Global_variable global_variable = (Global_variable)getApplicationContext();
+        DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
+        mref.child(global_variable.getUser_id()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //image module by Frank Hu
+                if (dataSnapshot.child("imgStr").getValue() != null) {
+                    landing_imgStr = (String) dataSnapshot.child("imgStr").getValue();
+
+                    //Bitmap way
+                    byte[] imageByte = Base64.decode(landing_imgStr, Base64.DEFAULT);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+                    profileButton.setImageBitmap(bitmap);
+
+                    //Uri way
+                    //Uri imgUri = Uri.parse(landing_imgStr);
+                    //landing_iv.setImageURI(imgUri);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         ref = FirebaseDatabase.getInstance().getReference().child("Users").child(global_variable.getUser_id()).child("groupIDs");
         if (ref != null) {
             firebaseListAdapter = new FirebaseListAdapter<String>(this,
@@ -109,10 +133,12 @@ public class homepage extends AppCompatActivity {
                 protected void populateView(View v, final String model, int position) {
                     final View v1 = v;
                     DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Group");
+                    final View vi = v;
 
                     mref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            vi.setTag(dataSnapshot.child(model).child("key").getValue().toString());
                             TextView t = (TextView) v1.findViewById(R.id.item1);
                             t.setText(dataSnapshot.child(model).child("groupName").getValue().toString());
                             TextView subt = (TextView) v1.findViewById(R.id.sub_item1);
@@ -142,6 +168,18 @@ public class homepage extends AppCompatActivity {
                 homepage.this.startActivity(i);
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+             @Override
+             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                               View v = view;
+                                String gid = v.getTag().toString();
+                                //System.out.println(uid);
+                                        Intent i = new Intent(homepage.this, display_messageActivity.class);
+                                i.putExtra("groupid",gid);
+                                startActivity(i);
+                            }
+         });
 
 //        logout.setOnClickListener(new View.OnClickListener() {
 //            @Override

@@ -16,7 +16,7 @@ public class display_messageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_message);
+        setContentView(R.layout.activity_display_messages);
 
         Button addInto = (Button) findViewById(R.id.join_group);
         mDatabase = FirebaseDatabase.getInstance();

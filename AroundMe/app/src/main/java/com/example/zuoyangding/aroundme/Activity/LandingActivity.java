@@ -63,7 +63,9 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_landing);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        userId = firebaseAuth.getCurrentUser().getUid();
+        //userId = firebaseAuth.getCurrentUser().getUid();
+        Global_variable global_variable = (Global_variable)getApplicationContext();
+        userId = global_variable.getUser_id();
         landing_Edit = (Button) findViewById(R.id.landing_Edit);
         landing_Nickname = (TextView) findViewById(R.id.landing_Nickname);
         landing_Birthday = (TextView) findViewById(R.id.landing_Birthday);
