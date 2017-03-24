@@ -1,13 +1,18 @@
 package com.example.zuoyangding.aroundme.Activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -37,6 +42,10 @@ public class homepage extends AppCompatActivity {
     private DatabaseReference ref;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    //image module by Frank Hu
+    private String landing_imgStr;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +71,32 @@ public class homepage extends AppCompatActivity {
         //userId = firebaseAuth.getCurrentUser().getUid();
         addGroupButton = (ImageButton) findViewById(R.id.addGroupButton);
         profileButton = (ImageButton) findViewById(R.id.profileButton);
+
+//        //image module by Frank Hu
+//        DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
+//        mref.child(userId).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                if (dataSnapshot.child("imgStr").getValue() != null) {
+//                    landing_imgStr = (String) dataSnapshot.child("imgStr").getValue();
+//
+//                    //Bitmap way
+//                    byte[] imageByte = Base64.decode(landing_imgStr,Base64.DEFAULT);
+//                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte,0,imageByte.length);
+//                    profileButton.setImageBitmap(bitmap);
+//
+//                    //Uri way
+//                    //Uri imgUri = Uri.parse(landing_imgStr);
+//                    //landing_iv.setImageURI(imgUri);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
         final Global_variable global_variable = (Global_variable)getApplicationContext();
         ref = FirebaseDatabase.getInstance().getReference().child("Users").child(global_variable.getUser_id()).child("groupIDs");

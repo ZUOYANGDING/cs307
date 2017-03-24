@@ -87,6 +87,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
             return;
         }
+
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
         mref.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
