@@ -72,7 +72,8 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         logout = (Button) findViewById(R.id.logout_bt);
 
         //image module by Frank
-        landing_iv = (ImageView) findViewById(R.id.imageButton);
+        //landing_iv = (ImageView) findViewById(R.id.imageButton);
+        landing_iv = (ImageView) findViewById(R.id.profile_picture);
         landing_iv.setOnClickListener(this);
         landing_imgStr = null;
 

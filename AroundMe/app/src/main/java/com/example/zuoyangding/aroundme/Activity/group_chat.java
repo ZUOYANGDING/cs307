@@ -30,7 +30,7 @@ public class group_chat extends AppCompatActivity {
         setContentView(R.layout.activity_group_chat);
 
         Log.d("test1", "test1");
-        sendMessage = (ImageButton) findViewById(R.id.imageButton3);
+        sendMessage = (ImageButton) findViewById(R.id.send_message);
         enterMessage = (TextView)findViewById(R.id.enterMessage);
 
         sendMessage.setOnClickListener(new View.OnClickListener() {
