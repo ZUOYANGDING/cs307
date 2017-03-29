@@ -1,80 +1,99 @@
 package com.example.zuoyangding.aroundme.Activity;
 
-import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
-import com.example.zuoyangding.aroundme.DataModels.GroupClass;
 import com.example.zuoyangding.aroundme.R;
+
+import com.firebase.client.core.Tag;
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
-import java.security.acl.Group;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 public class homepage extends AppCompatActivity {
 
-    ImageButton addGroupButton;
-    ImageButton profileButton;
 
-    ListView groupList;
-
-    final ArrayList<GroupClass> nameList = new ArrayList<GroupClass>();
-
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference ref = database.getReference().child("Group");
+    private ListView listView;
+    private ImageButton addGroupButton;
+    private ImageButton profileButton;
+//    private Button logout;
+    private FirebaseAuth mAuth;
+    private String userId;
+    static FirebaseListAdapter<String> firebaseListAdapter;
+    private DatabaseReference ref;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
-
-        ref.addValueEventListener(new ValueEventListener() {
+        listView = (ListView)findViewById(R.id.group_list);
+//        logout = (Button) findViewById(R.id.logout_bt);
+        mAuth = FirebaseAuth.getInstance();
+        /*
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-//                GroupClass g = dataSnapshot.getValue(GroupClass.class);
-//                Log.d("test", "test: " + g);
-
-                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-                for (DataSnapshot child : children) {
-                    Log.d("test", "test: " + child);
-                    GroupClass g = child.getValue(GroupClass.class);
-                    String groupName = g.groupName;
-                    Log.d("test1", "grouName: " + groupName);
-
-                    nameList.add(g);
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    userId = user.getUid();
+                } else {
+                    // User is signed out
                 }
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
+        };
+        mAuth.addAuthStateListener(mAuthListener);
+        */
+        //userId = firebaseAuth.getCurrentUser().getUid();
         addGroupButton = (ImageButton) findViewById(R.id.addGroupButton);
         profileButton = (ImageButton) findViewById(R.id.profileButton);
 
-        groupList = (ListView) findViewById(R.id.group_list);
+        final Global_variable global_variable = (Global_variable)getApplicationContext();
+        ref = FirebaseDatabase.getInstance().getReference().child("Users").child(global_variable.getUser_id()).child("groupIDs");
+        if (ref != null) {
+            firebaseListAdapter = new FirebaseListAdapter<String>(this,
+                    String.class,
+                    R.layout.list_element,
+                    ref) {
+                @Override
+                protected void populateView(View v, final String model, int position) {
+                    final View v1 = v;
+                    DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Group");
 
+                    mref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            TextView t = (TextView) v1.findViewById(R.id.item1);
+                            t.setText(dataSnapshot.child(model).child("groupName").getValue().toString());
+                            TextView subt = (TextView) v1.findViewById(R.id.sub_item1);
+                            subt.setText(dataSnapshot.child(model).child("topic").getValue().toString());
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            System.out.println("fetch group failed");
+                        }
+                    });
+                }
+            };
+            listView.setAdapter(firebaseListAdapter);
+            //firebaseListAdapter.cleanup();
+        }
         addGroupButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i=new Intent(homepage.this, add_group.class);
@@ -89,7 +108,14 @@ public class homepage extends AppCompatActivity {
             }
         });
 
-        ListAdapter adapter = new ArrayAdapter<GroupClass>(this, android.R.layout.simple_list_item_1, nameList);
-        groupList.setAdapter(adapter);
+//        logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                firebaseAuth.signOut();
+//                finish();
+//                Intent login = new Intent(homepage.this, LoginActivity.class);
+//                startActivity(login);
+//            }
+//        });
     }
 }

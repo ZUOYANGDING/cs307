@@ -4,13 +4,18 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.zuoyangding.aroundme.DataModels.User;
 import com.example.zuoyangding.aroundme.R;
 import com.firebase.client.Firebase;
+import com.firebase.ui.auth.ui.email.RegisterEmailActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -40,23 +45,46 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
     private static final String TAG = "LoginActivity";
+    private EditText emailInput;
+    private EditText passwordInput;
+    private Button emailLogin;
+    private Button emailRegister;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase mDatabase;
     //private Firebase firebase;
     private DatabaseReference mUserReference;
-
+    private String email;
+    private String password;
+    private String userId;
 
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("jump to login3");
+        //System.out.println("jump to login3");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        emailLogin = (Button) findViewById(R.id.email_login_btn);
+        emailRegister =(Button) findViewById(R.id.email_register_bt);
+        emailInput = (EditText) findViewById(R.id.email_tx);
+        passwordInput = (EditText) findViewById(R.id.password_tx);
         googleBtn = (SignInButton) findViewById(R.id.google_btn);
         final Global_variable global_variable = (Global_variable)getApplicationContext();
         mDatabase = FirebaseDatabase.getInstance();
         mUserReference = mDatabase.getReference().child("Users");
-
         mAuth = FirebaseAuth.getInstance();
+
+        emailLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emailLoginFunction();
+            }
+        });
+
+        emailRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent registration = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(registration);
+            }
+        });
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -68,18 +96,6 @@ public class LoginActivity extends AppCompatActivity {
                     final String userID = user.getUid();
                     global_variable.setUser_id(userID);
                     final String email = user.getEmail();
-                    global_variable.setEmail(email);
-                    //mUserReference = mDatabase.getReference().child("Users").child(userID);
-                    //System.out.println("the user is " + user.getEmail());
-                    //String userID = user.getUid();
-//                    if ( == null) {
-//                        Intent register = new Intent(LoginActivity.this, LandingActivity.class);
-//                        register.putExtra("userIDkey", userID);
-//                        startActivity(register);
-//                    } else {
-//                        Intent home = new Intent(LoginActivity.this, homepage.class);
-//                        startActivity(home);
-//                    }
                     System.out.println("HERE IS THE USER ID GIVEN BY GOOGLE: " + userID);
 
                     mUserReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -87,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             //User uCheck = dataSnapshot.getValue(User.class);
                             if (!dataSnapshot.exists()) {
-                                User u = new User(userID, email, null, null, null, new ArrayList<String>());
+                                User u = new User(userID, null, null, email, null, null, null, null);
                                 u.setGoogleAccount(email);
                                 u.setUserID(userID);
                                 System.out.println("I am here");
@@ -148,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
         //mAuth.getInstance().signOut();
 
         //System.out.println("i am here");
-        mAuth.getInstance().signOut();
+        mAuth.signOut();
         super.onDestroy();
 
 
@@ -211,5 +227,72 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+
+    private void emailLoginFunction() {
+        email = emailInput.getText().toString().trim();
+        password = passwordInput.getText().toString().trim();
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(this, "Please enter an email", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!isValidEmail(email)) {
+            Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "Please enter a password", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!isvalidPasswordLength(password)) {
+            Toast.makeText(this, "Password length should between 6 to 20 characters", Toast.LENGTH_LONG).show();
+            return;
+        }
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (!task.isSuccessful()) {
+                    Log.w(TAG, "SignInWithEmail:Failed", task.getException());
+                    String errorString = task.getException().toString();
+                    String trunctederrorstring = errorString.substring(errorString.indexOf(":"));
+                    Log.d(TAG, errorString);
+                    if (trunctederrorstring.contains("The text_password is invalid")) {
+                        Toast.makeText(LoginActivity.this, "Please enter password", Toast.LENGTH_LONG).show();
+                    } else if (trunctederrorstring.contains("The user may have been deleted")) {
+                        Toast.makeText(LoginActivity.this, "Please enter email", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    userId = mAuth.getCurrentUser().getUid();
+                    Global_variable global_variable = (Global_variable)getApplicationContext();
+                    global_variable.setUser_id(userId);
+                    System.out.println("THIS IS UID:" + userId);
+                    Log.d(TAG, "SignInWithEmail:Success" + task.isSuccessful());
+                    Log.d("Login", "Jump to homepage");
+                    Intent homepage = new Intent(getApplicationContext(), homepage.class);
+                    homepage.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(homepage);
+                }
+            }
+        });
+    }
+
+
+    public boolean isValidEmail(String target) {
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+            return Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
+    public boolean isvalidPasswordLength(String password) {
+        //check if the length between 6 and 25
+        if (password.length() >= 6 && password.length() <= 25) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
