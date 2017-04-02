@@ -15,7 +15,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        tools:background="#ffD9C55D"
+
+        tools:background="@drawable/top_bar"
         android:id="@+id/topBar"
         android:weightSum="1"
         android:layout_alignParentTop="true"
@@ -48,27 +49,18 @@
 
         <ImageButton
             android:id="@+id/addGroupButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+
+            android:layout_marginTop="15dp"
             android:layout_weight="0.05"
             android:background="@null"
-            app:srcCompat="@drawable/add" />
+            app:srcCompat="@drawable/add"
+            android:scaleType="centerInside"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="0dp"
-        android:background="#ffD9C55D"
-        android:id="@+id/bottomBar"></LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
@@ -77,6 +69,48 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/topBar"
         android:layout_above="@+id/bottomBar" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/bottom_bar"
+        android:id="@+id/bottomBar"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+        <ImageButton
+            app:srcCompat="@drawable/home_page_button"
+            android:id="@+id/homepage_button"
+            android:scaleType="centerInside"
+            android:background="@null"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="5dp" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/favorites_button"
+            android:background="@null"
+            android:id="@+id/favorites_button"
+            android:scaleType="centerInside"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="65dp" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/roommates_button"
+            android:id="@+id/roommate_button"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="65dp" />
+    </LinearLayout>
+
 
 
 </RelativeLayout>
