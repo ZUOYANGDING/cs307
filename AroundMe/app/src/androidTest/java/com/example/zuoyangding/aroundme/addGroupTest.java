@@ -16,6 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -33,6 +34,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -45,7 +47,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
  * Created by Kenny on 4/2/2017.
  */
 
-public class editLandingActivityTest {
+public class addGroupTest {
 
     @Rule
     public IntentsTestRule<LoginActivity> editLandingActivityIntentsTestRule =
@@ -53,7 +55,7 @@ public class editLandingActivityTest {
 
 
     @Test
-    public void nickNameOInly() throws Exception {
+    public void groupName() throws Exception {
 
         Thread.sleep(1000);
         onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
@@ -61,69 +63,12 @@ public class editLandingActivityTest {
         onView(withId(R.id.email_login_btn)).perform(click());
         Thread.sleep(1000);
 
-        onView(withId(R.id.profileButton)).perform(click());
+        onView(withId(R.id.addGroupButton)).perform(click());
         Thread.sleep(1000);
 
-        onView(withId(R.id.landing_Edit)).perform(click());
-        Thread.sleep(1000);
-
-
-        onView(withId(R.id.edit_landing_Nickname)).perform(typeText("testNickName"), closeSoftKeyboard());
-        onView(withId(R.id.edit_landing_Save)).perform(click());
-        onView(withId(R.id.edit_landing_error)).check(matches(withText("Please fill in all fields")));
-        Thread.sleep(1000);
-
-    }
-
-    @Test
-    public void emptyBirthday() throws Exception {
-
-        Thread.sleep(1000);
-        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
-        onView(withId(R.id.password_tx)).perform(typeText("purdue18"));
-        onView(withId(R.id.email_login_btn)).perform(click());
-        Thread.sleep(1000);
-
-        onView(withId(R.id.profileButton)).perform(click());
-        Thread.sleep(1000);
-
-        onView(withId(R.id.landing_Edit)).perform(click());
-        Thread.sleep(1000);
-
-
-        onView(withId(R.id.edit_landing_Nickname)).perform(typeText("testNickName"), closeSoftKeyboard());
-        onView(withId(R.id.edit_landing_intro)).perform(typeText("testIntro"), closeSoftKeyboard());
-        onView(withId(R.id.edit_landing_Save)).perform(click());
-        onView(withId(R.id.edit_landing_error)).check(matches(withText("Please fill in all fields")));
-        Thread.sleep(1000);
-    }
-
-
-    @Test
-    public void validInputs() throws Exception {
-        // Login
-        Thread.sleep(1000);
-        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
-        onView(withId(R.id.password_tx)).perform(typeText("purdue18"));
-        onView(withId(R.id.email_login_btn)).perform(click());
-        Thread.sleep(1000);
-
-        onView(withId(R.id.profileButton)).perform(click());
-        Thread.sleep(1000);
-
-        onView(withId(R.id.landing_Edit)).perform(click());
-        Thread.sleep(1000);
-
-
-        onView(withId(R.id.edit_landing_Nickname)).perform(typeText("testNickname"));
-        onView(withId(R.id.edit_landing_Birthday)).perform(typeText("01012001"));
-        onView(withId(R.id.edit_landing_intro)).perform(typeText("testIntro"), closeSoftKeyboard());
-        onView(withId(R.id.edit_landing_Save)).perform(click());
-        Thread.sleep(1000);
-
-        onView(withId(R.id.landing_Nickname)).check(matches(withText("testNickname")));
-        onView(withId(R.id.landing_Birthday)).check(matches(withText("01012001")));
-        onView(withId(R.id.landing_intro)).check(matches(withText("testIntro")));
+        onView(withId(R.id.enterGroupName)).perform(typeText("testGroupName"), closeSoftKeyboard());
+        onView(withId(R.id.Topics)).perform(typeText("testTopics"), closeSoftKeyboard());
+        onView(withId(R.id.createGroup)).perform(click());
         Thread.sleep(1000);
 
     }
