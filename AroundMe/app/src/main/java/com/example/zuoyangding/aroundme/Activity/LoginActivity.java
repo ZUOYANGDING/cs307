@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.example.zuoyangding.aroundme.DataModels.User;
 import com.example.zuoyangding.aroundme.R;
-import com.firebase.client.Firebase;
-import com.firebase.ui.auth.ui.email.RegisterEmailActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
