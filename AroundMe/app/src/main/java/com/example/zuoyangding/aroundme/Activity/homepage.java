@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.graphics.Bitmap;
@@ -40,12 +41,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class homepage extends AppCompatActivity {
 
 
     private ListView listView;
     private ImageButton addGroupButton;
     private ImageButton profileButton;
+    private ImageButton sortButton;
 //    private Button logout;
     private FirebaseAuth mAuth;
     private String userId;
@@ -82,9 +86,29 @@ public class homepage extends AppCompatActivity {
         //userId = firebaseAuth.getCurrentUser().getUid();
         addGroupButton = (ImageButton) findViewById(R.id.addGroupButton);
         profileButton = (ImageButton) findViewById(R.id.profileButton);
+        sortButton = (ImageButton)findViewById(R.id.homepage_button);
 
         final Global_variable global_variable = (Global_variable)getApplicationContext();
+        //ArrayList<String> group_ids;
         ref = FirebaseDatabase.getInstance().getReference().child("Users").child(global_variable.getUser_id()).child("groupIDs");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> group_ids = (ArrayList<String>) dataSnapshot.getValue();
+                //String[] group_array = new String[group_ids.size()];
+                        //group_array = group_ids.toArray(group_array);
+                if (group_ids != null) {
+                    ListAdapter adapter = new ListAdapter(homepage.this, group_ids);
+                    listView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        /*
         if (ref != null) {
             firebaseListAdapter = new FirebaseListAdapter<String>(this,
                     String.class,
@@ -118,7 +142,7 @@ public class homepage extends AppCompatActivity {
             listView.setAdapter(firebaseListAdapter);
             //firebaseListAdapter.cleanup();
         }
-
+        */
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -145,6 +169,12 @@ public class homepage extends AppCompatActivity {
             }
         });
 
+        sortButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent i = new Intent(homepage.this, group_aroudme.class);
+                homepage.this.startActivity(i);
+            }
+        });
 //        logout.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
