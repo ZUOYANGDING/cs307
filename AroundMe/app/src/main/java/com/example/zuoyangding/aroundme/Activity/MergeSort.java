@@ -44,10 +44,10 @@ public class MergeSort {
         // Copy the smallest values from either the left or the right side back
         // to the original array
         while (i <= middle && j <= high) {
-            double l1 = helper[i].alt;
+            double l1 = helper[i].lat;
             double a1 = helper[i].lon;
 
-            double l2 = helper[j].alt;
+            double l2 = helper[j].lat;
             double a2 = helper[j].lon;
 
             double l0 = mlocation.getLongitude();
