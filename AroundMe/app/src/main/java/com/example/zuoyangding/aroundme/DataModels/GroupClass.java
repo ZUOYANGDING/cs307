@@ -20,14 +20,14 @@ public class GroupClass {
     public boolean is_permanent;
     //public Location mlocation;
     public ArrayList<String> member_ids;
-    public double alt;
+    public double lat;
     public double lon;
     private List<ChartMessage> chartMessages;
 
     public GroupClass() {}
 
 
-    public GroupClass(String groupName, String key, String topic, long date, List<ChartMessage> chartMessages, ArrayList<String> member_ids, double alt, double lon, Boolean is_permanent) {
+    public GroupClass(String groupName, String key, String topic, long date, ArrayList<String> member_ids, double lat, double lon, Boolean is_permanent) {
 
         this.groupName = groupName;
         this.key = key;
@@ -35,7 +35,7 @@ public class GroupClass {
         this.date = date;
         this.member_ids = member_ids;
         this.is_permanent = is_permanent;
-        this.alt = alt;
+        this.lat = lat;
         this.lon = lon;
         this.chartMessages = chartMessages;
     }

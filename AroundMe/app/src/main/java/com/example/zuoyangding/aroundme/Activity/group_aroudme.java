@@ -65,7 +65,7 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_homepage);
+        setContentView(R.layout.activity_sort);
         listView = (ListView)findViewById(R.id.group_list);
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -100,8 +100,38 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onConnected(Bundle connectionHint) {
         //Toast.makeText(add_group.this, "onConnected", Toast.LENGTH_LONG).show();
+
         if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            mGroupReference = FirebaseDatabase.getInstance().getReference().child("Group");
+            mGroupReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    ArrayList<GroupClass> temp = new ArrayList<GroupClass>();
+                    for (DataSnapshot it : dataSnapshot.getChildren()) {
+                        //Location temp_lo = new Location(it.child("mlocation").getValue(Location.class));
+                        GroupClass group = new GroupClass(it.child("groupName").getValue().toString(), it.child("key").getValue().toString(), it.child("topic").getValue().toString(), it.child("date").getValue(Long.class), (ArrayList<String>) it.child("member_ids").getValue(), it.child("lat").getValue(Double.class), it.child("lon").getValue(Double.class), it.child("is_permanent").getValue(Boolean.class));
+                        temp.add(group);
+                    }
+                    GroupClass[] groups = new GroupClass[temp.size()];
+                    groups = temp.toArray(groups);
+                    MergeSort sorter = new MergeSort();
+                    //if (mLastLocation != null)
+                    sorter.sort(groups, mLastLocation);
+                    //Arrays.sort(groups);
+                    temp = new ArrayList<GroupClass>(Arrays.asList(groups));
+                    GroupListAdapter adapter = new GroupListAdapter(group_aroudme.this, temp);
+                    listView.setAdapter(adapter);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
     }
     public void onLocationChanged(Location location) {
@@ -113,7 +143,7 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                 ArrayList<GroupClass> temp = new ArrayList<GroupClass>();
                 for(DataSnapshot it : dataSnapshot.getChildren()){
                     //Location temp_lo = new Location(it.child("mlocation").getValue(Location.class));
-                    GroupClass group = new GroupClass(it.child("groupName").getValue().toString(), it.child("key").getValue().toString(), it.child("topic").getValue().toString(), it.child("date").getValue(Long.class),(ArrayList<ChartMessage>) it.child("charMessages").getValue() ,(ArrayList<String>) it.child("member_ids").getValue() , it.child("alt").getValue(Double.class), it.child("lon").getValue(Double.class), it.child("is_permanent").getValue(Boolean.class));
+                    GroupClass group = new GroupClass(it.child("groupName").getValue().toString(), it.child("key").getValue().toString(), it.child("topic").getValue().toString(), it.child("date").getValue(Long.class),(ArrayList<String>) it.child("member_ids").getValue() , it.child("alt").getValue(Double.class), it.child("lon").getValue(Double.class), it.child("is_permanent").getValue(Boolean.class));
                     temp.add(group);
                 }
                 GroupClass[] groups = new GroupClass[temp.size()];
