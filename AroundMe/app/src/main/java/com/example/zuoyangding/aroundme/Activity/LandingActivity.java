@@ -28,12 +28,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 //image module by Frank Hu
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static android.R.attr.bitmap;
+
 
 //import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.Birthday;
 //import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.Nickname;
@@ -48,6 +50,9 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     private TextView landing_info;
     private FirebaseAuth firebaseAuth;
     private String userId;
+
+
+    private Global_variable global_variable;
     private Button logout;
 
     //image module by Frank Hu
@@ -73,6 +78,8 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         landing_homepage = (Button)findViewById(R.id.button3);
         logout = (Button) findViewById(R.id.logout_bt);
 
+
+
         //image module by Frank
         //landing_iv = (ImageView) findViewById(R.id.imageButton);
         landing_iv = (ImageView) findViewById(R.id.profile_picture);
@@ -92,10 +99,12 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
+
         mref.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //DataSnapshot usnap = dataSnapshot.child(global_variable.getUser_id());
+
 
                 if(dataSnapshot.child("nickName").getValue() != null) {
                     landing_Nickname.setText(dataSnapshot.child("nickName").getValue().toString());
@@ -132,6 +141,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
 
             }
         });
@@ -180,6 +190,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         Global_variable global_variable = (Global_variable)getApplicationContext();
         //if (requestCode == 1 && requestCode == RESULT_OK && data != null){
+
         Uri imgUri = data.getData();
         landing_iv.setImageURI(imgUri);
 
@@ -210,6 +221,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
                 }
             });
+
         //}
     }
 

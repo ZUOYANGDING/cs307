@@ -34,8 +34,10 @@ public class User {
         this.nickName = nickName;
         this.groupIDs = groupIDs;
 
+
         //image module (by Frank Hu)
         this.imgStr = imgStr;
+
     }
     public String getUserID() {
         return this.userID;
@@ -72,7 +74,9 @@ public class User {
     public void setPassword(String password) {this.password = password;}
     public String getPassword() {return this.password;}
 
+
     //image module (by Frank Hu)
     public String getImgBitmap() { return this.imgStr;}
     public void setImgStr(String imgStr) { this.imgStr = imgStr;}
 }
+

@@ -102,7 +102,8 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
                     }
                 });
                 usr_ids.add(global_variable.getUser_id());
-                GroupClass group = new GroupClass(groupName.getText().toString(), key, groupTopic.getText().toString(), start_date, null, usr_ids, mLastLocation ,false);
+                GroupClass group = new GroupClass(groupName.getText().toString(), key, groupTopic.getText().toString(), start_date,null, usr_ids, mLastLocation.getAltitude(), mLastLocation.getLongitude() ,false);
+
                 mGroupReference.child(key).setValue(group);
                 //mUserRefernece.child(global_variable.getUser_id()).setValue(new_u);
                 Intent i = new Intent(add_group.this, homepage.class);
