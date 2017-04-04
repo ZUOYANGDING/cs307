@@ -144,6 +144,7 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                 for(DataSnapshot it : dataSnapshot.getChildren()){
                     //Location temp_lo = new Location(it.child("mlocation").getValue(Location.class));
                     GroupClass group = new GroupClass(it.child("groupName").getValue().toString(), it.child("key").getValue().toString(), it.child("topic").getValue().toString(), it.child("date").getValue(Long.class),(ArrayList<String>) it.child("member_ids").getValue() , it.child("alt").getValue(Double.class), it.child("lon").getValue(Double.class), it.child("is_permanent").getValue(Boolean.class));
+
                     temp.add(group);
                 }
                 GroupClass[] groups = new GroupClass[temp.size()];
