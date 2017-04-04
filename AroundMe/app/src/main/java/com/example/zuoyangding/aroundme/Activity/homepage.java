@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.AdapterView;
 
 import com.example.zuoyangding.aroundme.R;
 
@@ -86,10 +87,12 @@ public class homepage extends AppCompatActivity {
         //userId = firebaseAuth.getCurrentUser().getUid();
         addGroupButton = (ImageButton) findViewById(R.id.addGroupButton);
         profileButton = (ImageButton) findViewById(R.id.profileButton);
+
         sortButton = (ImageButton)findViewById(R.id.homepage_button);
 
         final Global_variable global_variable = (Global_variable)getApplicationContext();
         //ArrayList<String> group_ids;
+
         ref = FirebaseDatabase.getInstance().getReference().child("Users").child(global_variable.getUser_id()).child("groupIDs");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -118,7 +121,9 @@ public class homepage extends AppCompatActivity {
                 protected void populateView(View v, final String model, int position) {
                     final View v1 = v;
                     DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Group");
+
                         final View vi = v;
+
                     mref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -175,6 +180,7 @@ public class homepage extends AppCompatActivity {
                 homepage.this.startActivity(i);
             }
         });
+
 //        logout.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

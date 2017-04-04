@@ -87,7 +87,7 @@
             android:background="@null"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="65dp"
+            android:layout_marginLeft="50dp"
             android:layout_marginTop="5dp" />
 
         <ImageButton
@@ -98,7 +98,7 @@
             android:id="@+id/favorites_button"
             android:scaleType="centerInside"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="65dp" />
+            android:layout_marginLeft="55dp" />
 
         <ImageButton
             android:layout_width="50dp"
@@ -108,7 +108,7 @@
             android:background="@null"
             android:scaleType="centerInside"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="65dp" />
+            android:layout_marginLeft="55dp" />
     </LinearLayout>
 
 

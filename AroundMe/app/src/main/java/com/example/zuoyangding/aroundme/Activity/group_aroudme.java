@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.zuoyangding.aroundme.DataModels.ChartMessage;
 import com.example.zuoyangding.aroundme.DataModels.GroupClass;
 import com.example.zuoyangding.aroundme.DataModels.User;
 import com.example.zuoyangding.aroundme.R;
@@ -85,7 +86,7 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                 ArrayList<GroupClass> temp = new ArrayList<GroupClass>();
                 for(DataSnapshot it : dataSnapshot.getChildren()){
                     //Location temp_lo = new Location(it.child("mlocation").getValue(Location.class));
-                    GroupClass group = new GroupClass(it.child("groupName").getValue().toString(), it.child("key").getValue().toString(), it.child("topic").getValue().toString(), it.child("date").getValue(Long.class), (ArrayList<String>) it.child("member_ids").getValue() , it.child("alt").getValue(Double.class), it.child("lon").getValue(Double.class), it.child("is_permanent").getValue(Boolean.class));
+                    GroupClass group = new GroupClass(it.child("groupName").getValue().toString(), it.child("key").getValue().toString(), it.child("topic").getValue().toString(), it.child("date").getValue(Long.class),(ArrayList<ChartMessage>) it.child("charMessages").getValue() ,(ArrayList<String>) it.child("member_ids").getValue() , it.child("alt").getValue(Double.class), it.child("lon").getValue(Double.class), it.child("is_permanent").getValue(Boolean.class));
                     temp.add(group);
                 }
                 GroupClass[] groups = new GroupClass[temp.size()];

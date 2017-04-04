@@ -31,15 +31,15 @@
             android:layout_height="60dp" />
 
         <TextView
-            android:text="Group name"
-            android:id="@+id/groupName"
+            android:id="@+id/group_name"
+            android:layout_width="140dp"
             android:layout_height="60dp"
-            android:textSize="24sp"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:gravity="fill_vertical|center_horizontal"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="30dp"
             android:layout_weight="0.13"
-            android:layout_width="180dp" />
+            android:gravity="fill_vertical|center_horizontal"
+            android:text="Group name"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="24sp" />
 
         <Button
             android:text="Joined"
@@ -79,7 +79,7 @@
             android:textColor="?android:attr/textColorPrimaryInverseNoDisable"
             android:layout_marginTop="10dp"
             android:textAlignment="center"
-            android:layout_width="300dp" />
+            android:layout_width="250dp" />
 
         <ImageButton
             app:srcCompat="@drawable/send_message"

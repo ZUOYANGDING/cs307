@@ -69,10 +69,8 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
         firebaseAuth = FirebaseAuth.getInstance();
         //userId = firebaseAuth.getCurrentUser().getUid();
-        //System.out.println("this is UID" + userId);
-        global_variable = (Global_variable)getApplicationContext();
+        Global_variable global_variable = (Global_variable)getApplicationContext();
         userId = global_variable.getUser_id();
-
         landing_Edit = (Button) findViewById(R.id.landing_Edit);
         landing_Nickname = (TextView) findViewById(R.id.landing_Nickname);
         landing_Birthday = (TextView) findViewById(R.id.landing_Birthday);
@@ -97,7 +95,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
             // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
             // app-defined int constant that should be quite unique
 
-            return;
+            //return;
         }
 
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
