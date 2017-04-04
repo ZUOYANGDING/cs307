@@ -85,23 +85,23 @@ public class group_chat extends AppCompatActivity {
 //                    Global_variable global_variable = (Global_variable)getApplicationContext();
 //                    ChartMessage chartMessage = new ChartMessage(message, global_variable.getUser_id());
 
-                    groupReference.child(groupId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    groupReference.child(groupId).child("chartMessages").addListenerForSingleValueEvent(new ValueEventListener() {
                         Global_variable global_variable = (Global_variable)getApplicationContext();
                         String userId = global_variable.getUser_id();
                         ChartMessage chartMessage = new ChartMessage(message, userId);
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            GroupClass group = dataSnapshot.getValue(GroupClass.class);
-                            if (group.getChartMessages() == null) {
+                            //GroupClass group = dataSnapshot.getValue(GroupClass.class);
+                            if (dataSnapshot.getValue() == null) {
                                 ArrayList<ChartMessage> chartMessages = new ArrayList<ChartMessage>();
                                 chartMessages.add(chartMessage);
-                                group.setChartMessages(chartMessages);
+                                //group.setChartMessages(chartMessages);
                                 System.out.println("groupId_1"+groupId);
                                 groupReference.child(groupId).child("chartMessages").setValue(chartMessages);
                             } else {
-                                ArrayList<ChartMessage> chartMessages = group.getChartMessages();
+                                ArrayList<ChartMessage> chartMessages = (ArrayList<ChartMessage>) dataSnapshot.getValue();
                                 chartMessages.add(chartMessage);
-                                group.setChartMessages(chartMessages);
+                                //group.setChartMessages(chartMessages);
                                 System.out.println("groupId_2"+groupId);
                                 groupReference.child(groupId).child("chartMessages").setValue(chartMessages);
                             }
@@ -123,7 +123,7 @@ public class group_chat extends AppCompatActivity {
                 R.layout.activity_display_messages, groupReference.child(groupId).child("chartMessages")) {
             @Override
             protected void populateView(View v, ChartMessage model, int position) {
-                Global_variable global_variable = (Global_variable)getApplicationContext();
+                //Global_variable global_variable = (Global_variable)getApplicationContext();
                 String tmpMessage = model.getMessage();
                 TextView showMessage =  (TextView) v.findViewById (R.id.text_message);
                 System.out.println("here is UID in TAG" + model.getUid());
