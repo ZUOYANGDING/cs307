@@ -57,7 +57,7 @@ public class MergeSort {
             double distance2 = Math.pow((l2-l0), 2) + Math.pow((a2-a0),2);
 
 
-            if (distance1 <= distance2) {
+            if (distance1 >= distance2) {
                 numbers[k] = helper[i];
                 i++;
             } else {

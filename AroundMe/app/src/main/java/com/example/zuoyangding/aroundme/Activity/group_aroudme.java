@@ -1,5 +1,6 @@
 package com.example.zuoyangding.aroundme.Activity;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -73,12 +74,38 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                     .addApi(LocationServices.API)
                     .build();
         }
-        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
-        int MY_PERMISSIONS = 0;
-        if (permissionCheck == PackageManager.PERMISSION_DENIED)
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS);
-        createLocationRequest();
-        mGoogleApiClient.connect();
+        int MY_PERMISSION = 0;
+        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION);
+        }
+        else {
+            createLocationRequest();
+            mGoogleApiClient.connect();
+        }
+    }
+    protected void createLocationRequest() {
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(500);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(group_aroudme.this, "Connection Failed", Toast.LENGTH_LONG).show();
+    }
+    @Override
+    public void onConnectionSuspended(int cause){
+        Toast.makeText(group_aroudme.this, "TEMPORARY disconnected", Toast.LENGTH_LONG).show();
+    };
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        //Toast.makeText(add_group.this, "onConnected", Toast.LENGTH_LONG).show();
+        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        }
+    }
+    public void onLocationChanged(Location location) {
+        mLastLocation = location;
         mGroupReference = FirebaseDatabase.getInstance().getReference().child("Group");
         mGroupReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -98,7 +125,6 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                 temp = new ArrayList<GroupClass>(Arrays.asList(groups));
                 GroupListAdapter adapter = new GroupListAdapter(group_aroudme.this, temp);
                 listView.setAdapter(adapter);
-
             }
 
             @Override
@@ -107,32 +133,17 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
             }
         });
     }
-    protected void createLocationRequest() {
-        mLocationRequest = LocationRequest.create();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(group_aroudme.this, "Connection Failed", Toast.LENGTH_LONG).show();
-    }
-    @Override
-    public void onConnectionSuspended(int cause){
-        Toast.makeText(group_aroudme.this, "TEMPORARY disconnected", Toast.LENGTH_LONG).show();
-    };
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        //Toast.makeText(add_group.this, "onConnected", Toast.LENGTH_LONG).show();
-        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
-        int MY_PERMISSIONS = 0;
-        if (permissionCheck == PackageManager.PERMISSION_DENIED)
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS);
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-    }
-    public void onLocationChanged(Location location) {
-        mLastLocation = location;
-    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        // If request is cancelled, the result arrays are empty.
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            createLocationRequest();
+            mGoogleApiClient.connect();
+        } else {
+            Intent i = new Intent(group_aroudme.this, homepage.class);
+            startActivity(i);
+        }
+        return;
+    }
 }
