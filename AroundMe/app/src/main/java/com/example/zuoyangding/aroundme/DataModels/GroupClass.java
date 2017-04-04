@@ -4,6 +4,9 @@ import android.location.Location;
 
 import java.util.ArrayList;
 
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by Kenny on 3/2/2017.
  */
@@ -15,17 +18,40 @@ public class GroupClass {
     public String topic;
     public long date;
     public boolean is_permanent;
-    public Location mlocation;
+    //public Location mlocation;
     public ArrayList<String> member_ids;
+    public double lat;
+    public double lon;
+    private List<ChartMessage> chartMessages;
 
-    public GroupClass(String groupName, String key, String topic, long date, ArrayList<String> member_ids, Location mlocation, Boolean is_permanent) {
+    public GroupClass() {}
+
+
+    public GroupClass(String groupName, String key, String topic, long date, ArrayList<String> member_ids, double lat, double lon, Boolean is_permanent) {
+
         this.groupName = groupName;
         this.key = key;
         this.topic = topic;
         this.date = date;
         this.member_ids = member_ids;
         this.is_permanent = is_permanent;
-        this.mlocation = mlocation;
+        this.lat = lat;
+        this.lon = lon;
+        this.chartMessages = chartMessages;
     }
 
+    //public GroupClass() {}
+
+    public String getGroupName() {
+        return this.groupName;
+    }
+
+    public List<ChartMessage> getChartMessages() {
+        return this.chartMessages;
+    }
+
+    public void setChartMessages(List<ChartMessage> chartMessages) {
+        this.chartMessages = chartMessages;
+    }
 }
+

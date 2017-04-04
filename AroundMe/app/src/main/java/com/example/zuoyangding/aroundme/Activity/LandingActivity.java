@@ -1,10 +1,19 @@
 package com.example.zuoyangding.aroundme.Activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
+import android.provider.SyncStateContract;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,6 +28,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
+//image module by Frank Hu
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import static android.R.attr.bitmap;
+
+
 //import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.Birthday;
 //import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.Nickname;
 //import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.info;
@@ -32,23 +50,54 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     private TextView landing_info;
     private FirebaseAuth firebaseAuth;
     private String userId;
-    //image module
-    private ImageView landing_iv;
+
+
+    private Global_variable global_variable;
     private Button logout;
+
+    //image module by Frank Hu
+    private ImageView landing_iv;
+    private String landing_imgStr;
+
+
     //private static int RESULT_LOAD_IMAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
+
         firebaseAuth = FirebaseAuth.getInstance();
-        userId = firebaseAuth.getCurrentUser().getUid();
+        //userId = firebaseAuth.getCurrentUser().getUid();
+        Global_variable global_variable = (Global_variable)getApplicationContext();
+        userId = global_variable.getUser_id();
         landing_Edit = (Button) findViewById(R.id.landing_Edit);
         landing_Nickname = (TextView) findViewById(R.id.landing_Nickname);
         landing_Birthday = (TextView) findViewById(R.id.landing_Birthday);
         landing_info = (TextView) findViewById(R.id.landing_intro);
         landing_homepage = (Button)findViewById(R.id.button3);
         logout = (Button) findViewById(R.id.logout_bt);
+
+
+
+        //image module by Frank
+        //landing_iv = (ImageView) findViewById(R.id.imageButton);
+        landing_iv = (ImageView) findViewById(R.id.profile_picture);
+        landing_iv.setOnClickListener(this);
+        landing_imgStr = null;
+
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    123);
+
+            // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+            // app-defined int constant that should be quite unique
+
+            //return;
+        }
+
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
 
         mref.child(userId).addValueEventListener(new ValueEventListener() {
@@ -56,25 +105,43 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //DataSnapshot usnap = dataSnapshot.child(global_variable.getUser_id());
 
+
                 if(dataSnapshot.child("nickName").getValue() != null) {
                     landing_Nickname.setText(dataSnapshot.child("nickName").getValue().toString());
                 } else {
                     landing_Nickname.setText("undefined");
                 }
+
                 if (dataSnapshot.child("birthday").getValue() != null) {
                     landing_Birthday.setText(dataSnapshot.child("birthday").getValue().toString());
                 } else {
                     landing_Birthday.setText("undefined");
                 }
+
                 if (dataSnapshot.child("introduction").getValue() != null) {
                     landing_info.setText(dataSnapshot.child("introduction").getValue().toString());
                 } else {
                     landing_info.setText("undefined");
                 }
+
+                //image module by Frank Hu
+                if (dataSnapshot.child("imgStr").getValue() != null) {
+                    landing_imgStr = (String) dataSnapshot.child("imgStr").getValue();
+
+                    //Bitmap way
+                    byte[] imageByte = Base64.decode(landing_imgStr,Base64.DEFAULT);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte,0,imageByte.length);
+                    landing_iv.setImageBitmap(bitmap);
+
+                    //Uri way
+                    //Uri imgUri = Uri.parse(landing_imgStr);
+                    //landing_iv.setImageURI(imgUri);
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
 
             }
         });
@@ -109,9 +176,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-        //image module
-        landing_iv = (ImageView) findViewById(R.id.imageButton);
-        landing_iv.setOnClickListener(this);
+
     }
 
     @Override
@@ -120,14 +185,43 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         startActivityForResult(galleryIntent, 1);
     }
 
-    @Override
+    @Override     //image module by Frank Hu
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Global_variable global_variable = (Global_variable)getApplicationContext();
         //if (requestCode == 1 && requestCode == RESULT_OK && data != null){
-            //Uri imgUri = Uri.parse("content://storage/emulated/0/DCIM/Camera/IMG_20160303_012710796.jpg");
-            Uri imgUri = data.getData();
-            landing_iv.setImageURI(imgUri);
+
+        Uri imgUri = data.getData();
+        landing_iv.setImageURI(imgUri);
+
+        //Bitmap way
+        Bitmap myBitmap = null;
+        try {
+            myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.PNG,100, bos);
+        byte[] imgbyte = bos.toByteArray();
+        this.landing_imgStr = Base64.encodeToString(imgbyte, Base64.DEFAULT);
+
+        //Uri way
+        //this.landing_imgStr = imgUri.toString();
+
+            final DatabaseReference mref02 = FirebaseDatabase.getInstance().getReference().child("Users");
+            mref02.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    mref02.child(dataSnapshot.child("userID").getValue().toString()).child("imgStr").setValue(landing_imgStr);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
         //}
     }
 

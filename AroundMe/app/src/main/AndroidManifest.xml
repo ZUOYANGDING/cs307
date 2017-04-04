@@ -7,6 +7,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
 
     <application
         android:name=".Activity.Global_variable"
@@ -73,6 +77,7 @@
         </activity>
         <activity android:name=".Activity.display_messageActivity" />
         <activity android:name=".Activity.RegisterActivity"></activity>
+        <activity android:name=".Activity.group_aroudme"></activity>
     </application>
 
 </manifest>

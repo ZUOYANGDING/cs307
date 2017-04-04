@@ -62,13 +62,15 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
                     .addApi(LocationServices.API)
                     .build();
         }
-        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
-        int MY_PERMISSIONS = 0;
-        if (permissionCheck == PackageManager.PERMISSION_DENIED)
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS);
-        createLocationRequest();
-        mGoogleApiClient.connect();
-
+        int MY_PERMISSION = 0;
+        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION);
+        }
+        else {
+            createLocationRequest();
+            mGoogleApiClient.connect();
+        }
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +104,8 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
                     }
                 });
                 usr_ids.add(global_variable.getUser_id());
-                GroupClass group = new GroupClass(groupName.getText().toString(), key, groupTopic.getText().toString(), start_date, usr_ids, mLastLocation ,false);
+                GroupClass group = new GroupClass(groupName.getText().toString(), key, groupTopic.getText().toString(), start_date, usr_ids, mLastLocation.getLatitude(), mLastLocation.getLongitude() ,false);
+
                 mGroupReference.child(key).setValue(group);
                 //mUserRefernece.child(global_variable.getUser_id()).setValue(new_u);
                 Intent i = new Intent(add_group.this, homepage.class);
@@ -128,14 +131,23 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
     @Override
     public void onConnected(Bundle connectionHint) {
         //Toast.makeText(add_group.this, "onConnected", Toast.LENGTH_LONG).show();
-        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
-        int MY_PERMISSIONS = 0;
-        if (permissionCheck == PackageManager.PERMISSION_DENIED)
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS);
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        }
     }
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    createLocationRequest();
+                    mGoogleApiClient.connect();
+                } else {
+                    Intent i = new Intent(add_group.this, homepage.class);
+                    startActivity(i);
+                }
+                return;
+            }
     public void onLocationChanged(Location location) {
         mLastLocation = location;
     }
