@@ -22,12 +22,12 @@ public class GroupClass {
     public ArrayList<String> member_ids;
     public double alt;
     public double lon;
-    private List<ChartMessage> chartMessages;
+    private ArrayList<ChartMessage> chartMessages;
 
     public GroupClass() {}
 
 
-    public GroupClass(String groupName, String key, String topic, long date, List<ChartMessage> chartMessages, ArrayList<String> member_ids, double alt, double lon, Boolean is_permanent) {
+    public GroupClass(String groupName, String key, String topic, long date, ArrayList<String> member_ids, double alt, double lon, Boolean is_permanent) {
 
         this.groupName = groupName;
         this.key = key;
@@ -37,7 +37,7 @@ public class GroupClass {
         this.is_permanent = is_permanent;
         this.alt = alt;
         this.lon = lon;
-        this.chartMessages = chartMessages;
+        //this.chartMessages = chartMessages;
     }
 
     //public GroupClass() {}
@@ -46,11 +46,11 @@ public class GroupClass {
         return this.groupName;
     }
 
-    public List<ChartMessage> getChartMessages() {
+    public ArrayList<ChartMessage> getChartMessages() {
         return this.chartMessages;
     }
 
-    public void setChartMessages(List<ChartMessage> chartMessages) {
+    public void setChartMessages(ArrayList<ChartMessage> chartMessages) {
         this.chartMessages = chartMessages;
     }
 }
