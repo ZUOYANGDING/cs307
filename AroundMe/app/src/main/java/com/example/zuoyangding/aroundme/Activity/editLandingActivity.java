@@ -64,9 +64,12 @@ public class editLandingActivity extends AppCompatActivity {
                     mref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            mref.child(dataSnapshot.child("userID").getValue().toString()).child("nickName").setValue(Nickname);
-                            mref.child(dataSnapshot.child("userID").getValue().toString()).child("introduction").setValue(info);
-                            mref.child(dataSnapshot.child("userID").getValue().toString()).child("birthday").setValue(Birthday);
+                            User user = dataSnapshot.getValue(User.class);
+                            if (user !=  null) {
+                                mref.child(dataSnapshot.child("userID").getValue().toString()).child("nickName").setValue(Nickname);
+                                mref.child(dataSnapshot.child("userID").getValue().toString()).child("introduction").setValue(info);
+                                mref.child(dataSnapshot.child("userID").getValue().toString()).child("birthday").setValue(Birthday);
+                            }
                         }
 
                         @Override
@@ -77,8 +80,10 @@ public class editLandingActivity extends AppCompatActivity {
 
                     Intent i=new Intent(editLandingActivity.this, LandingActivity.class);
                     editLandingActivity.this.startActivity(i);
+                    finish();
                 }
             }
         });
     }
+
 }

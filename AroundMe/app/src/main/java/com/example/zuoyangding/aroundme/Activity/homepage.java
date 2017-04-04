@@ -175,7 +175,7 @@ public class homepage extends AppCompatActivity {
                                View v = view;
                                 String gid = v.getTag().toString();
                                 //System.out.println(uid);
-                                        Intent i = new Intent(homepage.this, display_messageActivity.class);
+                                        Intent i = new Intent(homepage.this, group_chat.class);
                                 i.putExtra("groupid",gid);
                                 startActivity(i);
                             }

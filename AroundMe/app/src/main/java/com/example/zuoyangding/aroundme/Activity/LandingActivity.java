@@ -88,7 +88,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
             // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
             // app-defined int constant that should be quite unique
 
-            return;
+            //return;
         }
 
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
