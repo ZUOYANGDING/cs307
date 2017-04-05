@@ -35,6 +35,7 @@ public class group_chat extends AppCompatActivity {
     private FirebaseListAdapter<String> adapter;
 
     private ImageButton sendMessage;
+    private ImageButton sendImage;
     private EditText enterTheMessage;
     private TextView showGroupName;
     private FirebaseDatabase mDatabase;
@@ -52,6 +53,7 @@ public class group_chat extends AppCompatActivity {
         listViewOfMessages = (ListView) findViewById(R.id.chat_messages);
         showGroupName = (TextView) findViewById(R.id.group_name);
         sendMessage = (ImageButton) findViewById(R.id.send_message);
+        sendImage = (ImageButton) findViewById (R.id.add_picture);
         enterTheMessage = (EditText)findViewById(R.id.enterMessage);
         mDatabase = FirebaseDatabase.getInstance();
         groupReference = mDatabase.getReference().child("Group");
@@ -124,6 +126,17 @@ public class group_chat extends AppCompatActivity {
 
         };
         listViewOfMessages.setAdapter(adapter);
+
+        sendImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+
+
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
