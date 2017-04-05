@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -82,6 +84,17 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
             createLocationRequest();
             mGoogleApiClient.connect();
         }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                View v = view;
+                String gid = v.getTag().toString();
+                //System.out.println(uid);
+                Intent i = new Intent(group_aroudme.this, group_chat.class);
+                i.putExtra("groupid",gid);
+                startActivity(i);
+            }
+        });
     }
     protected void createLocationRequest() {
         mLocationRequest = LocationRequest.create();
