@@ -1,9 +1,11 @@
 package com.example.zuoyangding.aroundme.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -85,20 +87,23 @@ public class group_chat extends AppCompatActivity {
 
                     groupReference.child(groupId).addListenerForSingleValueEvent(new ValueEventListener() {
                         Global_variable global_variable = (Global_variable)getApplicationContext();
-                        ChartMessage chartMessage = new ChartMessage(message, global_variable.getUser_id());
+                        String userId = global_variable.getUser_id();
+                        ChartMessage chartMessage = new ChartMessage(message, userId);
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             GroupClass group = dataSnapshot.getValue(GroupClass.class);
                             if (group.getChartMessages() == null) {
-                                List<ChartMessage> chartMessages = new ArrayList<ChartMessage>();
+                                ArrayList<ChartMessage> chartMessages = new ArrayList<ChartMessage>();
                                 chartMessages.add(chartMessage);
                                 group.setChartMessages(chartMessages);
-                                groupReference.setValue(chartMessages);
+                                System.out.println("groupId_1"+groupId);
+                                groupReference.child(groupId).child("chartMessages").setValue(chartMessages);
                             } else {
-                                List<ChartMessage> chartMessages = group.getChartMessages();
+                                ArrayList<ChartMessage> chartMessages = group.getChartMessages();
                                 chartMessages.add(chartMessage);
                                 group.setChartMessages(chartMessages);
-                                groupReference.setValue(chartMessages);
+                                System.out.println("groupId_2"+groupId);
+                                groupReference.child(groupId).child("chartMessages").setValue(chartMessages);
                             }
                         }
 
@@ -108,26 +113,52 @@ public class group_chat extends AppCompatActivity {
                         }
                     });
                     //showGroupName.setText("");
-                    display();
+                    //display();
+                    enterTheMessage.setText("");
                 }
                 //display();
             }
         });
-        showGroupName.setText("");
-    }
-
-    private void display() {
-        //final ListView messages = (ListView) findViewById(R.id.chat_messages);
         adapter = new FirebaseListAdapter<ChartMessage>(group_chat.this, ChartMessage.class,
-                                                        R.layout.activity_display_messages, groupReference.child(groupId).child("chartMessages")) {
+                R.layout.activity_display_messages, groupReference.child(groupId).child("chartMessages")) {
             @Override
             protected void populateView(View v, ChartMessage model, int position) {
+                Global_variable global_variable = (Global_variable)getApplicationContext();
                 String tmpMessage = model.getMessage();
                 TextView showMessage =  (TextView) v.findViewById (R.id.text_message);
+                System.out.println("here is UID in TAG" + model.getUid());
+                v.setTag(model.getUid());
                 showMessage.setText(tmpMessage);
             }
 
         };
         listViewOfMessages.setAdapter(adapter);
+        listViewOfMessages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                View v = view;
+                String u = v.getTag().toString();
+                System.out.println("userId get from tag" + u);
+                //System.out.println(uid);
+
+            }
+        });
+        //enterTheMessage.setText("");
     }
+
+//    private void display() {
+//        //final ListView messages = (ListView) findViewById(R.id.chat_messages);
+////        adapter = new FirebaseListAdapter<ChartMessage>(group_chat.this, ChartMessage.class,
+////                                                        R.layout.activity_display_messages, groupReference.child(groupId).child("chartMessages")) {
+////            @Override
+////            protected void populateView(View v, ChartMessage model, int position) {
+////                String tmpMessage = model.getMessage();
+////                TextView showMessage =  (TextView) v.findViewById (R.id.text_message);
+////                showMessage.setText(tmpMessage);
+////            }
+////
+////        };
+////        listViewOfMessages.setAdapter(adapter);
+//    }
+
 }
