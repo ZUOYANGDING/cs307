@@ -32,6 +32,7 @@ public class GroupListAdapter extends ArrayAdapter<GroupClass> {
         if (v == null){
             v = LayoutInflater.from(getContext()).inflate(R.layout.list_element,parent,false);
         }
+        v.setTag(groups.get(position).key);
         final View vi = v;
                 vi.setTag(groups.get(position).key);
                 TextView t = (TextView) vi.findViewById(R.id.item1);
