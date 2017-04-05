@@ -1,4 +1,4 @@
-package com.example.zuoyangding.aroundme.Activity;
+package com.example.zuoyangding.aroundme.Activity.Adaptor;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.ActivityCompat;

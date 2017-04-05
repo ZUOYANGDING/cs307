@@ -104,7 +104,7 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
                     }
                 });
                 usr_ids.add(global_variable.getUser_id());
-                GroupClass group = new GroupClass(groupName.getText().toString(), key, groupTopic.getText().toString(), start_date, usr_ids, mLastLocation.getLatitude(), mLastLocation.getLongitude() ,false);
+                GroupClass group = new GroupClass(groupName.getText().toString(), key, groupTopic.getText().toString(), start_date, null, usr_ids, mLastLocation.getLatitude(), mLastLocation.getLongitude() ,false);
 
 
                 mGroupReference.child(key).setValue(group);
