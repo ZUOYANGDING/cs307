@@ -260,4 +260,3 @@ public class group_chat extends AppCompatActivity {
 
     }
 
-}
