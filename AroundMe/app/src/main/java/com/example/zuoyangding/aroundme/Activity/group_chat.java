@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -42,10 +43,11 @@ public class group_chat extends AppCompatActivity {
     private DatabaseReference groupReference;
     private DatabaseReference chartMessagesReference;
     private ListView listViewOfMessages;
-
-    //private String groupName;
+    private Button joinbutton;
+    private String groupName;
     private String groupId;
     private String message;
+    private int message_count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,7 @@ public class group_chat extends AppCompatActivity {
         sendMessage = (ImageButton) findViewById(R.id.send_message);
         sendImage = (ImageButton) findViewById (R.id.add_picture);
         enterTheMessage = (EditText)findViewById(R.id.enterMessage);
+        joinbutton = (Button)findViewById(R.id.joined_button);
         mDatabase = FirebaseDatabase.getInstance();
         groupReference = mDatabase.getReference().child("Group");
         chartMessagesReference = mDatabase.getReference().child("ChartMessages");
@@ -79,12 +82,31 @@ public class group_chat extends AppCompatActivity {
             }
         });
 
-        //showGroupName.setText(groupName);
+
+        showGroupName.setText(groupName);
+        Global_variable global_variable = (Global_variable)getApplicationContext();
+        String uid = global_variable.getUser_id();
+        final DatabaseReference ref = mDatabase.getReference().child("Users").child(uid);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> groupIDs = (ArrayList<String>)dataSnapshot.child("groupIDs").getValue();
+                if (groupIDs.contains(groupId)){
+                    joinbutton.setText("voted");
+                    joinbutton.setEnabled(false);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         adapter = new FirebaseListAdapter<String>(group_chat.this, String.class,
                 R.layout.activity_display_messages, groupReference.child(groupId).child("messageId")) {
             @Override
-            protected void populateView(View v, String model, int position) {
+            protected void populateView(View v, String model, final int position) {
                 //Global_variable global_variable = (Global_variable)getApplicationContext();
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
                 //.getReference().child("Group").child("messageId");
@@ -112,6 +134,7 @@ public class group_chat extends AppCompatActivity {
 
                             showMessage.setText(message);
                             showNickName.setText(nickName);
+                            listViewOfMessages.setSelection(position);
                         }
 
                     }
@@ -141,7 +164,7 @@ public class group_chat extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 message = enterTheMessage.getText().toString();
-                if (message == null) {
+                if (message.length() == 0){
                     Toast.makeText(group_chat.this, "message cannot be empty", Toast.LENGTH_LONG).show();
                 } else  {
 //                    Global_variable global_variable = (Global_variable)getApplicationContext();
@@ -205,6 +228,7 @@ public class group_chat extends AppCompatActivity {
             }
         });
 
+
         listViewOfMessages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -216,6 +240,36 @@ public class group_chat extends AppCompatActivity {
             }
         });
 
+
+        joinbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final DatabaseReference ref = mDatabase.getReference().child("Group").child(groupId);
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        long votes = (long)dataSnapshot.child("vote").getValue();
+                        votes++;
+                        if (votes >= 10){
+                            ref.child("is_permanent").setValue(true);
+                            joinbutton.setText("permanent");
+                        }
+                        ref.child("vote").setValue(votes);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
+        //enterTheMessage.setText("");
+        //message_count = listViewOfMessages.getHeight();
+        //listViewOfMessages.setSelection(message_count - 1);
     }
 
-}
+
+    }
+

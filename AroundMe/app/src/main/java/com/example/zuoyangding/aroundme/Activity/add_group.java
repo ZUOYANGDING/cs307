@@ -108,6 +108,7 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
 
 
                 mGroupReference.child(key).setValue(group);
+                mGroupReference.child(key).child("vote").setValue(1);
                 //mUserRefernece.child(global_variable.getUser_id()).setValue(new_u);
                 Intent i = new Intent(add_group.this, homepage.class);
                 startActivity(i);
