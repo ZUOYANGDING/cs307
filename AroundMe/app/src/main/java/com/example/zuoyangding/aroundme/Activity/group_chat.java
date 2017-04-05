@@ -65,11 +65,10 @@ public class group_chat extends AppCompatActivity {
         groupReference.child(groupId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                GroupClass group = dataSnapshot.getValue(GroupClass.class);
-                if (group != null) {
-                    if (group.getGroupName() != null) {
-                        groupName = group.getGroupName();
-                    }
+                //GroupClass group = dataSnapshot.getValue(GroupClass.class);
+                if (dataSnapshot.child("groupName") != null) {
+                    String groupName = dataSnapshot.child("groupName").getValue().toString();
+                    showGroupName.setText(groupName);
                 } else  {
                     Toast.makeText(group_chat.this, "cannot find groupName", Toast.LENGTH_LONG).show();
                 }
@@ -81,6 +80,7 @@ public class group_chat extends AppCompatActivity {
             }
         });
 
+
         showGroupName.setText(groupName);
         Global_variable global_variable = (Global_variable)getApplicationContext();
         String uid = global_variable.getUser_id();
@@ -91,7 +91,7 @@ public class group_chat extends AppCompatActivity {
                 ArrayList<String> groupIDs = (ArrayList<String>)dataSnapshot.child("groupIDs").getValue();
                 if (groupIDs.contains(groupId)){
                     joinbutton.setText("voted");
-                    //joinbutton.setEnabled(false);
+                    joinbutton.setEnabled(false);
                 }
             }
             @Override
@@ -99,6 +99,7 @@ public class group_chat extends AppCompatActivity {
 
             }
         });
+
 
         adapter = new FirebaseListAdapter<String>(group_chat.this, String.class,
                 R.layout.activity_display_messages, groupReference.child(groupId).child("messageId")) {
@@ -226,6 +227,7 @@ public class group_chat extends AppCompatActivity {
             }
         });
 
+
         joinbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -255,19 +257,7 @@ public class group_chat extends AppCompatActivity {
         //listViewOfMessages.setSelection(message_count - 1);
     }
 
-//    private void display() {
-//        //final ListView messages = (ListView) findViewById(R.id.chat_messages);
-////        adapter = new FirebaseListAdapter<ChartMessage>(group_chat.this, ChartMessage.class,
-////                                                        R.layout.activity_display_messages, groupReference.child(groupId).child("chartMessages")) {
-////            @Override
-////            protected void populateView(View v, ChartMessage model, int position) {
-////                String tmpMessage = model.getMessage();
-////                TextView showMessage =  (TextView) v.findViewById (R.id.text_message);
-////                showMessage.setText(tmpMessage);
-////            }
-////
-////        };
-////        listViewOfMessages.setAdapter(adapter);
-//    }
+
+    }
 
 }
