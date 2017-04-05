@@ -44,10 +44,10 @@ public class group_chat extends AppCompatActivity {
     private DatabaseReference chartMessagesReference;
     private ListView listViewOfMessages;
     private Button joinbutton;
-    private String groupName;
+    //private String groupName;
     private String groupId;
     private String message;
-    private int message_count = 0;
+    //private int message_count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +83,7 @@ public class group_chat extends AppCompatActivity {
         });
 
 
-        showGroupName.setText(groupName);
+        //showGroupName.setText(groupName);
         Global_variable global_variable = (Global_variable)getApplicationContext();
         String uid = global_variable.getUser_id();
         final DatabaseReference ref = mDatabase.getReference().child("Users").child(uid);
@@ -265,9 +265,6 @@ public class group_chat extends AppCompatActivity {
 
             }
         });
-        //enterTheMessage.setText("");
-        //message_count = listViewOfMessages.getHeight();
-        //listViewOfMessages.setSelection(message_count - 1);
     }
 
 
