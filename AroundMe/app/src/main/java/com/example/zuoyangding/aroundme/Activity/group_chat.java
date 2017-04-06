@@ -303,6 +303,8 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                 System.out.println("userId get from tag" + u);
                 //System.out.println(uid);
                 global_variable.setother_userid(u);
+
+                //Add by Frank
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

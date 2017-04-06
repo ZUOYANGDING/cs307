@@ -28,11 +28,11 @@ public class Global_variable extends Application{
     }
 
     //Add by Frank
-    public void setother_userid(String user_id){
-        this.user_id = user_id;
+    public void setother_userid(String other_userid){
+        this.other_userid = other_userid;
     }
     public String getother_userid(){
-        return this.user_id;
+        return this.other_userid;
     }
 
 }

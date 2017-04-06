@@ -59,25 +59,22 @@ public class Others_profile extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         //userId = firebaseAuth.getCurrentUser().getUid();
         Global_variable global_variable = (Global_variable)getApplicationContext();
-        Other_userId = global_variable.getUser_id();
+        Other_userId = global_variable.getother_userid();
         landing_Edit = (Button) findViewById(R.id.landing_Edit);
         landing_Nickname = (TextView) findViewById(R.id.landing_Nickname);
         landing_Birthday = (TextView) findViewById(R.id.landing_Birthday);
         landing_info = (TextView) findViewById(R.id.landing_intro);
-//        landing_homepage = (Button)findViewById(R.id.button3);
-//        logout = (Button) findViewById(R.id.logout_bt);
 
 
 
         //image module by Frank
-        //landing_iv = (ImageView) findViewById(R.id.imageButton);
         landing_iv = (ImageView) findViewById(R.id.profile_picture);
         //landing_iv.setOnClickListener(this);
         //landing_imgStr = null;
 
-        DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
+        DatabaseReference other_ref = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        mref.child(Other_userId).addValueEventListener(new ValueEventListener() {
+        other_ref.child(Other_userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //DataSnapshot usnap = dataSnapshot.child(global_variable.getUser_id());
@@ -113,7 +110,6 @@ public class Others_profile extends AppCompatActivity {
                     //Uri imgUri = Uri.parse(landing_imgStr);
                     //landing_iv.setImageURI(imgUri);
                 }
-
             }
 
             @Override
