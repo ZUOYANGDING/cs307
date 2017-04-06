@@ -37,7 +37,7 @@
             android:layout_marginTop="10dp"
             android:layout_height="40dp"
             android:layout_width="200dp"
-            android:layout_marginLeft="70dp" />
+            android:layout_marginLeft="40dp" />
 
     </LinearLayout>
 
@@ -59,7 +59,7 @@
             android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:layout_below="@+id/enterGroupName"
             android:layout_alignStart="@+id/enterGroupName"
-            android:layout_marginLeft="130dp"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="10dp"
             android:layout_height="40dp"
             android:layout_width="150dp" />
@@ -68,18 +68,18 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
         android:layout_below="@+id/topBar"
         android:layout_alignParentStart="true"
         android:id="@+id/group_name_layout"
-        android:background="#fffff4b8">
+        android:background="#fffff4b8"
+        android:layout_height="50dp">
 
         <TextView
             android:text="Group name:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:id="@+id/groupName"
             android:textSize="24sp"
             android:textColor="#ffB9A336"
@@ -114,11 +114,11 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
         android:layout_below="@+id/enter_group_name_layout"
         android:layout_centerHorizontal="true"
         android:id="@+id/topics_layout"
-        android:background="#fffff4b8">
+        android:background="#fffff4b8"
+        android:layout_height="50dp">
 
         <TextView
             android:text="Topics:"
@@ -129,7 +129,7 @@
             android:textSize="24sp"
             android:textColor="#ffB9A336"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="10dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -153,5 +153,6 @@
             android:layout_weight="1"
             android:layout_marginLeft="20dp" />
     </LinearLayout>
+
 
 </RelativeLayout>

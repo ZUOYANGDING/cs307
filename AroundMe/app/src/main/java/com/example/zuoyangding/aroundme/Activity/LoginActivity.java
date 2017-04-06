@@ -55,6 +55,10 @@ public class LoginActivity extends AppCompatActivity {
     private DatabaseReference mUserReference;
     private String email;
     private String password;
+    private String userId;
+
+    //Add by Frank
+    private boolean privacy_mode;
 
     protected void onCreate(Bundle savedInstanceState) {
         //System.out.println("jump to login3");
@@ -95,18 +99,6 @@ public class LoginActivity extends AppCompatActivity {
                     final String userID = user.getUid();
                     global_variable.setUser_id(userID);
                     final String email = user.getEmail();
-                    //global_variable.setEmail(email);
-                    //mUserReference = mDatabase.getReference().child("Users").child(userID);
-                    //System.out.println("the user is " + user.getEmail());
-                    //String userID = user.getUid();
-//                    if ( == null) {
-//                        Intent register = new Intent(LoginActivity.this, LandingActivity.class);
-//                        register.putExtra("userIDkey", userID);
-//                        startActivity(register);
-//                    } else {
-//                        Intent home = new Intent(LoginActivity.this, homepage.class);
-//                        startActivity(home);
-//                    }
                     System.out.println("HERE IS THE USER ID GIVEN BY GOOGLE: " + userID);
 
                     mUserReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -114,7 +106,9 @@ public class LoginActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             //User uCheck = dataSnapshot.getValue(User.class);
                             if (!dataSnapshot.exists()) {
-                                User u = new User(userID, null, null, email, null, null, null, null);
+
+                                User u = new User(userID, null, null, email, null, null, null, null, null, true);
+
                                 u.setGoogleAccount(email);
                                 u.setUserID(userID);
                                 System.out.println("I am here");
@@ -175,7 +169,7 @@ public class LoginActivity extends AppCompatActivity {
         //mAuth.getInstance().signOut();
 
         //System.out.println("i am here");
-        mAuth.getInstance().signOut();
+        mAuth.signOut();
         super.onDestroy();
 
 
@@ -274,6 +268,10 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_LONG).show();
                     }
                 } else {
+                    userId = mAuth.getCurrentUser().getUid();
+                    Global_variable global_variable = (Global_variable)getApplicationContext();
+                    global_variable.setUser_id(userId);
+                    System.out.println("THIS IS UID:" + userId);
                     Log.d(TAG, "SignInWithEmail:Success" + task.isSuccessful());
                     Log.d("Login", "Jump to homepage");
                     Intent homepage = new Intent(getApplicationContext(), homepage.class);
