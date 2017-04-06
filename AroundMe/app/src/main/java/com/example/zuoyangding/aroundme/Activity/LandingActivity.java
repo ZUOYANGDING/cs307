@@ -155,13 +155,6 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(login);
             }
         });
-        //landing_iv = (ImageView) findViewById(R.id.imageButton);
-    /*
-        landing_Nickname.setText(global_variable.getUser_name());
-        landing_Birthday.setText(global_variable.getBirthday());
-        landing_info.setText(global_variable.getIntroduction());
-    */
-        //landing_iv = global_variable.getProfile_pic();
 
         landing_Edit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

@@ -8,16 +8,30 @@ import android.widget.ImageView;
  */
 
 public class Global_variable extends Application{
-        private String user_id;
+
+    private String user_id;
+    private String other_userid;
 
 
     public Global_variable(){
         user_id = "undefined";
+
+        //Add by Frank
+        other_userid = "undefined";
     }
+
     public void setUser_id(String user_id){
         this.user_id = user_id;
     }
     public String getUser_id(){
+        return this.user_id;
+    }
+
+    //Add by Frank
+    public void setother_userid(String user_id){
+        this.user_id = user_id;
+    }
+    public String getother_userid(){
         return this.user_id;
     }
 

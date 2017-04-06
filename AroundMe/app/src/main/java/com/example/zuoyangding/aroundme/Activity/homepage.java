@@ -76,7 +76,7 @@ public class homepage extends AppCompatActivity {
         final Global_variable global_variable = (Global_variable)getApplicationContext();
         //ArrayList<String> group_ids;
 
-        ////image module by Frank Hu (update homepage user's avatar from firebase)
+        ////image module by Frank Hu (update homepage user's avatar from firebase )
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
         mref.child(global_variable.getUser_id()).addValueEventListener(new ValueEventListener() {
             @Override
