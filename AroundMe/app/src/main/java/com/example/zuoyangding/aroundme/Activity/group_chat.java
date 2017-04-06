@@ -1,15 +1,20 @@
 package com.example.zuoyangding.aroundme.Activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,17 +31,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class group_chat extends AppCompatActivity {
+public class group_chat extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseListAdapter<String> adapter;
 
     private ImageButton sendMessage;
     private ImageButton sendImage;
+    private ImageView showImage;
     private EditText enterTheMessage;
     private TextView showGroupName;
     private FirebaseDatabase mDatabase;
@@ -47,6 +55,8 @@ public class group_chat extends AppCompatActivity {
     //private String groupName;
     private String groupId;
     private String message;
+    private String image;
+
     //private int message_count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +65,10 @@ public class group_chat extends AppCompatActivity {
         listViewOfMessages = (ListView) findViewById(R.id.chat_messages);
         showGroupName = (TextView) findViewById(R.id.group_name);
         sendMessage = (ImageButton) findViewById(R.id.send_message);
-        sendImage = (ImageButton) findViewById (R.id.add_picture);
-        enterTheMessage = (EditText)findViewById(R.id.enterMessage);
-        joinbutton = (Button)findViewById(R.id.joined_button);
+        sendImage = (ImageButton) findViewById(R.id.add_picture);
+        enterTheMessage = (EditText) findViewById(R.id.enterMessage);
+        showImage = (ImageView) findViewById(R.id.send_image);
+        joinbutton = (Button) findViewById(R.id.joined_button);
         mDatabase = FirebaseDatabase.getInstance();
         groupReference = mDatabase.getReference().child("Group");
         chartMessagesReference = mDatabase.getReference().child("ChartMessages");
@@ -71,7 +82,7 @@ public class group_chat extends AppCompatActivity {
                 if (dataSnapshot.child("groupName") != null) {
                     String groupName = dataSnapshot.child("groupName").getValue().toString();
                     showGroupName.setText(groupName);
-                } else  {
+                } else {
                     Toast.makeText(group_chat.this, "cannot find groupName", Toast.LENGTH_LONG).show();
                 }
             }
@@ -84,18 +95,19 @@ public class group_chat extends AppCompatActivity {
 
 
         //showGroupName.setText(groupName);
-        Global_variable global_variable = (Global_variable)getApplicationContext();
+        Global_variable global_variable = (Global_variable) getApplicationContext();
         String uid = global_variable.getUser_id();
         final DatabaseReference ref = mDatabase.getReference().child("Users").child(uid);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> groupIDs = (ArrayList<String>)dataSnapshot.child("groupIDs").getValue();
-                if (groupIDs.contains(groupId)){
+                ArrayList<String> groupIDs = (ArrayList<String>) dataSnapshot.child("groupIDs").getValue();
+                if (groupIDs.contains(groupId)) {
                     joinbutton.setText("voted");
                     joinbutton.setEnabled(false);
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -150,23 +162,15 @@ public class group_chat extends AppCompatActivity {
         };
         listViewOfMessages.setAdapter(adapter);
 
-        sendImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-
-
+        sendImage.setOnClickListener(this);
 
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 message = enterTheMessage.getText().toString();
-                if (message.length() == 0){
+                if (message.length() == 0) {
                     Toast.makeText(group_chat.this, "message cannot be empty", Toast.LENGTH_LONG).show();
-                } else  {
+                } else {
 //                    Global_variable global_variable = (Global_variable)getApplicationContext();
 //                    ChartMessage chartMessage = new ChartMessage(message, global_variable.getUser_id());
 
@@ -177,7 +181,7 @@ public class group_chat extends AppCompatActivity {
 //                        ListAdapter adapter = new ListAdapter(group_chat.this, chartMessage);
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            Global_variable global_variable = (Global_variable)getApplicationContext();
+                            Global_variable global_variable = (Global_variable) getApplicationContext();
                             String userId = global_variable.getUser_id();
                             //ChartMessage chartMessage = new ChartMessage(message, userId);
 
@@ -248,9 +252,9 @@ public class group_chat extends AppCompatActivity {
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        long votes = (long)dataSnapshot.child("vote").getValue();
+                        long votes = (long) dataSnapshot.child("vote").getValue();
                         votes++;
-                        if (votes >= 10){
+                        if (votes >= 10) {
                             ref.child("is_permanent").setValue(true);
                             joinbutton.setText("permanent");
                         }
@@ -267,6 +271,89 @@ public class group_chat extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onClick(View v) {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Uri imgUri = data.getData();
+
+        Bitmap myBitmap = null;
+        try {
+            myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.PNG,100, bos);
+        byte[] imgByte = bos.toByteArray();
+        this.image = Base64.encodeToString(imgByte, Base64.DEFAULT);
+
+        //Uri way
+        //this.landing_imgStr = imgUri.toString();
+
+        if (this.image == null) {
+            Toast.makeText(group_chat.this, "message cannot be empty", Toast.LENGTH_LONG).show();
+        } else {
+            Bundle b = getIntent().getExtras();
+            groupId = b.getString("groupid");
+            groupReference = FirebaseDatabase.getInstance().getReference().child("Group");
+            chartMessagesReference = FirebaseDatabase.getInstance().getReference().child("ChartMessages");
+            groupReference.child(groupId).child("messageId").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Global_variable global_variable = (Global_variable) getApplicationContext();
+                    String userId = global_variable.getUser_id();
+
+                    if (dataSnapshot.getValue() == null) {
+                        String messageKey = chartMessagesReference.push().getKey();
+                        ChartMessage chartMessage = new ChartMessage(message, userId);
+                        chartMessage.setMessageKey(messageKey);
+                        chartMessagesReference.child(messageKey).setValue(chartMessage);
+                        ArrayList<String> messageId = new ArrayList<String>();
+                        messageId.add(messageKey);
+
+                        groupReference.child(groupId).child("messageId").setValue(messageId);
+
+                        //MessageAdapter adapter = new MessageAdapter(group_chat.this, messageId);
+                        //listViewOfMessages.setAdapter(adapter);
+                        //group.setChartMessages(chartMessages);
+                        //System.out.println("groupId_1"+groupId);
+                        //groupReference.child(groupId).child("chartMessages").setValue(chartMessages);
+                    } else {
+                        String messageKey = chartMessagesReference.push().getKey();
+                        ChartMessage chartMessage = new ChartMessage(message, userId);
+                        chartMessage.setMessageKey(messageKey);
+                        chartMessagesReference.child(messageKey).setValue(chartMessage);
+
+                        ArrayList<String> messageId = (ArrayList<String>) dataSnapshot.getValue();
+                        messageId.add(messageKey);
+                        groupReference.child(groupId).child("messageId").setValue(messageId);
+
+                        //MessageAdapter adapter = new MessageAdapter(group_chat.this, messageId);
+                        //listViewOfMessages.setAdapter(adapter);
+                        //group.setChartMessages(chartMessages);
+                        //System.out.println("groupId_2"+groupId);
+                        //groupReference.child(groupId).child("chartMessages").setValue(chartMessages);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
 
     }
+}
+
+
+
+
 
