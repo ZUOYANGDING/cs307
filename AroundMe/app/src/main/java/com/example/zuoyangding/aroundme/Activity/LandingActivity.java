@@ -153,7 +153,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homepage.firebaseListAdapter.cleanup();
+                //homepage.firebaseListAdapter.cleanup();
                 firebaseAuth.signOut();
                 finish();
                 Intent login = new Intent(LandingActivity.this, LoginActivity.class);
