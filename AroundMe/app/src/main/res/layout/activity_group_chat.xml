@@ -21,11 +21,20 @@
         android:background="@drawable/top_bar"
         android:weightSum="1">
 
+        <Button
+            android:id="@+id/leave_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:background="#ffB9A336"
+            android:text="leave"
+            android:textColor="@color/buttonTextColor" />
+
         <TextView
             android:id="@+id/group_name"
             android:layout_width="140dp"
             android:layout_height="60dp"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="30dp"
             android:layout_weight="0.13"
             android:gravity="fill_vertical|center_horizontal"
             android:text="Group name"
@@ -36,7 +45,7 @@
             android:id="@+id/joined_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="30dp"
             android:background="#ffB9A336"
             android:text="Join"
             android:textColor="@color/buttonTextColor" />
