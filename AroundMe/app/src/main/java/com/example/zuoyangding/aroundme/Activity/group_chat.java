@@ -118,7 +118,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                     MeInThisGroup = true;
 
                     joinbutton.setText("voted");
-                    //joinbutton.setEnabled(false);
+                    joinbutton.setEnabled(false);
                     Long start_date = (long)dataSnapshot.child("Group").child(groupId).child("date").getValue();
                     long current_time = System.nanoTime();
                     long time_period = current_time-start_date;
@@ -126,6 +126,9 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                     double hour = second/3600;
                     if (hour >= 24)
                         Toast.makeText(group_chat.this, "This group is about to expired", Toast.LENGTH_LONG).show();
+                }
+                else if(!groupIDs.contains(groupIDs)){
+                    deleteButton.setEnabled(false);
                 }
             }
 

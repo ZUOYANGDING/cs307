@@ -32,6 +32,7 @@
             android:textColor="#B9A336" />
 
         <EditText
+            android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/edit_landing_Birthday"
