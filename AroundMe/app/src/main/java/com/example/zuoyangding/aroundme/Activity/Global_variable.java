@@ -11,6 +11,7 @@ public class Global_variable extends Application{
 
     private String user_id;
     private String other_userid;
+    private String temp_GroupId;
     //private boolean privacy_mode;
 
 
@@ -19,7 +20,8 @@ public class Global_variable extends Application{
 
         //Add by Frank
         other_userid = "undefined";
-        //privacy_mode = true;
+        temp_GroupId = "undefined";
+
 
     }
 
@@ -37,7 +39,12 @@ public class Global_variable extends Application{
     public String getother_userid(){
         return this.other_userid;
     }
+    public void setTemp_GroupId(String temp_GroupId){
+        this.temp_GroupId = temp_GroupId;
+    }
+    public String getTemp_GroupId(){
+        return this.temp_GroupId;
+    }
 
-    //public boolean getPrivacy_mode(){ return this.privacy_mode;}
 
 }
