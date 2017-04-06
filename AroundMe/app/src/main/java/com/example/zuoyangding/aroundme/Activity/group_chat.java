@@ -134,6 +134,10 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
+                        ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
+                        showMessage.setVisibility(View.GONE);
+                        showImage.setVisibility(View.GONE);
                         if (dataSnapshot.child("ChartMessages").getValue() != null) {
                             String messageId = dataSnapshot.child("ChartMessages").child(model_1).child("messageKey").getValue().toString();
                             String userId = dataSnapshot.child("ChartMessages").child(model_1).child("uid").getValue().toString();
@@ -147,12 +151,13 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                             }
                             if (dataSnapshot.child("ChartMessages").child(model_1).child("message").getValue() != null) {
                                 message = dataSnapshot.child("ChartMessages").child(model_1).child("message").getValue().toString();
-                                TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
-                                showMessage.setText(message);
+                                //TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
                                 showMessage.setVisibility(View.VISIBLE);
-                                ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
+                                showMessage.setText(message);
+                                //showMessage.setVisibility(View.VISIBLE);
+                                //ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
                                 //((ViewGroup) v1).removeView(showImage);
-                                showImage.setVisibility(View.GONE);
+                                //showImage.setVisibility(View.GONE);
                             } else {
                                 //TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
                                 //showMessage.setVisibility(View.GONE);
@@ -162,11 +167,12 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                 imageString = dataSnapshot.child("ChartMessages").child(model_1).child("image").getValue().toString();
                                 byte[] imageByte = Base64.decode(imageString,Base64.DEFAULT);
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte,0,imageByte.length);
-                                ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
-                                showImage.setImageBitmap(bitmap);
+                                //ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
                                 showImage.setVisibility(View.VISIBLE);
-                                TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
-                                showMessage.setVisibility(View.GONE);
+                                showImage.setImageBitmap(bitmap);
+                                //showImage.setVisibility(View.VISIBLE);
+                                //TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
+                                //showMessage.setVisibility(View.GONE);
                                 //((ViewGroup) v1).removeView(showMessage);
                             } else {
                                 //ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
