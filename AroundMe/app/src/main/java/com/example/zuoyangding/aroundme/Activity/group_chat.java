@@ -95,14 +95,19 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
 
 
         //showGroupName.setText(groupName);
-        Global_variable global_variable = (Global_variable) getApplicationContext();
-        String uid = global_variable.getUser_id();
-        final DatabaseReference ref = mDatabase.getReference().child("Users").child(uid);
+
+        Global_variable global_variable = (Global_variable)getApplicationContext();
+        final String uid = global_variable.getUser_id();
+        final DatabaseReference ref = mDatabase.getReference();
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> groupIDs = (ArrayList<String>) dataSnapshot.child("groupIDs").getValue();
-                if (groupIDs.contains(groupId)) {
+                ArrayList<String> groupIDs = (ArrayList<String>)dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
+                if ((long)dataSnapshot.child("Group").child(groupId).child("vote").getValue() >= 10 && groupIDs.contains(groupId)){
+                    joinbutton.setText("permanent");
+                    joinbutton.setEnabled(false);
+                }
+                else if (groupIDs.contains(groupId)){
                     joinbutton.setText("voted");
                     joinbutton.setEnabled(false);
                 }
@@ -248,17 +253,24 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
         joinbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatabaseReference ref = mDatabase.getReference().child("Group").child(groupId);
+                final DatabaseReference ref = mDatabase.getReference();
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        long votes = (long) dataSnapshot.child("vote").getValue();
+
+                        long votes = (long)dataSnapshot.child("Group").child(groupId).child("vote").getValue();
+
                         votes++;
                         if (votes >= 10) {
                             ref.child("is_permanent").setValue(true);
                             joinbutton.setText("permanent");
                         }
-                        ref.child("vote").setValue(votes);
+                        ref.child("Group").child(groupId).child("vote").setValue(votes);
+                        ArrayList<String> groupIds = (ArrayList<String>)dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
+                        groupIds.add(groupId);
+                        ref.child("Users").child(uid).child("groupIDs").setValue(groupIds);
+                        joinbutton.setText("voted");
+                        joinbutton.setEnabled(false);
                     }
 
                     @Override
