@@ -91,13 +91,16 @@ public class group_chat extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> groupIDs = (ArrayList<String>)dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
-                if ((long)dataSnapshot.child("Group").child(groupId).child("vote").getValue() >= 10 && groupIDs.contains(groupId)){
+                if ((Boolean)dataSnapshot.child("Group").child(groupId).child("is_permanent").getValue() && groupIDs.contains(groupId)){
                     joinbutton.setText("permanent");
                     joinbutton.setEnabled(false);
                 }
                 else if (groupIDs.contains(groupId)){
                     joinbutton.setText("voted");
-                    joinbutton.setEnabled(false);
+                    //joinbutton.setEnabled(false);
+                    Long start_date = (long)dataSnapshot.child("Group").child(groupId).child("date").getValue();
+                    
+
                 }
             }
             @Override
@@ -255,7 +258,7 @@ public class group_chat extends AppCompatActivity {
                         long votes = (long)dataSnapshot.child("Group").child(groupId).child("vote").getValue();
                         votes++;
                         if (votes >= 10){
-                            ref.child("is_permanent").setValue(true);
+                            ref.child("Group").child(groupId).child("is_permanent").setValue(true);
                             joinbutton.setText("permanent");
                         }
                         ref.child("Group").child(groupId).child("vote").setValue(votes);
