@@ -30,6 +30,7 @@ public class homepage extends AppCompatActivity {
     private ImageButton addGroupButton;
     private ImageButton profileButton;
     private ImageButton sortButton;
+    private ImageButton searchButton;
 //    private Button logout;
     private FirebaseAuth mAuth;
     private String userId;
@@ -66,7 +67,7 @@ public class homepage extends AppCompatActivity {
         //userId = firebaseAuth.getCurrentUser().getUid();
         addGroupButton = (ImageButton) findViewById(R.id.addGroupButton);
         profileButton = (ImageButton) findViewById(R.id.profileButton);
-
+        searchButton = (ImageButton) findViewById(R.id.imageButton3);
         sortButton = (ImageButton)findViewById(R.id.homepage_button);
 
         final Global_variable global_variable = (Global_variable)getApplicationContext();
@@ -169,5 +170,11 @@ public class homepage extends AppCompatActivity {
 //                startActivity(login);
 //            }
 //        });
+        searchButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent i = new Intent(homepage.this, Search_input.class);
+                homepage.this.startActivity(i);
+            }
+        });
     }
 }

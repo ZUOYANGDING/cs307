@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_landing"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+
+    tools:context="com.example.zuoyangding.aroundme.Activity.LandingActivity">
+
+
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/nicknameLayout"
+        android:layout_below="@+id/topBar"
+        android:layout_alignParentStart="true"
+        android:layout_width="match_parent"
+        android:background="#fffff4b8"
+        android:layout_height="50dp">
+
+        <TextView
+            android:text="Topic"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/nickname"
+            android:textSize="24sp"
+            android:textColor="#B9A336"
+            android:fontFamily="sans-serif"
+            android:layout_width="150dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/topic_input"
+            android:textSize="24sp"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:hint="What's the topic"
+            android:layout_below="@+id/topBar"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/topBar"
+        android:background="@drawable/top_bar">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bottom_bar"
+        android:id="@+id/bottomBar">
+
+        <Button
+            android:id="@+id/submit_search"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/introLayout"
+            android:background="@drawable/save_button"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="70dp"
+            android:layout_width="220dp" />
+    </LinearLayout>
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/edit_landing_error"
+        android:layout_weight="1"
+        android:textSize="24sp"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_above="@+id/nicknameLayout"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/imageView4"
+        android:layout_marginBottom="10dp" />
+
+</RelativeLayout>
