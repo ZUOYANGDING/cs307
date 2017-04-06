@@ -15,6 +15,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+
         tools:background="@drawable/top_bar"
         android:id="@+id/topBar"
         android:weightSum="1"
@@ -36,18 +37,16 @@
             android:layout_marginTop="5dp"
             app:srcCompat="@drawable/avatar" />
 
-        <SearchView
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:id="@+id/searchBar"
-            android:layout_marginLeft="20dp"
-            android:layout_width="157dp"
-            android:layout_weight="0.69">
-
-        </SearchView>
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/places_ic_search" />
 
         <ImageButton
             android:id="@+id/addGroupButton"
+
             android:layout_marginTop="15dp"
             android:layout_weight="0.05"
             android:background="@null"
@@ -59,6 +58,7 @@
 
     </LinearLayout>
 
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -66,6 +66,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/topBar"
         android:layout_above="@+id/bottomBar" />
+
 
     <LinearLayout
         android:orientation="horizontal"
@@ -106,6 +107,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="55dp" />
     </LinearLayout>
+
 
 
 </RelativeLayout>
