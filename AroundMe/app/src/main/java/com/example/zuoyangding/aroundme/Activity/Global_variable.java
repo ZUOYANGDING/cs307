@@ -11,6 +11,7 @@ public class Global_variable extends Application{
 
     private String user_id;
     private String other_userid;
+    private boolean privacy_mode;
 
 
     public Global_variable(){
@@ -18,6 +19,8 @@ public class Global_variable extends Application{
 
         //Add by Frank
         other_userid = "undefined";
+        privacy_mode = true;
+
     }
 
     public void setUser_id(String user_id){
@@ -34,5 +37,21 @@ public class Global_variable extends Application{
     public String getother_userid(){
         return this.other_userid;
     }
+
+    public void changePrivacy_mode(){
+
+        System.out.println("Mode is start with "+this.privacy_mode);
+
+        if (this.privacy_mode == true) {
+            this.privacy_mode = false;
+        }
+        else {
+            this.privacy_mode = true;
+        }
+
+        System.out.println("Set to "+this.privacy_mode);
+    }
+
+    public boolean getPrivacy_mode(){ return this.privacy_mode;}
 
 }

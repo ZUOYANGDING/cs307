@@ -57,6 +57,9 @@ public class LoginActivity extends AppCompatActivity {
     private String password;
     private String userId;
 
+    //Add by Frank
+    private boolean privacy_mode;
+
     protected void onCreate(Bundle savedInstanceState) {
         //System.out.println("jump to login3");
         super.onCreate(savedInstanceState);

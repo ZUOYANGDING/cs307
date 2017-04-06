@@ -17,6 +17,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.zuoyangding.aroundme.DataModels.User;
@@ -35,6 +36,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static android.R.attr.bitmap;
+import static android.R.attr.mode;
 
 
 //import static com.example.zuoyangding.aroundme.Activity.editLandingActivity.Birthday;
@@ -51,13 +53,13 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     private FirebaseAuth firebaseAuth;
     private String userId;
 
-
     private Global_variable global_variable;
     private Button logout;
 
     //image module by Frank Hu
     private ImageView landing_iv;
     private String landing_imgStr;
+    private Switch landing_switch;
 
 
     //private static int RESULT_LOAD_IMAGE = 1;
@@ -69,7 +71,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
         firebaseAuth = FirebaseAuth.getInstance();
         //userId = firebaseAuth.getCurrentUser().getUid();
-        Global_variable global_variable = (Global_variable)getApplicationContext();
+        final Global_variable global_variable = (Global_variable)getApplicationContext();
         userId = global_variable.getUser_id();
         landing_Edit = (Button) findViewById(R.id.landing_Edit);
         landing_Nickname = (TextView) findViewById(R.id.landing_Nickname);
@@ -78,7 +80,8 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         landing_homepage = (Button)findViewById(R.id.button3);
         logout = (Button) findViewById(R.id.logout_bt);
 
-
+        //Add by Frank
+        landing_switch = (Switch) findViewById(R.id.switch_privacy);
 
         //image module by Frank
         //landing_iv = (ImageView) findViewById(R.id.imageButton);
@@ -137,6 +140,8 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
                     //Uri imgUri = Uri.parse(landing_imgStr);
                     //landing_iv.setImageURI(imgUri);
                 }
+                boolean mode = global_variable.getPrivacy_mode();
+                landing_switch.setChecked(mode);
             }
 
             @Override
@@ -169,7 +174,25 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
+        //Add by Frank
+        landing_switch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final DatabaseReference switch_ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                switch_ref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        global_variable.changePrivacy_mode();
+                    }
 
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
     }
 
     @Override
@@ -196,17 +219,17 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         }
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         myBitmap.compress(Bitmap.CompressFormat.PNG,100, bos);
-        byte[] imgbyte = bos.toByteArray();
-        this.landing_imgStr = Base64.encodeToString(imgbyte, Base64.DEFAULT);
+        byte[] imgByte = bos.toByteArray();
+        this.landing_imgStr = Base64.encodeToString(imgByte, Base64.DEFAULT);
 
         //Uri way
         //this.landing_imgStr = imgUri.toString();
 
-            final DatabaseReference mref02 = FirebaseDatabase.getInstance().getReference().child("Users");
-            mref02.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+            final DatabaseReference changeImg_ref = FirebaseDatabase.getInstance().getReference().child("Users");
+            changeImg_ref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    mref02.child(dataSnapshot.child("userID").getValue().toString()).child("imgStr").setValue(landing_imgStr);
+                    changeImg_ref.child(dataSnapshot.child("userID").getValue().toString()).child("imgStr").setValue(landing_imgStr);
                 }
 
                 @Override

@@ -304,23 +304,26 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                 //System.out.println(uid);
                 global_variable.setother_userid(u);
 
-                //Add by Frank
+                //Add by Frank (decide which go to which profile page based on privacy setting)
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Intent i = new Intent(group_chat.this, Others_profile.class);
-                        group_chat.this.startActivity(i);
+                        boolean mode = global_variable.getPrivacy_mode();
+
+                        if (mode == false){
+                            Intent i = new Intent(group_chat.this, Others_profile.class);
+                            group_chat.this.startActivity(i);
+                        } else {
+                            Intent i = new Intent(group_chat.this, Others_profile_pravicy.class);
+                            group_chat.this.startActivity(i);
+                        }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
-
                 });
-
-
-
             }
         });
 
