@@ -59,7 +59,8 @@ public class Others_profile extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         //userId = firebaseAuth.getCurrentUser().getUid();
         Global_variable global_variable = (Global_variable)getApplicationContext();
-        Other_userId = global_variable.getother_userid();
+        Bundle b = getIntent().getExtras();
+        Other_userId = b.getString("other_uid");
         landing_Edit = (Button) findViewById(R.id.landing_Edit);
         landing_Nickname = (TextView) findViewById(R.id.landing_Nickname);
         landing_Birthday = (TextView) findViewById(R.id.landing_Birthday);

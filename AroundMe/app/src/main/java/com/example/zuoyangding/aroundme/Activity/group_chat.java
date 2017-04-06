@@ -297,28 +297,30 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 View v = view;
-                final String u = v.getTag().toString();
-                System.out.println("userId get from tag" + u);
+                final String other_uid = v.getTag().toString();
+                System.out.println("userId get from tag" + other_uid);
                 //System.out.println(uid);
-                global_variable.setother_userid(u);
+                //global_variable.setother_userid(u);
 
                 //Add by Frank (decide which go to which profile page based on privacy setting)
                 final DatabaseReference others_ref = FirebaseDatabase.getInstance().getReference().child("Users");
-                others_ref.child(u).addListenerForSingleValueEvent(new ValueEventListener() {
+                others_ref.child(other_uid).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
                         boolean current_mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
-                        System.out.print(u + "\' Current mode is " + current_mode + ". ");
+                        System.out.print(other_uid + "\' Current mode is " + current_mode + ". ");
 
                         if( current_mode == true && MeInThisGroup == false) {
                             System.out.println("Go to Others_profile_privacy.class.");
                             Intent i = new Intent(group_chat.this, Others_profile_privacy.class);
+                            i.putExtra("other_uid",other_uid);
                             group_chat.this.startActivity(i);
 
                         } else {
                             System.out.println("Go to Others_profile.class.");
                             Intent i = new Intent(group_chat.this, Others_profile.class);
+                            i.putExtra("other_uid",other_uid);
                             group_chat.this.startActivity(i);
                         }
                     }

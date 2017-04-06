@@ -48,7 +48,8 @@ public class Others_profile_privacy extends AppCompatActivity {
         setContentView(R.layout.activity_othersprofile_pravicy);
 
         Global_variable global_variable = (Global_variable)getApplicationContext();
-        Other_userId = global_variable.getother_userid();
+        Bundle b = getIntent().getExtras();
+        Other_userId = b.getString("other_uid");
         landing_Nickname = (TextView) findViewById(R.id.landing_Nickname);
 
         //image module by Frank

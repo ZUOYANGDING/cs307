@@ -164,6 +164,7 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                 temp = new ArrayList<GroupClass>(Arrays.asList(groups));
                 GroupListAdapter adapter = new GroupListAdapter(group_aroudme.this, temp);
                 listView.setAdapter(adapter);
+                listView.setSelection(0);
             }
 
             @Override
