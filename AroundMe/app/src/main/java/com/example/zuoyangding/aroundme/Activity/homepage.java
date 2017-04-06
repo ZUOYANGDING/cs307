@@ -43,6 +43,7 @@ public class homepage extends AppCompatActivity {
 
     //image module by Frank Hu
     private String landing_imgStr;
+    private ImageButton findroomate;
 
 
     @Override
@@ -72,6 +73,9 @@ public class homepage extends AppCompatActivity {
         profileButton = (ImageButton) findViewById(R.id.profileButton);
         searchButton = (ImageButton) findViewById(R.id.imageButton3);
         sortButton = (ImageButton)findViewById(R.id.homepage_button);
+
+        //Add by Frank
+        findroomate = (ImageButton) findViewById(R.id.roommate_button);
 
         final Global_variable global_variable = (Global_variable)getApplicationContext();
         //ArrayList<String> group_ids;
@@ -201,6 +205,14 @@ public class homepage extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent i = new Intent(homepage.this, Search_input.class);
+                homepage.this.startActivity(i);
+            }
+        });
+
+        //Add by Frank
+        findroomate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i=new Intent(homepage.this, LandingActivity.class);
                 homepage.this.startActivity(i);
             }
         });
