@@ -5,17 +5,14 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.zuoyangding.aroundme.DataModels.ChartMessage;
+import com.example.zuoyangding.aroundme.Activity.Adaptor.GroupListAdapter;
 import com.example.zuoyangding.aroundme.DataModels.GroupClass;
-import com.example.zuoyangding.aroundme.DataModels.User;
 import com.example.zuoyangding.aroundme.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -28,10 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * Created by siyujiang on 4/3/17.

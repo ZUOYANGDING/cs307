@@ -2,6 +2,7 @@ package com.example.zuoyangding.aroundme.Activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -9,7 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,7 +47,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
 
     private ImageButton sendMessage;
     private ImageButton sendImage;
-    private ImageView showImage;
+    //private ImageView showImage;
     private EditText enterTheMessage;
     private TextView showGroupName;
     private FirebaseDatabase mDatabase;
@@ -67,7 +70,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
         sendMessage = (ImageButton) findViewById(R.id.send_message);
         sendImage = (ImageButton) findViewById(R.id.add_picture);
         enterTheMessage = (EditText) findViewById(R.id.enterMessage);
-        showImage = (ImageView) findViewById(R.id.send_image);
+        //showImage = (ImageView) findViewById(R.id.send_image);
         joinbutton = (Button) findViewById(R.id.joined_button);
         mDatabase = FirebaseDatabase.getInstance();
         groupReference = mDatabase.getReference().child("Group");
@@ -123,12 +126,9 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
         adapter = new FirebaseListAdapter<String>(group_chat.this, String.class,
                 R.layout.activity_display_messages, groupReference.child(groupId).child("messageId")) {
             @Override
-            protected void populateView(View v, String model, final int position) {
-                //Global_variable global_variable = (Global_variable)getApplicationContext();
+            protected void populateView(View v, final String model, final int position) {
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                //.getReference().child("Group").child("messageId");
-                //final DatabaseReference chartMessageReference = FirebaseDatabase.getInstance().getReference().child("ChartMessages");
-                //final DatabaseReference userReference = FirebaseDatabase.getInstance().getReference().child("Users");
+                //v = getLayoutInflater().inflate(R.layout.activity_display_messages,null);
                 final View v1 = v;
                 final String model_1 = model;
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -137,19 +137,55 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                         if (dataSnapshot.child("ChartMessages").getValue() != null) {
                             String messageId = dataSnapshot.child("ChartMessages").child(model_1).child("messageKey").getValue().toString();
                             String userId = dataSnapshot.child("ChartMessages").child(model_1).child("uid").getValue().toString();
-                            String message = dataSnapshot.child("ChartMessages").child(model_1).child("message").getValue().toString();
+                            String message = null;
+                            String imageString = null;
                             String nickName;
                             if (dataSnapshot.child("Users").child(userId).child("nickName").getValue() == null) {
                                 nickName = "anonymous";
                             } else {
                                 nickName = dataSnapshot.child("Users").child(userId).child("nickName").getValue().toString();
                             }
+                            if (dataSnapshot.child("ChartMessages").child(model_1).child("message").getValue() != null) {
+                                message = dataSnapshot.child("ChartMessages").child(model_1).child("message").getValue().toString();
+                                TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
+                                showMessage.setText(message);
+                                showMessage.setVisibility(View.VISIBLE);
+                                ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
+                                //((ViewGroup) v1).removeView(showImage);
+                                showImage.setVisibility(View.GONE);
+                            } else {
+                                //TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
+                                //showMessage.setVisibility(View.GONE);
+                                //((ViewGroup) v1).removeView(showMessage);
+                            }
+                            if (dataSnapshot.child("ChartMessages").child(model_1).child("image").getValue() != null) {
+                                imageString = dataSnapshot.child("ChartMessages").child(model_1).child("image").getValue().toString();
+                                byte[] imageByte = Base64.decode(imageString,Base64.DEFAULT);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte,0,imageByte.length);
+                                ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
+                                showImage.setImageBitmap(bitmap);
+                                showImage.setVisibility(View.VISIBLE);
+                                TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
+                                showMessage.setVisibility(View.GONE);
+                                //((ViewGroup) v1).removeView(showMessage);
+                            } else {
+                                //ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
+                                //((ViewGroup) v1).removeView(showImage);
+                                //((ViewGroup)v1).addView();
+
+                            }
+                            /*String nickName;
+                            if (dataSnapshot.child("Users").child(userId).child("nickName").getValue() == null) {
+                                nickName = "anonymous";
+                            } else {
+                                nickName = dataSnapshot.child("Users").child(userId).child("nickName").getValue().toString();
+                            }*/
 
                             v1.setTag(userId);
                             TextView showNickName = (TextView) v1.findViewById(R.id.nick_name);
-                            TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
+                            //TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
 
-                            showMessage.setText(message);
+                            //showMessage.setText(message);
                             showNickName.setText(nickName);
                             listViewOfMessages.setSelection(position);
                         }
@@ -321,37 +357,26 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Global_variable global_variable = (Global_variable) getApplicationContext();
                     String userId = global_variable.getUser_id();
-
                     if (dataSnapshot.getValue() == null) {
                         String messageKey = chartMessagesReference.push().getKey();
-                        ChartMessage chartMessage = new ChartMessage(message, userId);
+                        ChartMessage chartMessage = new ChartMessage(null, userId);
+                        chartMessage.setImage(image);
                         chartMessage.setMessageKey(messageKey);
                         chartMessagesReference.child(messageKey).setValue(chartMessage);
                         ArrayList<String> messageId = new ArrayList<String>();
                         messageId.add(messageKey);
 
                         groupReference.child(groupId).child("messageId").setValue(messageId);
-
-                        //MessageAdapter adapter = new MessageAdapter(group_chat.this, messageId);
-                        //listViewOfMessages.setAdapter(adapter);
-                        //group.setChartMessages(chartMessages);
-                        //System.out.println("groupId_1"+groupId);
-                        //groupReference.child(groupId).child("chartMessages").setValue(chartMessages);
                     } else {
                         String messageKey = chartMessagesReference.push().getKey();
-                        ChartMessage chartMessage = new ChartMessage(message, userId);
+                        ChartMessage chartMessage = new ChartMessage(null, userId);
+                        chartMessage.setImage(image);
                         chartMessage.setMessageKey(messageKey);
                         chartMessagesReference.child(messageKey).setValue(chartMessage);
-
                         ArrayList<String> messageId = (ArrayList<String>) dataSnapshot.getValue();
                         messageId.add(messageKey);
                         groupReference.child(groupId).child("messageId").setValue(messageId);
 
-                        //MessageAdapter adapter = new MessageAdapter(group_chat.this, messageId);
-                        //listViewOfMessages.setAdapter(adapter);
-                        //group.setChartMessages(chartMessages);
-                        //System.out.println("groupId_2"+groupId);
-                        //groupReference.child(groupId).child("chartMessages").setValue(chartMessages);
                     }
                 }
 
