@@ -75,8 +75,28 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
+=======
+        <activity android:name=".Activity.Others_profile">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.Others_profile_pravicy">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.Search_input"></activity>
+        <activity android:name=".Activity.display_messageActivity" />
+>>>>>>> a516d73a88db1e9e56d473b7cffe9af49db6343b
         <activity android:name=".Activity.RegisterActivity"></activity>
         <activity android:name=".Activity.group_aroudme"></activity>
+        <activity android:name=".Activity.Sort_by_topic"></activity>
     </application>
 
 </manifest>

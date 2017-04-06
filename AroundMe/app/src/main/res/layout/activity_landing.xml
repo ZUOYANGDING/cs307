@@ -203,6 +203,15 @@
         android:layout_width="120dp"
         android:layout_height="120dp" />
 
+    <Switch
+        android:id="@+id/switch_privacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/nicknameLayout"
+        android:layout_alignStart="@+id/nicknameLayout"
+        android:layout_marginBottom="33dp"
+        android:text="Switch" />
+
 
     <!--android:layout_below="@+id/etUploadName"-->
     <!--android:layout_below="@+id/bUploadName"-->

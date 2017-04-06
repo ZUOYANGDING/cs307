@@ -105,7 +105,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
 
         //showGroupName.setText(groupName);
 
-        Global_variable global_variable = (Global_variable)getApplicationContext();
+        final Global_variable global_variable = (Global_variable)getApplicationContext();
         final String uid = global_variable.getUser_id();
         final DatabaseReference ref = mDatabase.getReference();
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -302,7 +302,28 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                 String u = v.getTag().toString();
                 System.out.println("userId get from tag" + u);
                 //System.out.println(uid);
+                global_variable.setother_userid(u);
 
+                //Add by Frank (decide which go to which profile page based on privacy setting)
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        boolean mode = global_variable.getPrivacy_mode();
+
+                        if (mode == false){
+                            Intent i = new Intent(group_chat.this, Others_profile.class);
+                            group_chat.this.startActivity(i);
+                        } else {
+                            Intent i = new Intent(group_chat.this, Others_profile_pravicy.class);
+                            group_chat.this.startActivity(i);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
