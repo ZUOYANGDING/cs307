@@ -44,6 +44,8 @@ public class group_chat extends AppCompatActivity {
     private DatabaseReference chartMessagesReference;
     private ListView listViewOfMessages;
     private Button joinbutton;
+
+    private Button deleteButton;
     //private String groupName;
     private String groupId;
     private String message;
@@ -58,6 +60,9 @@ public class group_chat extends AppCompatActivity {
         sendImage = (ImageButton) findViewById (R.id.add_picture);
         enterTheMessage = (EditText)findViewById(R.id.enterMessage);
         joinbutton = (Button)findViewById(R.id.joined_button);
+
+        deleteButton = (Button)findViewById(R.id.leave_button);
+
         mDatabase = FirebaseDatabase.getInstance();
         groupReference = mDatabase.getReference().child("Group");
         chartMessagesReference = mDatabase.getReference().child("ChartMessages");
@@ -275,6 +280,40 @@ public class group_chat extends AppCompatActivity {
                     }
                 });
 
+            }
+        });
+
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                final DatabaseReference ref = mDatabase.getReference();
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ArrayList<String> groupIds = (ArrayList<String>)dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
+                        groupIds.remove(groupId);
+                        ref.child("Users").child(uid).child("groupIDs").setValue(groupIds);
+
+                        ArrayList<String> memberIDs = (ArrayList<String>)dataSnapshot.child("Group").child(groupId).child("member_ids").getValue();
+                        memberIDs.remove(uid);
+                        ref.child("Group").child(groupId).child("member_ids").setValue(memberIDs);
+
+                        if (memberIDs.size() == 0) {
+                            ref.child("Group").child(groupId).setValue(null);
+                        }
+
+                        Intent i = new Intent(group_chat.this, homepage.class);
+                        group_chat.this.startActivity(i);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
     }
