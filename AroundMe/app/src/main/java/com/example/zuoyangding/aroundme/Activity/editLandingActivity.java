@@ -26,10 +26,10 @@ public class editLandingActivity extends AppCompatActivity {
     public  String Birthday;
     public  String info;
 
-    TextView edit_landing_Nickname;
-    TextView edit_landing_Birthday;
-    TextView edit_landing_info;
-    TextView edit_landing_error;
+    private TextView edit_landing_Nickname;
+    private TextView edit_landing_Birthday;
+    private TextView edit_landing_info;
+    private TextView edit_landing_error;
     private DatabaseReference mDatabase;
     Button saveButton;
 
