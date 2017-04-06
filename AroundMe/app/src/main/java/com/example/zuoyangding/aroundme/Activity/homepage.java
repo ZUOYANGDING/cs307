@@ -2,8 +2,11 @@ package com.example.zuoyangding.aroundme.Activity;
 
 import android.content.Intent;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -40,6 +43,7 @@ public class homepage extends AppCompatActivity {
 
     //image module by Frank Hu
     private String landing_imgStr;
+    private ImageButton findroomate;
 
 
     @Override
@@ -70,8 +74,36 @@ public class homepage extends AppCompatActivity {
         searchButton = (ImageButton) findViewById(R.id.imageButton3);
         sortButton = (ImageButton)findViewById(R.id.homepage_button);
 
+        //Add by Frank
+        findroomate = (ImageButton) findViewById(R.id.roommate_button);
+
         final Global_variable global_variable = (Global_variable)getApplicationContext();
         //ArrayList<String> group_ids;
+
+        ////image module by Frank Hu (update homepage user's avatar from firebase )
+        DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
+        mref.child(global_variable.getUser_id()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //image module by Frank Hu
+                if (dataSnapshot.child("imgStr").getValue() != null) {
+                    landing_imgStr = (String) dataSnapshot.child("imgStr").getValue();
+
+                    //Bitmap way
+                    byte[] imageByte = Base64.decode(landing_imgStr, Base64.DEFAULT);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+                    profileButton.setImageBitmap(bitmap);
+
+                    //Uri way
+                    //Uri imgUri = Uri.parse(landing_imgStr);
+                    //landing_iv.setImageURI(imgUri);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         ref = FirebaseDatabase.getInstance().getReference().child("Users").child(global_variable.getUser_id()).child("groupIDs");
         ref.addValueEventListener(new ValueEventListener() {
@@ -173,6 +205,14 @@ public class homepage extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent i = new Intent(homepage.this, Search_input.class);
+                homepage.this.startActivity(i);
+            }
+        });
+
+        //Add by Frank
+        findroomate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i=new Intent(homepage.this, LandingActivity.class);
                 homepage.this.startActivity(i);
             }
         });

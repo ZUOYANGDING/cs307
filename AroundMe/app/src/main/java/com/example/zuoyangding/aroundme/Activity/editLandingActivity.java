@@ -60,15 +60,15 @@ public class editLandingActivity extends AppCompatActivity {
                 if (Nickname.length() == 0 || Birthday.length() == 0) {
                     edit_landing_error.setText("Please fill in all fields");
                 } else {
-                    final DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
-                    mref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    final DatabaseReference edit_ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                    edit_ref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
                             if (user !=  null) {
-                                mref.child(dataSnapshot.child("userID").getValue().toString()).child("nickName").setValue(Nickname);
-                                mref.child(dataSnapshot.child("userID").getValue().toString()).child("introduction").setValue(info);
-                                mref.child(dataSnapshot.child("userID").getValue().toString()).child("birthday").setValue(Birthday);
+                                edit_ref.child(dataSnapshot.child("userID").getValue().toString()).child("nickName").setValue(Nickname);
+                                edit_ref.child(dataSnapshot.child("userID").getValue().toString()).child("introduction").setValue(info);
+                                edit_ref.child(dataSnapshot.child("userID").getValue().toString()).child("birthday").setValue(Birthday);
                             }
                         }
 

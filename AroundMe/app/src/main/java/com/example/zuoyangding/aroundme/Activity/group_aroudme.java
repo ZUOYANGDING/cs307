@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -59,8 +60,13 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
     private ListView listView;
+
+    //Add by Frank
+    private ImageButton findroommate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sort);
         listView = (ListView)findViewById(R.id.group_list);
@@ -90,11 +96,21 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                 startActivity(i);
             }
         });
+
+        //Add by Frank
+        findroommate = (ImageButton) findViewById(R.id.roommate_button);
+        findroommate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                System.out.println("click profile button");
+                Intent i=new Intent(group_aroudme.this, LandingActivity.class);
+                group_aroudme.this.startActivity(i);
+            }
+        });
     }
     protected void createLocationRequest() {
         mLocationRequest = LocationRequest.create();
-        mLocationRequest.setInterval(1000);
-        mLocationRequest.setFastestInterval(500);
+        mLocationRequest.setInterval(6000000);
+        mLocationRequest.setFastestInterval(5000000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
     @Override
@@ -164,6 +180,7 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                 temp = new ArrayList<GroupClass>(Arrays.asList(groups));
                 GroupListAdapter adapter = new GroupListAdapter(group_aroudme.this, temp);
                 listView.setAdapter(adapter);
+                //listView.setSelection(0);
             }
 
             @Override
@@ -185,4 +202,5 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
         }
         return;
     }
+
 }

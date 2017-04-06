@@ -4,15 +4,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,10 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zuoyangding.aroundme.Activity.Adaptor.ListAdapter;
 //import com.example.zuoyangding.aroundme.Activity.Adaptor.MessageAdapter;
 import com.example.zuoyangding.aroundme.DataModels.ChartMessage;
-import com.example.zuoyangding.aroundme.DataModels.GroupClass;
 import com.example.zuoyangding.aroundme.R;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DataSnapshot;
@@ -36,9 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.security.acl.Group;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class group_chat extends AppCompatActivity implements View.OnClickListener {
@@ -61,6 +53,9 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
     private String groupId;
     private String message;
     private String image;
+
+    //Add by Frank
+    private boolean MeInThisGroup = false;
 
     //private int message_count = 0;
     @Override
@@ -105,7 +100,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
 
         //showGroupName.setText(groupName);
 
-        Global_variable global_variable = (Global_variable)getApplicationContext();
+        final Global_variable global_variable = (Global_variable)getApplicationContext();
         final String uid = global_variable.getUser_id();
         final DatabaseReference ref = mDatabase.getReference();
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -119,6 +114,9 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                     joinbutton.setEnabled(false);
                 }
                 else if (groupIDs.contains(groupId)){
+                    //Add by Group
+                    MeInThisGroup = true;
+
                     joinbutton.setText("voted");
                     //joinbutton.setEnabled(false);
                     Long start_date = (long)dataSnapshot.child("Group").child(groupId).child("date").getValue();
@@ -299,10 +297,39 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 View v = view;
-                String u = v.getTag().toString();
-                System.out.println("userId get from tag" + u);
+                final String other_uid = v.getTag().toString();
+                System.out.println("userId get from tag" + other_uid);
                 //System.out.println(uid);
+                //global_variable.setother_userid(u);
 
+                //Add by Frank (decide which go to which profile page based on privacy setting)
+                final DatabaseReference others_ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                others_ref.child(other_uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        boolean current_mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
+                        System.out.print(other_uid + "\' Current mode is " + current_mode + ". ");
+
+                        if( current_mode == true && MeInThisGroup == false) {
+                            System.out.println("Go to Others_profile_privacy.class.");
+                            Intent i = new Intent(group_chat.this, Others_profile_privacy.class);
+                            i.putExtra("other_uid",other_uid);
+                            group_chat.this.startActivity(i);
+
+                        } else {
+                            System.out.println("Go to Others_profile.class.");
+                            Intent i = new Intent(group_chat.this, Others_profile.class);
+                            i.putExtra("other_uid",other_uid);
+                            group_chat.this.startActivity(i);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
