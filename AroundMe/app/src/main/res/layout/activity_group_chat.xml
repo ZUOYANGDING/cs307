@@ -21,34 +21,60 @@
         android:background="@drawable/top_bar"
         android:weightSum="1">
 
-        <Button
-            android:id="@+id/leave_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
-            android:background="#ffB9A336"
-            android:text="leave"
-            android:textColor="@color/buttonTextColor" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:id="@+id/leave_layout"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp">
 
-        <TextView
-            android:id="@+id/group_name"
-            android:layout_width="140dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="30dp"
-            android:layout_weight="0.13"
-            android:gravity="fill_vertical|center_horizontal"
-            android:text="Group name"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:textSize="24sp" />
+            <Button
+                android:id="@+id/leave_button"
+                android:background="@drawable/join_leave_button"
+                android:text="leave"
+                android:textColor="#B9A336"
+                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_weight="1" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/joined_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="30dp"
-            android:background="#ffB9A336"
-            android:text="Join"
-            android:textColor="@color/buttonTextColor" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:id="@+id/group_name_layout"
+            android:layout_marginLeft="15dp"
+            android:layout_width="160dp">
+
+            <TextView
+                android:id="@+id/group_name"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:gravity="fill_vertical|center_horizontal"
+                android:text="Group name"
+                android:textColor="@color/common_google_signin_btn_text_dark_default"
+                android:textSize="24sp"
+                android:layout_width="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:id="@+id/join_layout"
+            android:layout_marginLeft="15dp">
+
+            <Button
+                android:id="@+id/joined_button"
+                android:background="@drawable/join_leave_button"
+                android:text="Join"
+                android:textColor="#B9A336"
+                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_weight="1"
+                android:layout_marginTop="5dp" />
+        </LinearLayout>
 
     </LinearLayout>
 
