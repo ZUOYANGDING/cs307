@@ -1,4 +1,4 @@
-package com.example.zuoyangding.aroundme.Activity;
+package com.example.zuoyangding.aroundme.Activity.Adaptor;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.ActivityCompat;
@@ -31,13 +31,13 @@ public class ListAdapter extends ArrayAdapter<String> {
         if (v == null){
             v = LayoutInflater.from(getContext()).inflate(R.layout.list_element,parent,false);
         }
-        final View v1 = v;
+
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Group");
-        final View vi = v;
+        final View v1 = v;
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                vi.setTag(dataSnapshot.child(group_ids.get(position)).child("key").getValue().toString());
+                v1.setTag(dataSnapshot.child(group_ids.get(position)).child("key").getValue().toString());
 
                 TextView t = (TextView) v1.findViewById(R.id.item1);
                 t.setText(dataSnapshot.child(group_ids.get(position)).child("groupName").getValue().toString());

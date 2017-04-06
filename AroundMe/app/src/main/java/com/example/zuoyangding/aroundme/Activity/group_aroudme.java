@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -82,6 +84,17 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
             createLocationRequest();
             mGoogleApiClient.connect();
         }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                View v = view;
+                String gid = v.getTag().toString();
+                //System.out.println(uid);
+                Intent i = new Intent(group_aroudme.this, group_chat.class);
+                i.putExtra("groupid",gid);
+                startActivity(i);
+            }
+        });
     }
     protected void createLocationRequest() {
         mLocationRequest = LocationRequest.create();
@@ -113,7 +126,7 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                     ArrayList<GroupClass> temp = new ArrayList<GroupClass>();
                     for (DataSnapshot it : dataSnapshot.getChildren()) {
                         //Location temp_lo = new Location(it.child("mlocation").getValue(Location.class));
-                        GroupClass group = new GroupClass(it.child("groupName").getValue().toString(), it.child("key").getValue().toString(), it.child("topic").getValue().toString(), it.child("date").getValue(Long.class), (ArrayList<String>) it.child("member_ids").getValue(), it.child("lat").getValue(Double.class), it.child("lon").getValue(Double.class), it.child("is_permanent").getValue(Boolean.class));
+                        GroupClass group = new GroupClass(it.child("groupName").getValue().toString(), it.child("key").getValue().toString(), it.child("topic").getValue().toString(), it.child("date").getValue(Long.class), null, (ArrayList<String>) it.child("member_ids").getValue(), it.child("lat").getValue(Double.class), it.child("lon").getValue(Double.class), it.child("is_permanent").getValue(Boolean.class));
                         temp.add(group);
                     }
                     GroupClass[] groups = new GroupClass[temp.size()];
@@ -143,7 +156,8 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                 ArrayList<GroupClass> temp = new ArrayList<GroupClass>();
                 for(DataSnapshot it : dataSnapshot.getChildren()){
                     //Location temp_lo = new Location(it.child("mlocation").getValue(Location.class));
-                    GroupClass group = new GroupClass(it.child("groupName").getValue().toString(), it.child("key").getValue().toString(), it.child("topic").getValue().toString(), it.child("date").getValue(Long.class),(ArrayList<String>) it.child("member_ids").getValue() , it.child("alt").getValue(Double.class), it.child("lon").getValue(Double.class), it.child("is_permanent").getValue(Boolean.class));
+                    GroupClass group = new GroupClass(it.child("groupName").getValue().toString(), it.child("key").getValue().toString(), it.child("topic").getValue().toString(), it.child("date").getValue(Long.class), null, (ArrayList<String>) it.child("member_ids").getValue() , it.child("alt").getValue(Double.class), it.child("lon").getValue(Double.class), it.child("is_permanent").getValue(Boolean.class));
+
                     temp.add(group);
                 }
                 GroupClass[] groups = new GroupClass[temp.size()];
