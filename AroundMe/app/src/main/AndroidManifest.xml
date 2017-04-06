@@ -75,7 +75,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.display_messageActivity" />
         <activity android:name=".Activity.RegisterActivity"></activity>
         <activity android:name=".Activity.group_aroudme"></activity>
     </application>
