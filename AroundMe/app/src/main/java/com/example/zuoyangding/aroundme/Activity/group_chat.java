@@ -4,15 +4,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,10 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zuoyangding.aroundme.Activity.Adaptor.ListAdapter;
 //import com.example.zuoyangding.aroundme.Activity.Adaptor.MessageAdapter;
 import com.example.zuoyangding.aroundme.DataModels.ChartMessage;
-import com.example.zuoyangding.aroundme.DataModels.GroupClass;
 import com.example.zuoyangding.aroundme.R;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DataSnapshot;
@@ -36,9 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.security.acl.Group;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class group_chat extends AppCompatActivity implements View.OnClickListener {
@@ -299,22 +291,27 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 View v = view;
-                String u = v.getTag().toString();
+                final String u = v.getTag().toString();
                 System.out.println("userId get from tag" + u);
                 //System.out.println(uid);
                 global_variable.setother_userid(u);
 
                 //Add by Frank (decide which go to which profile page based on privacy setting)
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                final DatabaseReference others_ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                others_ref.child(u).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        boolean mode = global_variable.getPrivacy_mode();
 
-                        if (mode == false){
-                            Intent i = new Intent(group_chat.this, Others_profile.class);
+                        boolean current_mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
+                        System.out.print(u + "\' Current mode is " + current_mode + ". ");
+                        if( current_mode == true) {
+                            System.out.println("Go to Others_profile_privacy.class.");
+                            Intent i = new Intent(group_chat.this, Others_profile_privacy.class);
                             group_chat.this.startActivity(i);
+
                         } else {
-                            Intent i = new Intent(group_chat.this, Others_profile_pravicy.class);
+                            System.out.println("Go to Others_profile.class.");
+                            Intent i = new Intent(group_chat.this, Others_profile.class);
                             group_chat.this.startActivity(i);
                         }
                     }

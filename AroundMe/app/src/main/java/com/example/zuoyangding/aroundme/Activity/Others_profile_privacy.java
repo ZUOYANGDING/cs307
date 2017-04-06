@@ -31,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
  * Created by Frank on 2017/4/6.
  */
 
-public class Others_profile_pravicy extends AppCompatActivity {
+public class Others_profile_privacy extends AppCompatActivity {
 
     private TextView landing_Nickname;
     private String Other_userId;

@@ -82,8 +82,8 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
         //Add by Frank
         landing_switch = (Switch) findViewById(R.id.switch_privacy);
-
-        //image module by Frank
+        userId = global_variable.getUser_id();
+        //image module
         //landing_iv = (ImageView) findViewById(R.id.imageButton);
         landing_iv = (ImageView) findViewById(R.id.profile_picture);
         landing_iv.setOnClickListener(this);
@@ -140,8 +140,21 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
                     //Uri imgUri = Uri.parse(landing_imgStr);
                     //landing_iv.setImageURI(imgUri);
                 }
-                boolean mode = global_variable.getPrivacy_mode();
-                landing_switch.setChecked(mode);
+
+                final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                ref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        boolean mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
+                        landing_switch.setChecked(mode);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override
@@ -153,7 +166,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homepage.firebaseListAdapter.cleanup();
+                //homepage.firebaseListAdapter.cleanup();
                 firebaseAuth.signOut();
                 finish();
                 Intent login = new Intent(LandingActivity.this, LoginActivity.class);
@@ -182,8 +195,21 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
                 switch_ref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        global_variable.changePrivacy_mode();
+                        //DataSnapshot usnap = dataSnapshot.child(global_variable.getUser_id());
+                        boolean current_mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
+                        System.out.print(userId + "\' Current mode is " + current_mode + ". ");
+                        if( current_mode == true) {
+                            switch_ref.child(userId).child("privacy_mode").setValue(false);
+                            current_mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
+                            System.out.println("Now set to : " + current_mode + ".");
+                        } else {
+                            switch_ref.child(userId).child("privacy_mode").setValue(true);
+                            current_mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
+                            System.out.println("Now set to : " + current_mode + ".");
+                        }
+                        //global_variable.changePrivacy_mode();
                     }
+
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {

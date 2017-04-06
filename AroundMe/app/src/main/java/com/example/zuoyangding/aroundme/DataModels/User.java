@@ -16,15 +16,15 @@ public class User {
     private ArrayList<String> groupIDs;
     private String email;
     private String password;
-    //private boolean privacy_mode;
+
 
     //image module (by Frank Hu)
     private String imgStr;
+    private boolean privacy_mode;
 
-    //private String profile_image;
     //private String profile;
     public User(){}
-    public User(String userID, String email, String password, String googleAccount, String nickName, String birthday, String introduction, ArrayList<String> groupIDs, String imgStr) {
+    public User(String userID, String email, String password, String googleAccount, String nickName, String birthday, String introduction, ArrayList<String> groupIDs, String imgStr, boolean mode) {
         this.email = email;
         this.password = password;
         this.userID = userID;
@@ -34,6 +34,7 @@ public class User {
         this.googleAccount = googleAccount;
         this.nickName = nickName;
         this.groupIDs = groupIDs;
+        this.privacy_mode = mode;
 
 
 
