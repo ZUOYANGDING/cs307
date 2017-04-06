@@ -54,6 +54,9 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
     private String message;
     private String image;
 
+    //Add by Frank
+    private boolean MeInThisGroup = false;
+
     //private int message_count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +114,9 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                     joinbutton.setEnabled(false);
                 }
                 else if (groupIDs.contains(groupId)){
+                    //Add by Group
+                    MeInThisGroup = true;
+
                     joinbutton.setText("voted");
                     //joinbutton.setEnabled(false);
                     Long start_date = (long)dataSnapshot.child("Group").child(groupId).child("date").getValue();
@@ -304,7 +310,8 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
 
                         boolean current_mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
                         System.out.print(u + "\' Current mode is " + current_mode + ". ");
-                        if( current_mode == true) {
+
+                        if( current_mode == true && MeInThisGroup == false) {
                             System.out.println("Go to Others_profile_privacy.class.");
                             Intent i = new Intent(group_chat.this, Others_profile_privacy.class);
                             group_chat.this.startActivity(i);
