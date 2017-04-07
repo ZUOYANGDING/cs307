@@ -23,11 +23,7 @@
         android:layout_alignParentStart="true"
         android:layout_width="match_parent"
         android:background="#fffff4b8"
-<<<<<<< HEAD
         android:layout_height="60dp">
-=======
-        android:layout_height="50dp">
->>>>>>> origin/wendizhang
 
         <TextView
             android:text="Topic"
@@ -37,24 +33,8 @@
             android:textSize="24sp"
             android:textColor="#B9A336"
             android:fontFamily="sans-serif"
-<<<<<<< HEAD
             android:layout_width="wrap_content"
             android:layout_marginLeft="20dp" />
-=======
-            android:layout_width="150dp" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/topic_input"
-            android:textSize="24sp"
-            android:textColor="@color/common_google_signin_btn_text_dark_focused"
-            android:fontFamily="sans-serif"
-            android:gravity="center"
-            android:hint="What's the topic"
-            android:layout_below="@+id/topBar"
-            android:layout_weight="1" />
->>>>>>> origin/wendizhang
 
     </LinearLayout>
 
@@ -68,7 +48,6 @@
         android:id="@+id/topBar"
         android:background="@drawable/top_bar">
 
-<<<<<<< HEAD
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -78,8 +57,6 @@
             android:id="@+id/imageView5"
             android:layout_weight="1"
             android:layout_marginTop="10dp" />
-=======
->>>>>>> origin/wendizhang
     </LinearLayout>
 
     <LinearLayout
@@ -95,17 +72,10 @@
             android:id="@+id/submit_search"
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@+id/introLayout"
-<<<<<<< HEAD
             android:background="@drawable/search_button"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="90dp"
-=======
-            android:background="@drawable/save_button"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="70dp"
->>>>>>> origin/wendizhang
             android:layout_width="220dp" />
     </LinearLayout>
 
@@ -120,7 +90,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
-<<<<<<< HEAD
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -142,7 +111,6 @@
             android:layout_marginLeft="20dp"
             android:textAlignment="viewStart" />
     </LinearLayout>
-=======
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="40dp"
@@ -150,6 +118,5 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/imageView4"
         android:layout_marginBottom="10dp" />
->>>>>>> origin/wendizhang
 
 </RelativeLayout>

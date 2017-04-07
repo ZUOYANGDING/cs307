@@ -210,7 +210,6 @@
         android:layout_above="@+id/nicknameLayout"
         android:layout_alignStart="@+id/nicknameLayout"
         android:layout_marginBottom="33dp"
-<<<<<<< HEAD
         android:text="Privacy"
         android:textColor="#ffB9A336" />
 =======
