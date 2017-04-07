@@ -249,7 +249,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
                 e.printStackTrace();
             }
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            myBitmap.compress(Bitmap.CompressFormat.PNG,100, bos);
+            myBitmap.compress(Bitmap.CompressFormat.PNG,50, bos);
             byte[] imgByte = bos.toByteArray();
             this.landing_imgStr = Base64.encodeToString(imgByte, Base64.DEFAULT);
 
