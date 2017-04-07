@@ -16,7 +16,11 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
 
+<<<<<<< HEAD
         android:background="@drawable/top_bar"
+=======
+        tools:background="@drawable/top_bar"
+>>>>>>> origin/wendizhang
         android:id="@+id/topBar"
         android:weightSum="1"
         android:layout_alignParentTop="true"
