@@ -182,7 +182,9 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                             if (dataSnapshot.child("ChartMessages").child(model_1).child("image").getValue() != null) {
                                 imageString = dataSnapshot.child("ChartMessages").child(model_1).child("image").getValue().toString();
                                 byte[] imageByte = Base64.decode(imageString,Base64.DEFAULT);
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte,0,imageByte.length);
+                                BitmapFactory.Options opt = new BitmapFactory.Options();
+                                opt.inSampleSize = 3;
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte,0,imageByte.length, opt);
                                 //ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
                                 showImage.setVisibility(View.VISIBLE);
                                 showImage.setImageBitmap(bitmap);
@@ -209,7 +211,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
 
                             //showMessage.setText(message);
                             showNickName.setText(nickName);
-                            listViewOfMessages.setSelection(position);
+
                         }
 
                     }
@@ -219,7 +221,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
 
                     }
                 });
-
+                listViewOfMessages.setSelection(position);
             }
 
         };
@@ -434,7 +436,8 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
         }
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.PNG,100, bos);
+        myBitmap.compress(Bitmap.CompressFormat.PNG,50, bos);
+        myBitmap.compress(Bitmap.CompressFormat.PNG,50, bos);
         byte[] imgByte = bos.toByteArray();
         this.image = Base64.encodeToString(imgByte, Base64.DEFAULT);
 

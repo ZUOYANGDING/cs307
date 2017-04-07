@@ -42,6 +42,9 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
     private Location mLastLocation;
     Button backButton;
 
+    //Add by Frank
+    private ImageButton GoBackBtm;
+
     EditText groupName;
     EditText groupTopic;
 
@@ -54,6 +57,9 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
         groupTopic = (EditText) findViewById(R.id.Topics);
         mGroupReference = FirebaseDatabase.getInstance().getReference().child("Group");
         //mUserRefernece = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        //Add by Frank
+        GoBackBtm = (ImageButton) findViewById(R.id.imageButton2);
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -112,6 +118,15 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
                 //mUserRefernece.child(global_variable.getUser_id()).setValue(new_u);
                 Intent i = new Intent(add_group.this, homepage.class);
                 startActivity(i);
+            }
+        });
+
+
+        //Add by Frank
+        GoBackBtm.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i=new Intent(add_group.this, group_aroudme.class);
+                add_group.this.startActivity(i);
             }
         });
 
