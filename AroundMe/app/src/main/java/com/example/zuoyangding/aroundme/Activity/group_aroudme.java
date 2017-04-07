@@ -109,8 +109,8 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
     }
     protected void createLocationRequest() {
         mLocationRequest = LocationRequest.create();
-        mLocationRequest.setInterval(6000000);
-        mLocationRequest.setFastestInterval(5000000);
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(10000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
     @Override
