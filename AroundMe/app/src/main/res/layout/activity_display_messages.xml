@@ -6,17 +6,44 @@
     android:weightSum="1">
 
 
-    <TextView
-        android:id="@+id/nick_name"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05" />
+        android:layout_height="80dp">
 
-    <TextView
-        android:id="@+id/text_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="80dp"
+            android:layout_width="80dp"
+            android:id="@+id/avatar_layout">
+
+            <ImageView
+                app:srcCompat="@drawable/avatar"
+                android:id="@+id/avatar"
+                android:layout_weight="1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/message_layout"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/chat_bubble"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:id="@+id/text_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 
     <ImageView

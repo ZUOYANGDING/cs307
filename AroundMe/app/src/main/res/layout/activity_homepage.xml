@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
 
-        tools:background="@drawable/top_bar"
+        android:background="@drawable/top_bar"
         android:id="@+id/topBar"
         android:weightSum="1"
         android:layout_alignParentTop="true"
