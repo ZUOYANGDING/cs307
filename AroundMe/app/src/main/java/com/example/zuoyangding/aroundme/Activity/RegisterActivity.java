@@ -133,7 +133,9 @@ public class RegisterActivity extends AppCompatActivity {
         user.setEmail(email);
         user.setPassword(password);
         user.setNickName(nickName);
+        user.setPrivacy_mode(true);
         userReference.child(userId).setValue(user);
+        userReference.child(userId).child("privacy_mode").setValue(true);
     }
 
     public boolean isValidEmail(String target) {
