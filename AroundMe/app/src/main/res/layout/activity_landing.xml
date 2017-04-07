@@ -210,7 +210,8 @@
         android:layout_above="@+id/nicknameLayout"
         android:layout_alignStart="@+id/nicknameLayout"
         android:layout_marginBottom="33dp"
-        android:text="Switch" />
+        android:text="Privacy"
+        android:textColor="#ffB9A336" />
 
 
     <!--android:layout_below="@+id/etUploadName"-->
