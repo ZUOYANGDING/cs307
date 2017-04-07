@@ -146,8 +146,10 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        boolean mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
-                        landing_switch.setChecked(mode);
+                        if (dataSnapshot.child("privacy_mode") != null) {
+                            boolean mode = (boolean) dataSnapshot.child("privacy_mode").getValue();
+                            landing_switch.setChecked(mode);
+                        }
                     }
 
                     @Override

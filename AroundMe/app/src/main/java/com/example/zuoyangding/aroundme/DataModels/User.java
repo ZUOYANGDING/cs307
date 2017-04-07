@@ -16,8 +16,6 @@ public class User {
     private ArrayList<String> groupIDs;
     private String email;
     private String password;
-
-
     //image module (by Frank Hu)
     private String imgStr;
     private boolean privacy_mode;
