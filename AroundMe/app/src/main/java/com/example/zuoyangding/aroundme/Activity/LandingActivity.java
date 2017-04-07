@@ -233,39 +233,39 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         Global_variable global_variable = (Global_variable)getApplicationContext();
 
         //crash check
-        if (requestCode == 1 && requestCode == RESULT_OK && data != null){
+//        if (requestCode == 1 && requestCode == RESULT_OK && data != null){
+        if (data != null){
 
-        Uri imgUri = data.getData();
-        landing_iv.setImageURI(imgUri);
+            Uri imgUri = data.getData();
+            landing_iv.setImageURI(imgUri);
 
-        //Bitmap way
-        Bitmap myBitmap = null;
-        try {
-            myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.PNG,100, bos);
-        byte[] imgByte = bos.toByteArray();
-        this.landing_imgStr = Base64.encodeToString(imgByte, Base64.DEFAULT);
+            //Bitmap way
+            Bitmap myBitmap = null;
+            try {
+                myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            myBitmap.compress(Bitmap.CompressFormat.PNG,100, bos);
+            byte[] imgByte = bos.toByteArray();
+            this.landing_imgStr = Base64.encodeToString(imgByte, Base64.DEFAULT);
 
-        //Uri way
-        //this.landing_imgStr = imgUri.toString();
+            //Uri way
+            //this.landing_imgStr = imgUri.toString();
 
-            final DatabaseReference changeImg_ref = FirebaseDatabase.getInstance().getReference().child("Users");
-            changeImg_ref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    changeImg_ref.child(dataSnapshot.child("userID").getValue().toString()).child("imgStr").setValue(landing_imgStr);
-                }
+                final DatabaseReference changeImg_ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                changeImg_ref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        changeImg_ref.child(dataSnapshot.child("userID").getValue().toString()).child("imgStr").setValue(landing_imgStr);
+                    }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
-
+                    }
+                });
         }
     }
 
