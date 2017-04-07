@@ -231,7 +231,9 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Global_variable global_variable = (Global_variable)getApplicationContext();
-        //if (requestCode == 1 && requestCode == RESULT_OK && data != null){
+
+        //crash check
+        if (requestCode == 1 && requestCode == RESULT_OK && data != null){
 
         Uri imgUri = data.getData();
         landing_iv.setImageURI(imgUri);
@@ -264,7 +266,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
                 }
             });
 
-        //}
+        }
     }
 
 
