@@ -223,7 +223,24 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
             }
 
         };
-        listViewOfMessages.setAdapter(adapter);
+        groupReference.child(groupId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                long start_date = dataSnapshot.child("last_message").getValue(long.class);
+                long current_time = System.nanoTime();
+                long time_period = current_time-start_date;
+                double second = (double)time_period / 1000000000.0;
+                double hour = second/3600;
+                if (hour <= 24)
+                listViewOfMessages.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //listViewOfMessages.setAdapter(adapter);
 
         sendImage.setOnClickListener(this);
 
@@ -236,7 +253,8 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                 } else {
 //                    Global_variable global_variable = (Global_variable)getApplicationContext();
 //                    ChartMessage chartMessage = new ChartMessage(message, global_variable.getUser_id());
-
+                    long message_date = System.nanoTime();
+                    groupReference.child(groupId).child("last_message").setValue(message_date);
                     groupReference.child(groupId).child("messageId").addListenerForSingleValueEvent(new ValueEventListener() {
                         /*Global_variable global_variable = (Global_variable)getApplicationContext();
                         String userId = global_variable.getUser_id();
@@ -447,6 +465,8 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
             Bundle b = getIntent().getExtras();
             groupId = b.getString("groupid");
             groupReference = FirebaseDatabase.getInstance().getReference().child("Group");
+            long message_date = System.nanoTime();
+            groupReference.child(groupId).child("last_message").setValue(message_date);
             chartMessagesReference = FirebaseDatabase.getInstance().getReference().child("ChartMessages");
             groupReference.child(groupId).child("messageId").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
