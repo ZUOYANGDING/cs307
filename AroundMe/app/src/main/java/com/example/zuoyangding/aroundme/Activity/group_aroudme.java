@@ -168,13 +168,6 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-        sortButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent i = new Intent(group_aroudme.this, group_aroudme.class);
-                group_aroudme.this.startActivity(i);
-            }
-        });
-
         searchButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent i = new Intent(group_aroudme.this, Search_input.class);
