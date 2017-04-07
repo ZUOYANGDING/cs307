@@ -80,17 +80,8 @@ public class User {
     public String getImgBitmap() { return this.imgStr;}
     public void setImgStr(String imgStr) { this.imgStr = imgStr;}
 //    public boolean getPrivacy_mode() { return this.privacy_mode;}
-//    public void setPrivacy_mode() {
-//        System.out.println("Mode is start with "+this.privacy_mode);
-//
-//        if (this.privacy_mode == true) {
-//            this.privacy_mode = false;
-//        }
-//        else {
-//            this.privacy_mode = true;
-//        }
-//
-//        System.out.println("Set to "+this.privacy_mode);
-//    }
+    public void setPrivacy_mode(boolean mode) {
+        this.privacy_mode = mode;
+    }
 }
 
