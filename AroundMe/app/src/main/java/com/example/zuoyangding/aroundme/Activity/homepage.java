@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.zuoyangding.aroundme.Activity.Adaptor.ListAdapter;
+import com.example.zuoyangding.aroundme.DataModels.GroupClass;
 import com.example.zuoyangding.aroundme.R;
 
 import com.firebase.ui.database.FirebaseListAdapter;
@@ -105,17 +106,30 @@ public class homepage extends AppCompatActivity {
             }
         });
 
-        ref = FirebaseDatabase.getInstance().getReference().child("Users").child(global_variable.getUser_id()).child("groupIDs");
-        ref.addValueEventListener(new ValueEventListener() {
+        ref = FirebaseDatabase.getInstance().getReference();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> group_ids = (ArrayList<String>) dataSnapshot.getValue();
+                ArrayList<String> group_ids = new ArrayList<String>();
                 //String[] group_array = new String[group_ids.size()];
                         //group_array = group_ids.toArray(group_array);
-                if (group_ids != null) {
+                    for (DataSnapshot it : dataSnapshot.child("Users").child(global_variable.getUser_id()).child("groupIDs").getChildren()){
+                        if (dataSnapshot.child("Group").child(it.getValue().toString()).getValue() != null) {
+                            Long start_time = dataSnapshot.child("Group").child(it.getValue().toString()).child("date").getValue(long.class);
+                            long current_time = System.nanoTime();
+                            long time_period = current_time - start_time;
+                            double second = (double) Math.abs(time_period) / 1000000000.0;
+                            double hour = second / 3600;
+                            if (hour >= 24){
+                                ref.child("Group").child(it.getValue().toString()).removeValue();
+                            }
+                            else
+                            group_ids.add(it.getValue().toString());
+                        }
+                    }
+                    ref.child("Users").child(global_variable.getUser_id()).child("groupIDs").setValue(group_ids);
                     ListAdapter adapter = new ListAdapter(homepage.this, group_ids);
                     listView.setAdapter(adapter);
-                }
             }
 
             @Override
