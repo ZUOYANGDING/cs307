@@ -32,6 +32,7 @@
             android:textColor="#B9A336" />
 
         <EditText
+            android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/edit_landing_Birthday"
@@ -139,17 +140,6 @@
             android:layout_marginLeft="70dp"
             android:layout_width="220dp" />
     </LinearLayout>
-
-    <TextView
-        android:gravity="center"
-        android:id="@+id/edit_landing_error"
-        android:layout_weight="1"
-        android:textSize="24sp"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
 
     <ImageView
         android:layout_width="wrap_content"

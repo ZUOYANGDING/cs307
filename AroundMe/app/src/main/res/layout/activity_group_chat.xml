@@ -21,34 +21,60 @@
         android:background="@drawable/top_bar"
         android:weightSum="1">
 
-        <Button
-            android:text="Voted"
-            android:id="@+id/voted_button"
-            android:background="#ffB9A336"
-            android:textColor="@color/buttonTextColor"
-            android:layout_width="60dp"
-            android:layout_marginLeft="20dp"
-            android:layout_height="60dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:id="@+id/leave_layout"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp">
 
-        <TextView
-            android:text="Group name"
-            android:id="@+id/group_chat_groupName"
-            android:layout_height="60dp"
-            android:textSize="24sp"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:gravity="fill_vertical|center_horizontal"
-            android:layout_marginLeft="30dp"
-            android:layout_weight="0.13"
-            android:layout_width="140dp" />
+            <Button
+                android:id="@+id/leave_button"
+                android:background="@drawable/join_leave_button"
+                android:text="leave"
+                android:textColor="#B9A336"
+                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_weight="1" />
+        </LinearLayout>
 
-        <Button
-            android:text="Joined"
-            android:id="@+id/joined_button"
-            android:background="#ffB9A336"
-            android:layout_marginLeft="30dp"
-            android:textColor="@color/buttonTextColor"
-            android:layout_width="60dp"
-            android:layout_height="60dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:id="@+id/group_name_layout"
+            android:layout_marginLeft="15dp"
+            android:layout_width="160dp">
+
+            <TextView
+                android:id="@+id/group_name"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:gravity="fill_vertical|center_horizontal"
+                android:text="Group name"
+                android:textColor="@color/common_google_signin_btn_text_dark_default"
+                android:textSize="24sp"
+                android:layout_width="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:id="@+id/join_layout"
+            android:layout_marginLeft="15dp">
+
+            <Button
+                android:id="@+id/joined_button"
+                android:background="@drawable/join_leave_button"
+                android:text="Join"
+                android:textColor="#B9A336"
+                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_weight="1"
+                android:layout_marginTop="5dp" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -62,20 +88,20 @@
         android:id="@+id/bottomBar">
 
         <ImageButton
-            app:srcCompat="@drawable/add_picture"
-            android:id="@+id/addPicture"
-            android:background="@null"
+            android:id="@+id/add_picture"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
+            android:background="@null"
             android:scaleType="centerInside"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
+            app:srcCompat="@drawable/add_picture" />
 
         <EditText
             android:layout_height="40dp"
             android:inputType="text"
             android:ems="10"
-            android:id="@+id/group_chat_enterMessage"
+            android:id="@+id/enterMessage"
             android:textColor="?android:attr/textColorPrimaryInverseNoDisable"
             android:layout_marginTop="10dp"
             android:textAlignment="center"

@@ -26,10 +26,10 @@ public class editLandingActivity extends AppCompatActivity {
     public  String Birthday;
     public  String info;
 
-    TextView edit_landing_Nickname;
-    TextView edit_landing_Birthday;
-    TextView edit_landing_info;
-    TextView edit_landing_error;
+    private TextView edit_landing_Nickname;
+    private TextView edit_landing_Birthday;
+    private TextView edit_landing_info;
+    private TextView edit_landing_error;
     private DatabaseReference mDatabase;
     Button saveButton;
 
@@ -60,13 +60,16 @@ public class editLandingActivity extends AppCompatActivity {
                 if (Nickname.length() == 0 || Birthday.length() == 0) {
                     edit_landing_error.setText("Please fill in all fields");
                 } else {
-                    final DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
-                    mref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    final DatabaseReference edit_ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                    edit_ref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            mref.child(dataSnapshot.child("userID").getValue().toString()).child("nickName").setValue(Nickname);
-                            mref.child(dataSnapshot.child("userID").getValue().toString()).child("introduction").setValue(info);
-                            mref.child(dataSnapshot.child("userID").getValue().toString()).child("birthday").setValue(Birthday);
+                            User user = dataSnapshot.getValue(User.class);
+                            if (user !=  null) {
+                                edit_ref.child(dataSnapshot.child("userID").getValue().toString()).child("nickName").setValue(Nickname);
+                                edit_ref.child(dataSnapshot.child("userID").getValue().toString()).child("introduction").setValue(info);
+                                edit_ref.child(dataSnapshot.child("userID").getValue().toString()).child("birthday").setValue(Birthday);
+                            }
                         }
 
                         @Override
@@ -77,8 +80,10 @@ public class editLandingActivity extends AppCompatActivity {
 
                     Intent i=new Intent(editLandingActivity.this, LandingActivity.class);
                     editLandingActivity.this.startActivity(i);
+                    finish();
                 }
             }
         });
     }
+
 }

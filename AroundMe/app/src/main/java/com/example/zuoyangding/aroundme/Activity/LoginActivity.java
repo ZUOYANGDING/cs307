@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.example.zuoyangding.aroundme.DataModels.User;
 import com.example.zuoyangding.aroundme.R;
+import com.firebase.client.Firebase;
+import com.firebase.ui.auth.ui.email.RegisterEmailActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -54,6 +56,9 @@ public class LoginActivity extends AppCompatActivity {
     private String email;
     private String password;
     private String userId;
+
+    //Add by Frank
+    private boolean privacy_mode;
 
     protected void onCreate(Bundle savedInstanceState) {
         //System.out.println("jump to login3");
@@ -101,7 +106,9 @@ public class LoginActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             //User uCheck = dataSnapshot.getValue(User.class);
                             if (!dataSnapshot.exists()) {
-                                User u = new User(userID, null, null, email, null, null, null, null, null);
+
+                                User u = new User(userID, null, null, email, null, null, null, null, null, true, 0);
+
                                 u.setGoogleAccount(email);
                                 u.setUserID(userID);
                                 System.out.println("I am here");

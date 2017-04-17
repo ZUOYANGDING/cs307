@@ -16,14 +16,14 @@ public class User {
     private ArrayList<String> groupIDs;
     private String email;
     private String password;
-
     //image module (by Frank Hu)
     private String imgStr;
+    private boolean privacy_mode;
+    private int report;
 
-    //private String profile_image;
     //private String profile;
-
-    public User(String userID, String email, String password, String googleAccount, String nickName, String birthday, String introduction, ArrayList<String> groupIDs, String imgStr) {
+    public User(){}
+    public User(String userID, String email, String password, String googleAccount, String nickName, String birthday, String introduction, ArrayList<String> groupIDs, String imgStr, boolean mode, int report) {
         this.email = email;
         this.password = password;
         this.userID = userID;
@@ -33,9 +33,14 @@ public class User {
         this.googleAccount = googleAccount;
         this.nickName = nickName;
         this.groupIDs = groupIDs;
+        this.privacy_mode = mode;
+        this.report = report;
+
+
 
         //image module (by Frank Hu)
         this.imgStr = imgStr;
+
     }
     public String getUserID() {
         return this.userID;
@@ -71,8 +76,20 @@ public class User {
     public String getEmail() {return this.email;}
     public void setPassword(String password) {this.password = password;}
     public String getPassword() {return this.password;}
+    public void setReport(int report) {
+        this.report = report;
+    }
+    public int getReport (){
+        return report;
+    }
+
 
     //image module (by Frank Hu)
     public String getImgBitmap() { return this.imgStr;}
     public void setImgStr(String imgStr) { this.imgStr = imgStr;}
+//    public boolean getPrivacy_mode() { return this.privacy_mode;}
+    public void setPrivacy_mode(boolean mode) {
+        this.privacy_mode = mode;
+    }
 }
+
