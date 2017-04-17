@@ -82,8 +82,8 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
         //Add by Frank
         landing_switch = (Switch) findViewById(R.id.switch_privacy);
-
-        //image module by Frank
+        userId = global_variable.getUser_id();
+        //image module
         //landing_iv = (ImageView) findViewById(R.id.imageButton);
         landing_iv = (ImageView) findViewById(R.id.profile_picture);
         landing_iv.setOnClickListener(this);
@@ -140,8 +140,23 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
                     //Uri imgUri = Uri.parse(landing_imgStr);
                     //landing_iv.setImageURI(imgUri);
                 }
-                boolean mode = global_variable.getPrivacy_mode();
-                landing_switch.setChecked(mode);
+
+                final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                ref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.child("privacy_mode") != null) {
+                            boolean mode = (boolean) dataSnapshot.child("privacy_mode").getValue();
+                            landing_switch.setChecked(mode);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override
@@ -182,8 +197,21 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
                 switch_ref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        global_variable.changePrivacy_mode();
+                        //DataSnapshot usnap = dataSnapshot.child(global_variable.getUser_id());
+                        boolean current_mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
+                        System.out.print(userId + "\' Current mode is " + current_mode + ". ");
+                        if( current_mode == true) {
+                            switch_ref.child(userId).child("privacy_mode").setValue(false);
+                            current_mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
+                            System.out.println("Now set to : " + current_mode + ".");
+                        } else {
+                            switch_ref.child(userId).child("privacy_mode").setValue(true);
+                            current_mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
+                            System.out.println("Now set to : " + current_mode + ".");
+                        }
+                        //global_variable.changePrivacy_mode();
                     }
+
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -205,40 +233,42 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Global_variable global_variable = (Global_variable)getApplicationContext();
-        //if (requestCode == 1 && requestCode == RESULT_OK && data != null){
 
-        Uri imgUri = data.getData();
-        landing_iv.setImageURI(imgUri);
+        //crash check
+//        if (requestCode == 1 && requestCode == RESULT_OK && data != null){
+        if (data != null){
 
-        //Bitmap way
-        Bitmap myBitmap = null;
-        try {
-            myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
-        } catch (IOException e) {
-            e.printStackTrace();
+            Uri imgUri = data.getData();
+            landing_iv.setImageURI(imgUri);
+
+            //Bitmap way
+            Bitmap myBitmap = null;
+            try {
+                myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            myBitmap.compress(Bitmap.CompressFormat.PNG,50, bos);
+            byte[] imgByte = bos.toByteArray();
+            this.landing_imgStr = Base64.encodeToString(imgByte, Base64.DEFAULT);
+
+            //Uri way
+            //this.landing_imgStr = imgUri.toString();
+
+                final DatabaseReference changeImg_ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                changeImg_ref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        changeImg_ref.child(dataSnapshot.child("userID").getValue().toString()).child("imgStr").setValue(landing_imgStr);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
         }
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.PNG,100, bos);
-        byte[] imgByte = bos.toByteArray();
-        this.landing_imgStr = Base64.encodeToString(imgByte, Base64.DEFAULT);
-
-        //Uri way
-        //this.landing_imgStr = imgUri.toString();
-
-            final DatabaseReference changeImg_ref = FirebaseDatabase.getInstance().getReference().child("Users");
-            changeImg_ref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    changeImg_ref.child(dataSnapshot.child("userID").getValue().toString()).child("imgStr").setValue(landing_imgStr);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        //}
     }
 
 

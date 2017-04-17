@@ -207,10 +207,10 @@
         android:id="@+id/switch_privacy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Privacy \nMode"
         android:layout_above="@+id/nicknameLayout"
         android:layout_alignStart="@+id/nicknameLayout"
-        android:layout_marginBottom="33dp"
-        android:text="Switch" />
+        android:layout_marginBottom="17dp" />
 
 
     <!--android:layout_below="@+id/etUploadName"-->

@@ -61,7 +61,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.group_chat">
+        <activity android:name=".Activity.group_chat"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -84,7 +86,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Others_profile_pravicy">
+        <activity android:name=".Activity.Others_profile_privacy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

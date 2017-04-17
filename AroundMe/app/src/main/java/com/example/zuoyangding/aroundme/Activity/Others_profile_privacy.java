@@ -31,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
  * Created by Frank on 2017/4/6.
  */
 
-public class Others_profile_pravicy extends AppCompatActivity {
+public class Others_profile_privacy extends AppCompatActivity {
 
     private TextView landing_Nickname;
     private String Other_userId;
@@ -48,7 +48,8 @@ public class Others_profile_pravicy extends AppCompatActivity {
         setContentView(R.layout.activity_othersprofile_pravicy);
 
         Global_variable global_variable = (Global_variable)getApplicationContext();
-        Other_userId = global_variable.getother_userid();
+        Bundle b = getIntent().getExtras();
+        Other_userId = b.getString("other_uid");
         landing_Nickname = (TextView) findViewById(R.id.landing_Nickname);
 
         //image module by Frank

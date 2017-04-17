@@ -33,7 +33,6 @@ public class homepage extends AppCompatActivity {
     private ImageButton addGroupButton;
     private ImageButton profileButton;
     private ImageButton sortButton;
-    private ImageButton searchButton;
 //    private Button logout;
     private FirebaseAuth mAuth;
     private String userId;
@@ -43,6 +42,8 @@ public class homepage extends AppCompatActivity {
 
     //image module by Frank Hu
     private String landing_imgStr;
+    private ImageButton findroomate;
+    private ImageButton startButton;
 
 
     @Override
@@ -70,8 +71,11 @@ public class homepage extends AppCompatActivity {
         //userId = firebaseAuth.getCurrentUser().getUid();
         addGroupButton = (ImageButton) findViewById(R.id.addGroupButton);
         profileButton = (ImageButton) findViewById(R.id.profileButton);
-        searchButton = (ImageButton) findViewById(R.id.imageButton3);
         sortButton = (ImageButton)findViewById(R.id.homepage_button);
+        startButton = (ImageButton) findViewById(R.id.favorites_button);
+
+        //Add by Frank
+        findroomate = (ImageButton) findViewById(R.id.roommate_button);
 
         final Global_variable global_variable = (Global_variable)getApplicationContext();
         //ArrayList<String> group_ids;
@@ -198,9 +202,18 @@ public class homepage extends AppCompatActivity {
 //                startActivity(login);
 //            }
 //        });
-        searchButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent i = new Intent(homepage.this, Search_input.class);
+
+        //Add by Frank
+        startButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i=new Intent(homepage.this, homepage.class);
+                homepage.this.startActivity(i);
+            }
+        });
+
+        findroomate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i=new Intent(homepage.this, LandingActivity.class);
                 homepage.this.startActivity(i);
             }
         });

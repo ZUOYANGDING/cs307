@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                             //User uCheck = dataSnapshot.getValue(User.class);
                             if (!dataSnapshot.exists()) {
 
-                                User u = new User(userID, null, null, email, null, null, null, null, null);
+                                User u = new User(userID, null, null, email, null, null, null, null, null, true);
 
                                 u.setGoogleAccount(email);
                                 u.setUserID(userID);
