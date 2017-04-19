@@ -48,6 +48,8 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
     private ListView listViewOfMessages;
     private Button joinbutton;
 
+    private Button reportBtn;
+
     private Button deleteButton;
     //private String groupName;
     private String groupId;
@@ -61,85 +63,86 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_chat);
-        listViewOfMessages = (ListView) findViewById(R.id.chat_messages);
-        showGroupName = (TextView) findViewById(R.id.group_name);
-        sendMessage = (ImageButton) findViewById(R.id.send_message);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_group_chat);
+            listViewOfMessages = (ListView) findViewById(R.id.chat_messages);
+            showGroupName = (TextView) findViewById(R.id.group_name);
+            sendMessage = (ImageButton) findViewById(R.id.send_message);
 
-        sendImage = (ImageButton) findViewById(R.id.add_picture);
-        enterTheMessage = (EditText) findViewById(R.id.enterMessage);
-        joinbutton = (Button) findViewById(R.id.joined_button);
+            sendImage = (ImageButton) findViewById(R.id.add_picture);
+            enterTheMessage = (EditText) findViewById(R.id.enterMessage);
+            joinbutton = (Button) findViewById(R.id.joined_button);
 
-        deleteButton = (Button) findViewById(R.id.leave_button);
+            deleteButton = (Button) findViewById(R.id.leave_button);
+            reportBtn = (Button) findViewById(R.id.groupReport);
 
 
-        mDatabase = FirebaseDatabase.getInstance();
-        groupReference = mDatabase.getReference().child("Group");
-        chartMessagesReference = mDatabase.getReference().child("ChartMessages");
-        Bundle b = getIntent().getExtras();
-        groupId = b.getString("groupid");
+            mDatabase = FirebaseDatabase.getInstance();
+            groupReference = mDatabase.getReference().child("Group");
+            chartMessagesReference = mDatabase.getReference().child("ChartMessages");
+            Bundle b = getIntent().getExtras();
+            groupId = b.getString("groupid");
 
-        groupReference.child(groupId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                try {
-                    //GroupClass group = dataSnapshot.getValue(GroupClass.class);
-                    if (dataSnapshot.child("groupName") != null) {
-                        String groupName = dataSnapshot.child("groupName").getValue().toString();
-                        showGroupName.setText(groupName);
-                    } else {
-                        Toast.makeText(group_chat.this, "cannot find groupName", Toast.LENGTH_LONG).show();
+            groupReference.child(groupId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    try {
+                        //GroupClass group = dataSnapshot.getValue(GroupClass.class);
+                        if (dataSnapshot.child("groupName") != null) {
+                            String groupName = dataSnapshot.child("groupName").getValue().toString();
+                            showGroupName.setText(groupName);
+                        } else {
+                            Toast.makeText(group_chat.this, "cannot find groupName", Toast.LENGTH_LONG).show();
+                        }
+                    }catch (NullPointerException e){
+                        Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
                     }
-                }catch (NullPointerException e){
-                    Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-
-
-        //showGroupName.setText(groupName);
-
-        final Global_variable global_variable = (Global_variable) getApplicationContext();
-        final String uid = global_variable.getUser_id();
-        final DatabaseReference ref = mDatabase.getReference();
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> groupIDs = (ArrayList<String>) dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
-                if (groupIDs == null)
-                    return;
-                if ((Boolean) dataSnapshot.child("Group").child(groupId).child("is_permanent").getValue() && groupIDs.contains(groupId)) {
-                    joinbutton.setText("permanent");
-                    joinbutton.setEnabled(false);
-                } else if (groupIDs.contains(groupId)) {
-                    //Add by Group
-                    MeInThisGroup = true;
-
-                    joinbutton.setText("voted");
-                    joinbutton.setEnabled(false);
-                    Long start_date = (long) dataSnapshot.child("Group").child(groupId).child("date").getValue();
-                    long current_time = System.nanoTime();
-                    long time_period = current_time - start_date;
-                    double second = (double) time_period / 1000000000.0;
-                    double hour = second / 3600;
-                    if (hour >= 24)
-                        Toast.makeText(group_chat.this, "This group is about to expired", Toast.LENGTH_LONG).show();
-                } else if (!groupIDs.contains(groupIDs)) {
-                    deleteButton.setEnabled(false);
                 }
-            }
+            });
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+            //showGroupName.setText(groupName);
+
+            final Global_variable global_variable = (Global_variable) getApplicationContext();
+            final String uid = global_variable.getUser_id();
+            final DatabaseReference ref = mDatabase.getReference();
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    ArrayList<String> groupIDs = (ArrayList<String>) dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
+                    if (groupIDs == null)
+                        return;
+                    if ((Boolean) dataSnapshot.child("Group").child(groupId).child("is_permanent").getValue() && groupIDs.contains(groupId)) {
+                        joinbutton.setText("permanent");
+                        joinbutton.setEnabled(false);
+                    } else if (groupIDs.contains(groupId)) {
+                        //Add by Group
+                        MeInThisGroup = true;
+
+                        joinbutton.setText("voted");
+                        joinbutton.setEnabled(false);
+                        Long start_date = (long) dataSnapshot.child("Group").child(groupId).child("date").getValue();
+                        long current_time = System.nanoTime();
+                        long time_period = current_time - start_date;
+                        double second = (double) time_period / 1000000000.0;
+                        double hour = second / 3600;
+                        if (hour >= 24)
+                            Toast.makeText(group_chat.this, "This group is about to expired", Toast.LENGTH_LONG).show();
+                    } else if (!groupIDs.contains(groupIDs)) {
+                        deleteButton.setEnabled(false);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
 
             adapter = new FirebaseListAdapter<String>(group_chat.this, String.class,
                     R.layout.activity_display_messages, groupReference.child(groupId).child("messageId")) {
@@ -358,7 +361,6 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                 }
             });
 
-
             joinbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -434,6 +436,35 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                     });
                 }
             });
+
+
+            reportBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            long report = (long) dataSnapshot.child("Group").child(groupId).child("report").getValue();
+                            report ++;
+
+                            Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
+                            ref.child("Group").child(groupId).child("report").setValue(report);
+
+                            reportBtn.setText("Reported");
+                            reportBtn.setEnabled(false);
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    }
+            });
+
+
         } catch (NullPointerException e) {
             Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
         }

@@ -23,7 +23,8 @@ public class User {
 
     //private String profile;
     public User(){}
-    public User(String userID, String email, String password, String googleAccount, String nickName, String birthday, String introduction, ArrayList<String> groupIDs, String imgStr, boolean mode, int report) {
+    public User(String userID, String email, String password, String googleAccount, String nickName,
+                String birthday, String introduction, ArrayList<String> groupIDs, String imgStr, boolean mode, int report) {
         this.email = email;
         this.password = password;
         this.userID = userID;

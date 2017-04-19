@@ -23,12 +23,15 @@ public class GroupClass {
     public double lat;
     public double lon;
     private ArrayList<String> messageId;
+    private int report;
 
     public GroupClass() {}
 
 
 
-    public GroupClass(String groupName, String key, String topic, long date, ArrayList<String> messageId, ArrayList<String> member_ids, double lat, double lon, Boolean is_permanent) {
+    public GroupClass(String groupName, String key, String topic, long date,
+                      ArrayList<String> messageId, ArrayList<String> member_ids, double lat, double lon,
+                      Boolean is_permanent, int report) {
 
 
         this.groupName = groupName;
@@ -40,6 +43,7 @@ public class GroupClass {
         this.lat = lat;
         this.lon = lon;
         this.messageId = messageId;
+        this.report = report;
         //this.chartMessages = chartMessages;
     }
 
