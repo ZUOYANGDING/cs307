@@ -106,6 +106,7 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
 
         ////image module by Frank Hu (update sortpage user's avatar from firebase )
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
+        ref = FirebaseDatabase.getInstance().getReference();
         mref.child(global_variable.getUser_id()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -220,9 +221,20 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     ArrayList<GroupClass> temp = new ArrayList<GroupClass>();
                     for (DataSnapshot it : dataSnapshot.getChildren()) {
-                        //Location temp_lo = new Location(it.child("mlocation").getValue(Location.class));
-                        GroupClass group = new GroupClass(it.child("groupName").getValue().toString(), it.child("key").getValue().toString(), it.child("topic").getValue().toString(), it.child("date").getValue(Long.class), null, (ArrayList<String>) it.child("member_ids").getValue(), it.child("lat").getValue(Double.class), it.child("lon").getValue(Double.class), it.child("is_permanent").getValue(Boolean.class));
-                        temp.add(group);
+                        if (it.getValue() != null) {
+                            Long start_time = it.child("date").getValue(long.class);
+                            long current_time = System.nanoTime();
+                            long time_period = current_time - start_time;
+                            double second = (double) Math.abs(time_period) / 100000000.0;
+                            double hour = second / 3600;
+                            if (hour >= 24) {
+                                ref.child("Group").child(it.child("key").getValue().toString()).removeValue();
+                            }else {
+                                //Location temp_lo = new Location(it.child("mlocation").getValue(Location.class));
+                                GroupClass group = new GroupClass(it.child("groupName").getValue().toString(), it.child("key").getValue().toString(), it.child("topic").getValue().toString(), it.child("date").getValue(Long.class), null, (ArrayList<String>) it.child("member_ids").getValue(), it.child("lat").getValue(Double.class), it.child("lon").getValue(Double.class), it.child("is_permanent").getValue(Boolean.class));
+                                temp.add(group);
+                            }
+                        }
                     }
                     GroupClass[] groups = new GroupClass[temp.size()];
                     groups = temp.toArray(groups);
