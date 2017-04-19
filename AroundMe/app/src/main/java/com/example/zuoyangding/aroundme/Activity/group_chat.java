@@ -31,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 
 public class group_chat extends AppCompatActivity implements View.OnClickListener {
@@ -56,7 +57,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
 
     //Add by Frank
     private boolean MeInThisGroup = false;
-
+    private boolean OtherInThisGroup = false;
     //private int message_count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +160,9 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                             ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
                             showMessage.setVisibility(View.GONE);
                             showImage.setVisibility(View.GONE);
+                            /*SHOW USER AVATAR(FRANK)*/
+                            //TODO
+
                             if (dataSnapshot.child("ChartMessages").getValue() != null) {
                                 String messageId = dataSnapshot.child("ChartMessages").child(model_1).child("messageKey").getValue().toString();
                                 String userId = dataSnapshot.child("ChartMessages").child(model_1).child("uid").getValue().toString();
@@ -211,6 +215,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                             }*/
 
                                 v1.setTag(userId);
+                                //COMMENT THIS OUT IF FINISH AVATAR(FRANK)
                                 TextView showNickName = (TextView) v1.findViewById(R.id.nick_name);
                                 //TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
 
@@ -344,11 +349,14 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                     others_ref.child(other_uid).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            //is other user in this group
+                            ArrayList<String> groupIDs = (ArrayList<String>) dataSnapshot.child("groupIDs").getValue();
+                                    OtherInThisGroup = groupIDs.contains(groupId);
 
                             boolean current_mode = (boolean) dataSnapshot.child("privacy_mode").getValue();
                             System.out.print(other_uid + "\' Current mode is " + current_mode + ". ");
 
-                            if (current_mode == true && MeInThisGroup == false) {
+                            if (current_mode == true && (MeInThisGroup == false || OtherInThisGroup == false) ) {
                                 System.out.println("Go to Others_profile_privacy.class.");
                                 Intent i = new Intent(group_chat.this, Others_profile_privacy.class);
                                 i.putExtra("other_uid", other_uid);
