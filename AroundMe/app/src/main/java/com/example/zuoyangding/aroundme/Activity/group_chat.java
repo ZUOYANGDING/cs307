@@ -76,9 +76,11 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
         joinbutton = (Button) findViewById(R.id.joined_button);
 
         deleteButton = (Button) findViewById(R.id.leave_button);
+            reportBtn = (Button) findViewById(R.id.groupReport);
 
 
-        mDatabase = FirebaseDatabase.getInstance();
+
+            mDatabase = FirebaseDatabase.getInstance();
         groupReference = mDatabase.getReference().child("Group");
         chartMessagesReference = mDatabase.getReference().child("ChartMessages");
         Bundle b = getIntent().getExtras();
