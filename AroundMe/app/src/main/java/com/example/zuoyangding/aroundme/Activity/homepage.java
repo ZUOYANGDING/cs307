@@ -118,7 +118,7 @@ public class homepage extends AppCompatActivity {
                             Long start_time = dataSnapshot.child("Group").child(it.getValue().toString()).child("date").getValue(long.class);
                             long current_time = System.nanoTime();
                             long time_period = current_time - start_time;
-                            double second = (double) Math.abs(time_period) / 1000000000.0;
+                            double second = (double) Math.abs(time_period) / 10000000000.0;
                             double hour = second / 3600;
                             if (hour >= 24){
                                 ref.child("Group").child(it.getValue().toString()).removeValue();

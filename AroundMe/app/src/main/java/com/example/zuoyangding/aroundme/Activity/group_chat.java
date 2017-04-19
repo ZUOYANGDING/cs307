@@ -111,30 +111,33 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> groupIDs = (ArrayList<String>) dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
-                if (groupIDs == null)
-                    return;
-                if ((Boolean) dataSnapshot.child("Group").child(groupId).child("is_permanent").getValue() && groupIDs.contains(groupId)) {
-                    joinbutton.setText("permanent");
-                    joinbutton.setEnabled(false);
-                } else if (groupIDs.contains(groupId)) {
-                    //Add by Group
-                    MeInThisGroup = true;
+                try {
+                    ArrayList<String> groupIDs = (ArrayList<String>) dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
+                    if (groupIDs == null)
+                        return;
+                    if ((Boolean) dataSnapshot.child("Group").child(groupId).child("is_permanent").getValue() && groupIDs.contains(groupId)) {
+                        joinbutton.setText("permanent");
+                        joinbutton.setEnabled(false);
+                    } else if (groupIDs.contains(groupId)) {
+                        //Add by Group
+                        MeInThisGroup = true;
 
-                    joinbutton.setText("voted");
-                    joinbutton.setEnabled(false);
-                    Long start_date = (long) dataSnapshot.child("Group").child(groupId).child("date").getValue();
-                    long current_time = System.nanoTime();
-                    long time_period = current_time - start_date;
-                    double second = (double) time_period / 1000000000.0;
-                    double hour = second / 3600;
-                    if (hour >= 24)
-                        Toast.makeText(group_chat.this, "This group is about to expired", Toast.LENGTH_LONG).show();
-                } else if (!groupIDs.contains(groupIDs)) {
-                    deleteButton.setEnabled(false);
+                        joinbutton.setText("voted");
+                        joinbutton.setEnabled(false);
+                        Long start_date = (long) dataSnapshot.child("Group").child(groupId).child("date").getValue();
+                        long current_time = System.nanoTime();
+                        long time_period = current_time - start_date;
+                        double second = (double) time_period / 1000000000.0;
+                        double hour = second / 3600;
+                        if (hour >= 24)
+                            Toast.makeText(group_chat.this, "This group is about to expired", Toast.LENGTH_LONG).show();
+                    } else if (!groupIDs.contains(groupIDs)) {
+                        deleteButton.setEnabled(false);
+                    }
+                }catch (NullPointerException e){
+                    Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -230,15 +233,19 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
             groupReference.child(groupId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    long start_date = dataSnapshot.child("last_message").getValue(long.class);
-                    long current_time = System.nanoTime();
-                    long time_period = current_time - start_date;
-                    double second = (double) time_period / 1000000000.0;
-                    double hour = second / 3600;
-                    if (hour <= 24)
-                        listViewOfMessages.setAdapter(adapter);
+                    try {
+                        long start_date = dataSnapshot.child("last_message").getValue(long.class);
+                        long current_time = System.nanoTime();
+                        long time_period = current_time - start_date;
+                        double second = (double) time_period / 1000000000.0;
+                        double hour = second / 3600;
+                        if (hour <= 24)
+                            listViewOfMessages.setAdapter(adapter);
+                    }catch (NullPointerException e){
+                        Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                 }
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
@@ -257,9 +264,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                     } else {
 //                    Global_variable global_variable = (Global_variable)getApplicationContext();
 //                    ChartMessage chartMessage = new ChartMessage(message, global_variable.getUser_id());
-                        long message_date = System.nanoTime();
-                        groupReference.child(groupId).child("last_message").setValue(message_date);
-                        groupReference.child(groupId).child("messageId").addListenerForSingleValueEvent(new ValueEventListener() {
+                        groupReference.addListenerForSingleValueEvent(new ValueEventListener() {
                             /*Global_variable global_variable = (Global_variable)getApplicationContext();
                             String userId = global_variable.getUser_id();
                             ChartMessage chartMessage = new ChartMessage(message, userId);*/
@@ -270,8 +275,13 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                 String userId = global_variable.getUser_id();
                                 //ChartMessage chartMessage = new ChartMessage(message, userId);
 
-
-                                if (dataSnapshot.getValue() == null) {
+                                if (dataSnapshot.child(groupId).getValue() == null){
+                                    Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                else if (dataSnapshot.child(groupId).child("messageId").getValue() == null) {
+                                    long message_date = System.nanoTime();
+                                    groupReference.child(groupId).child("last_message").setValue(message_date);
                                     String messageKey = chartMessagesReference.push().getKey();
                                     ChartMessage chartMessage = new ChartMessage(message, userId);
                                     chartMessage.setMessageKey(messageKey);
@@ -287,12 +297,14 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                     //System.out.println("groupId_1"+groupId);
                                     //groupReference.child(groupId).child("chartMessages").setValue(chartMessages);
                                 } else {
+                                    long message_date = System.nanoTime();
+                                    groupReference.child(groupId).child("last_message").setValue(message_date);
                                     String messageKey = chartMessagesReference.push().getKey();
                                     ChartMessage chartMessage = new ChartMessage(message, userId);
                                     chartMessage.setMessageKey(messageKey);
                                     chartMessagesReference.child(messageKey).setValue(chartMessage);
 
-                                    ArrayList<String> messageId = (ArrayList<String>) dataSnapshot.getValue();
+                                    ArrayList<String> messageId = (ArrayList<String>) dataSnapshot.child(groupId).child("messageId").getValue();
                                     messageId.add(messageKey);
                                     groupReference.child(groupId).child("messageId").setValue(messageId);
 
@@ -407,13 +419,17 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                     ref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            ArrayList<String> groupIds = (ArrayList<String>) dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
-                            groupIds.remove(groupId);
-                            long votes = (long) dataSnapshot.child("Group").child(groupId).child("vote").getValue();
-                            votes--;
-                            ref.child("Group").child(groupId).child("vote").setValue(votes);
-                            ref.child("Users").child(uid).child("groupIDs").removeValue();
-                            ref.child("Users").child(uid).child("groupIDs").setValue(groupIds);
+                            if (dataSnapshot.child("Group").child(groupId).getValue() == null) {
+                                Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
+                                return;
+                            } else {
+                                ArrayList<String> groupIds = (ArrayList<String>) dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
+                                groupIds.remove(groupId);
+                                long votes = (long) dataSnapshot.child("Group").child(groupId).child("vote").getValue();
+                                votes--;
+                                ref.child("Group").child(groupId).child("vote").setValue(votes);
+                                ref.child("Users").child(uid).child("groupIDs").removeValue();
+                                ref.child("Users").child(uid).child("groupIDs").setValue(groupIds);
                         /*
                         ArrayList<String> memberIDs = (ArrayList<String>)dataSnapshot.child("Group").child(groupId).child("member_ids").getValue();
                         memberIDs.remove(uid);
@@ -423,8 +439,9 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                             ref.child("Group").child(groupId).setValue(null);
                         }
                         */
-                            Intent i = new Intent(group_chat.this, homepage.class);
-                            group_chat.this.startActivity(i);
+                                Intent i = new Intent(group_chat.this, homepage.class);
+                                group_chat.this.startActivity(i);
+                            }
                         }
 
                         @Override
@@ -472,15 +489,19 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
             Bundle b = getIntent().getExtras();
             groupId = b.getString("groupid");
             groupReference = FirebaseDatabase.getInstance().getReference().child("Group");
-            long message_date = System.nanoTime();
-            groupReference.child(groupId).child("last_message").setValue(message_date);
             chartMessagesReference = FirebaseDatabase.getInstance().getReference().child("ChartMessages");
-            groupReference.child(groupId).child("messageId").addListenerForSingleValueEvent(new ValueEventListener() {
+            groupReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Global_variable global_variable = (Global_variable) getApplicationContext();
                     String userId = global_variable.getUser_id();
-                    if (dataSnapshot.getValue() == null) {
+                    if (dataSnapshot.child(groupId).getValue() == null){
+                        Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    else if (dataSnapshot.child(groupId).child("messageId").getValue() == null) {
+                        long message_date = System.nanoTime();
+                        groupReference.child(groupId).child("last_message").setValue(message_date);
                         String messageKey = chartMessagesReference.push().getKey();
                         ChartMessage chartMessage = new ChartMessage(null, userId);
                         chartMessage.setImage(image);
@@ -491,12 +512,14 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
 
                         groupReference.child(groupId).child("messageId").setValue(messageId);
                     } else {
+                        long message_date = System.nanoTime();
+                        groupReference.child(groupId).child("last_message").setValue(message_date);
                         String messageKey = chartMessagesReference.push().getKey();
                         ChartMessage chartMessage = new ChartMessage(null, userId);
                         chartMessage.setImage(image);
                         chartMessage.setMessageKey(messageKey);
                         chartMessagesReference.child(messageKey).setValue(chartMessage);
-                        ArrayList<String> messageId = (ArrayList<String>) dataSnapshot.getValue();
+                        ArrayList<String> messageId = (ArrayList<String>) dataSnapshot.child(groupId).child("messageId").getValue();
                         messageId.add(messageKey);
                         groupReference.child(groupId).child("messageId").setValue(messageId);
 
