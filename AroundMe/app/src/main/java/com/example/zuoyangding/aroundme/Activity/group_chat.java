@@ -444,14 +444,26 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                     ref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            long report = (long) dataSnapshot.child("Group").child(groupId).child("report").getValue();
-                            report ++;
 
-                            Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
-                            ref.child("Group").child(groupId).child("report").setValue(report);
+                            if (!dataSnapshot.child("Group").child(groupId).child("report").exists()) {
+                                Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
+                                ref.child("Group").child(groupId).child("report").setValue(1);
 
-                            reportBtn.setText("Reported");
-                            reportBtn.setEnabled(false);
+                                reportBtn.setText("Reported");
+                                reportBtn.setEnabled(false);
+
+                            } else {
+
+                                long report = (long) dataSnapshot.child("Group").child(groupId).child("report").getValue();
+
+                                report++;
+
+                                Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
+                                ref.child("Group").child(groupId).child("report").setValue(report);
+
+                                reportBtn.setText("Reported");
+                                reportBtn.setEnabled(false);
+                            }
 
                         }
 
