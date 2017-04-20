@@ -351,8 +351,9 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             //is other user in this group
                             ArrayList<String> groupIDs = (ArrayList<String>) dataSnapshot.child("groupIDs").getValue();
-                                    OtherInThisGroup = groupIDs.contains(groupId);
-
+                            if (groupIDs != null) {
+                                OtherInThisGroup = groupIDs.contains(groupId);
+                            }
                             boolean current_mode = (boolean) dataSnapshot.child("privacy_mode").getValue();
                             System.out.print(other_uid + "\' Current mode is " + current_mode + ". ");
 
