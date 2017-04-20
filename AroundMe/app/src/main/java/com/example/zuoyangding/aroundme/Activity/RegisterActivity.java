@@ -126,14 +126,23 @@ public class RegisterActivity extends AppCompatActivity {
         userReference = mDatabase.child("Users");
         userId = firebaseAuth.getCurrentUser().getUid();
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master2
         user = new User(userId, email, password, null, nickName, null, null, new ArrayList<String>(), null, true);
 
         user.setUserID(userId);
         user.setEmail(email);
         user.setPassword(password);
         user.setNickName(nickName);
+<<<<<<< HEAD
         userReference.child(userId).setValue(user);
+=======
+        user.setPrivacy_mode(true);
+        userReference.child(userId).setValue(user);
+        userReference.child(userId).child("privacy_mode").setValue(true);
+>>>>>>> master2
     }
 
     public boolean isValidEmail(String target) {

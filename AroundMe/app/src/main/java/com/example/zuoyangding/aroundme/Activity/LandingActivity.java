@@ -146,8 +146,15 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+<<<<<<< HEAD
                         boolean mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
                         landing_switch.setChecked(mode);
+=======
+                        if (dataSnapshot.child("privacy_mode") != null) {
+                            boolean mode = (boolean) dataSnapshot.child("privacy_mode").getValue();
+                            landing_switch.setChecked(mode);
+                        }
+>>>>>>> master2
                     }
 
                     @Override
@@ -231,6 +238,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Global_variable global_variable = (Global_variable)getApplicationContext();
+<<<<<<< HEAD
         //if (requestCode == 1 && requestCode == RESULT_OK && data != null){
 
         Uri imgUri = data.getData();
@@ -265,6 +273,44 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
             });
 
         //}
+=======
+
+        //crash check
+//        if (requestCode == 1 && requestCode == RESULT_OK && data != null){
+        if (data != null){
+
+            Uri imgUri = data.getData();
+            landing_iv.setImageURI(imgUri);
+
+            //Bitmap way
+            Bitmap myBitmap = null;
+            try {
+                myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            myBitmap.compress(Bitmap.CompressFormat.PNG,50, bos);
+            byte[] imgByte = bos.toByteArray();
+            this.landing_imgStr = Base64.encodeToString(imgByte, Base64.DEFAULT);
+
+            //Uri way
+            //this.landing_imgStr = imgUri.toString();
+
+                final DatabaseReference changeImg_ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                changeImg_ref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        changeImg_ref.child(dataSnapshot.child("userID").getValue().toString()).child("imgStr").setValue(landing_imgStr);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+        }
+>>>>>>> master2
     }
 
 

@@ -31,6 +31,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+<<<<<<< HEAD
+=======
+import java.util.StringTokenizer;
+>>>>>>> master2
 
 
 public class group_chat extends AppCompatActivity implements View.OnClickListener {
@@ -48,21 +52,38 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
     private ListView listViewOfMessages;
     private Button joinbutton;
 
+<<<<<<< HEAD
+=======
+    private Button reportBtn;
+
+
+>>>>>>> master2
     private Button deleteButton;
     //private String groupName;
     private String groupId;
     private String message;
     private String image;
 
+<<<<<<< HEAD
     //private int message_count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+=======
+    //Add by Frank
+    private boolean MeInThisGroup = false;
+    private boolean OtherInThisGroup = false;
+    //private int message_count = 0;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        try {
+>>>>>>> master2
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chat);
         listViewOfMessages = (ListView) findViewById(R.id.chat_messages);
         showGroupName = (TextView) findViewById(R.id.group_name);
         sendMessage = (ImageButton) findViewById(R.id.send_message);
 
+<<<<<<< HEAD
         sendImage = (ImageButton) findViewById (R.id.add_picture);
         enterTheMessage = (EditText)findViewById(R.id.enterMessage);
         joinbutton = (Button)findViewById(R.id.joined_button);
@@ -71,6 +92,18 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
 
 
         mDatabase = FirebaseDatabase.getInstance();
+=======
+        sendImage = (ImageButton) findViewById(R.id.add_picture);
+        enterTheMessage = (EditText) findViewById(R.id.enterMessage);
+        joinbutton = (Button) findViewById(R.id.joined_button);
+
+        deleteButton = (Button) findViewById(R.id.leave_button);
+            reportBtn = (Button) findViewById(R.id.groupReport);
+
+
+
+            mDatabase = FirebaseDatabase.getInstance();
+>>>>>>> master2
         groupReference = mDatabase.getReference().child("Group");
         chartMessagesReference = mDatabase.getReference().child("ChartMessages");
         Bundle b = getIntent().getExtras();
@@ -79,12 +112,25 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
         groupReference.child(groupId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+<<<<<<< HEAD
                 //GroupClass group = dataSnapshot.getValue(GroupClass.class);
                 if (dataSnapshot.child("groupName") != null) {
                     String groupName = dataSnapshot.child("groupName").getValue().toString();
                     showGroupName.setText(groupName);
                 } else {
                     Toast.makeText(group_chat.this, "cannot find groupName", Toast.LENGTH_LONG).show();
+=======
+                try {
+                    //GroupClass group = dataSnapshot.getValue(GroupClass.class);
+                    if (dataSnapshot.child("groupName") != null) {
+                        String groupName = dataSnapshot.child("groupName").getValue().toString();
+                        showGroupName.setText(groupName);
+                    } else {
+                        Toast.makeText(group_chat.this, "cannot find groupName", Toast.LENGTH_LONG).show();
+                    }
+                }catch (NullPointerException e){
+                    Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
+>>>>>>> master2
                 }
             }
 
@@ -97,12 +143,17 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
 
         //showGroupName.setText(groupName);
 
+<<<<<<< HEAD
         final Global_variable global_variable = (Global_variable)getApplicationContext();
+=======
+        final Global_variable global_variable = (Global_variable) getApplicationContext();
+>>>>>>> master2
         final String uid = global_variable.getUser_id();
         final DatabaseReference ref = mDatabase.getReference();
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+<<<<<<< HEAD
                 ArrayList<String> groupIDs = (ArrayList<String>)dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
                 if (groupIDs == null)
                     return;
@@ -123,12 +174,42 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                 }
             }
 
+=======
+                try {
+                    ArrayList<String> groupIDs = (ArrayList<String>) dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
+                    if (groupIDs == null)
+                        return;
+                    if ((Boolean) dataSnapshot.child("Group").child(groupId).child("is_permanent").getValue() && groupIDs.contains(groupId)) {
+                        joinbutton.setText("permanent");
+                        joinbutton.setEnabled(false);
+                    } else if (groupIDs.contains(groupId)) {
+                        //Add by Group
+                        MeInThisGroup = true;
+
+                        joinbutton.setText("voted");
+                        joinbutton.setEnabled(false);
+                        Long start_date = (long) dataSnapshot.child("Group").child(groupId).child("date").getValue();
+                        long current_time = System.currentTimeMillis();
+                        long time_period = current_time - start_date;
+                        double second = (double) time_period / 1000.0;
+                        double hour = second / 3600;
+                        if (hour >= 24)
+                            Toast.makeText(group_chat.this, "This group is about to expired", Toast.LENGTH_LONG).show();
+                    } else if (!groupIDs.contains(groupIDs)) {
+                        deleteButton.setEnabled(false);
+                    }
+                }catch (NullPointerException e){
+                    Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
+                }
+            }
+>>>>>>> master2
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
 
+<<<<<<< HEAD
 
         adapter = new FirebaseListAdapter<String>(group_chat.this, String.class,
                 R.layout.activity_display_messages, groupReference.child(groupId).child("messageId")) {
@@ -187,6 +268,70 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                 //((ViewGroup)v1).addView();
 
                             }
+=======
+            adapter = new FirebaseListAdapter<String>(group_chat.this, String.class,
+                    R.layout.activity_display_messages, groupReference.child(groupId).child("messageId")) {
+                @Override
+                protected void populateView(View v, final String model, final int position) {
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                    //v = getLayoutInflater().inflate(R.layout.activity_display_messages,null);
+                    final View v1 = v;
+                    final String model_1 = model;
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
+                            ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
+                            showMessage.setVisibility(View.GONE);
+                            showImage.setVisibility(View.GONE);
+                            /*SHOW USER AVATAR(FRANK)*/
+                            //TODO
+
+                            if (dataSnapshot.child("ChartMessages").getValue() != null) {
+                                String messageId = dataSnapshot.child("ChartMessages").child(model_1).child("messageKey").getValue().toString();
+                                String userId = dataSnapshot.child("ChartMessages").child(model_1).child("uid").getValue().toString();
+                                String message = null;
+                                String imageString = null;
+                                String nickName;
+                                if (dataSnapshot.child("Users").child(userId).child("nickName").getValue() == null) {
+                                    nickName = "anonymous";
+                                } else {
+                                    nickName = dataSnapshot.child("Users").child(userId).child("nickName").getValue().toString();
+                                }
+                                if (dataSnapshot.child("ChartMessages").child(model_1).child("message").getValue() != null) {
+                                    message = dataSnapshot.child("ChartMessages").child(model_1).child("message").getValue().toString();
+                                    //TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
+                                    showMessage.setVisibility(View.VISIBLE);
+                                    showMessage.setText(message);
+                                    //showMessage.setVisibility(View.VISIBLE);
+                                    //ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
+                                    //((ViewGroup) v1).removeView(showImage);
+                                    //showImage.setVisibility(View.GONE);
+                                } else {
+                                    //TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
+                                    //showMessage.setVisibility(View.GONE);
+                                    //((ViewGroup) v1).removeView(showMessage);
+                                }
+                                if (dataSnapshot.child("ChartMessages").child(model_1).child("image").getValue() != null) {
+                                    imageString = dataSnapshot.child("ChartMessages").child(model_1).child("image").getValue().toString();
+                                    byte[] imageByte = Base64.decode(imageString, Base64.DEFAULT);
+                                    BitmapFactory.Options opt = new BitmapFactory.Options();
+                                    opt.inSampleSize = 3;
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length, opt);
+                                    //ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
+                                    showImage.setVisibility(View.VISIBLE);
+                                    showImage.setImageBitmap(bitmap);
+                                    //showImage.setVisibility(View.VISIBLE);
+                                    //TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
+                                    //showMessage.setVisibility(View.GONE);
+                                    //((ViewGroup) v1).removeView(showMessage);
+                                } else {
+                                    //ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
+                                    //((ViewGroup) v1).removeView(showImage);
+                                    //((ViewGroup)v1).addView();
+
+                                }
+>>>>>>> master2
                             /*String nickName;
                             if (dataSnapshot.child("Users").child(userId).child("nickName").getValue() == null) {
                                 nickName = "anonymous";
@@ -194,6 +339,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                 nickName = dataSnapshot.child("Users").child(userId).child("nickName").getValue().toString();
                             }*/
 
+<<<<<<< HEAD
                             v1.setTag(userId);
                             TextView showNickName = (TextView) v1.findViewById(R.id.nick_name);
                             //TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
@@ -270,6 +416,162 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                 //group.setChartMessages(chartMessages);
                                 //System.out.println("groupId_2"+groupId);
                                 //groupReference.child(groupId).child("chartMessages").setValue(chartMessages);
+=======
+                                v1.setTag(userId);
+                                //COMMENT THIS OUT IF FINISH AVATAR(FRANK)
+                                TextView showNickName = (TextView) v1.findViewById(R.id.nick_name);
+                                //TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
+
+                                //showMessage.setText(message);
+                                showNickName.setText(nickName);
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    listViewOfMessages.setSelection(position);
+                }
+
+            };
+            groupReference.child(groupId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    try {
+                        long start_date = dataSnapshot.child("last_message").getValue(long.class);
+                        long current_time = System.currentTimeMillis();
+                        long time_period = current_time - start_date;
+                        double second = (double) time_period / 1000.0;
+                        double hour = second / 3600;
+                        if (hour <= 24)
+                            listViewOfMessages.setAdapter(adapter);
+                    }catch (NullPointerException e){
+                        Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+            //listViewOfMessages.setAdapter(adapter);
+
+            sendImage.setOnClickListener(this);
+
+            sendMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    message = enterTheMessage.getText().toString();
+                    if (message.length() == 0) {
+                        Toast.makeText(group_chat.this, "message cannot be empty", Toast.LENGTH_LONG).show();
+                    } else {
+//                    Global_variable global_variable = (Global_variable)getApplicationContext();
+//                    ChartMessage chartMessage = new ChartMessage(message, global_variable.getUser_id());
+                        groupReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            /*Global_variable global_variable = (Global_variable)getApplicationContext();
+                            String userId = global_variable.getUser_id();
+                            ChartMessage chartMessage = new ChartMessage(message, userId);*/
+//                        ListAdapter adapter = new ListAdapter(group_chat.this, chartMessage);
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Global_variable global_variable = (Global_variable) getApplicationContext();
+                                String userId = global_variable.getUser_id();
+                                //ChartMessage chartMessage = new ChartMessage(message, userId);
+
+                                if (dataSnapshot.child(groupId).getValue() == null){
+                                    Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                else if (dataSnapshot.child(groupId).child("messageId").getValue() == null) {
+                                    long message_date = System.nanoTime();
+                                    groupReference.child(groupId).child("last_message").setValue(message_date);
+                                    String messageKey = chartMessagesReference.push().getKey();
+                                    ChartMessage chartMessage = new ChartMessage(message, userId);
+                                    chartMessage.setMessageKey(messageKey);
+                                    chartMessagesReference.child(messageKey).setValue(chartMessage);
+                                    ArrayList<String> messageId = new ArrayList<String>();
+                                    messageId.add(messageKey);
+
+                                    groupReference.child(groupId).child("messageId").setValue(messageId);
+
+                                    //MessageAdapter adapter = new MessageAdapter(group_chat.this, messageId);
+                                    //listViewOfMessages.setAdapter(adapter);
+                                    //group.setChartMessages(chartMessages);
+                                    //System.out.println("groupId_1"+groupId);
+                                    //groupReference.child(groupId).child("chartMessages").setValue(chartMessages);
+                                } else {
+                                    long message_date = System.nanoTime();
+                                    groupReference.child(groupId).child("last_message").setValue(message_date);
+                                    String messageKey = chartMessagesReference.push().getKey();
+                                    ChartMessage chartMessage = new ChartMessage(message, userId);
+                                    chartMessage.setMessageKey(messageKey);
+                                    chartMessagesReference.child(messageKey).setValue(chartMessage);
+
+                                    ArrayList<String> messageId = (ArrayList<String>) dataSnapshot.child(groupId).child("messageId").getValue();
+                                    messageId.add(messageKey);
+                                    groupReference.child(groupId).child("messageId").setValue(messageId);
+
+                                    //MessageAdapter adapter = new MessageAdapter(group_chat.this, messageId);
+                                    //listViewOfMessages.setAdapter(adapter);
+                                    //group.setChartMessages(chartMessages);
+                                    //System.out.println("groupId_2"+groupId);
+                                    //groupReference.child(groupId).child("chartMessages").setValue(chartMessages);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                        //showGroupName.setText("");
+                        //display();
+                        enterTheMessage.setText("");
+                    }
+                    //display();
+                }
+            });
+
+
+            listViewOfMessages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    View v = view;
+                    final String other_uid = v.getTag().toString();
+                    System.out.println("userId get from tag" + other_uid);
+                    //System.out.println(uid);
+                    //global_variable.setother_userid(u);
+
+                    //Add by Frank (decide which go to which profile page based on privacy setting)
+                    final DatabaseReference others_ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                    others_ref.child(other_uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            //is other user in this group
+                            ArrayList<String> groupIDs = (ArrayList<String>) dataSnapshot.child("groupIDs").getValue();
+                            if (groupIDs != null) {
+                                OtherInThisGroup = groupIDs.contains(groupId);
+                            }
+                            boolean current_mode = (boolean) dataSnapshot.child("privacy_mode").getValue();
+                            System.out.print(other_uid + "\' Current mode is " + current_mode + ". ");
+
+                            if (current_mode == true && (MeInThisGroup == false || OtherInThisGroup == false) ) {
+                                System.out.println("Go to Others_profile_privacy.class.");
+                                Intent i = new Intent(group_chat.this, Others_profile_privacy.class);
+                                i.putExtra("other_uid", other_uid);
+                                group_chat.this.startActivity(i);
+
+                            } else {
+                                System.out.println("Go to Others_profile.class.");
+                                Intent i = new Intent(group_chat.this, Others_profile.class);
+                                i.putExtra("other_uid", other_uid);
+                                group_chat.this.startActivity(i);
+>>>>>>> master2
                             }
                         }
 
@@ -278,6 +580,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
 
                         }
                     });
+<<<<<<< HEAD
                     //showGroupName.setText("");
                     //display();
                     enterTheMessage.setText("");
@@ -381,6 +684,71 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                         ref.child("Group").child(groupId).child("vote").setValue(votes);
                         ref.child("Users").child(uid).child("groupIDs").removeValue();
                         ref.child("Users").child(uid).child("groupIDs").setValue(groupIds);
+=======
+                }
+            });
+
+
+            joinbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //final DatabaseReference ref = mDatabase.getReference();
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            long votes = (long) dataSnapshot.child("Group").child(groupId).child("vote").getValue();
+
+                            votes++;
+                            if (votes >= 10) {
+                                ref.child("Group").child(groupId).child("is_permanent").setValue(true);
+
+                                joinbutton.setText("permanent");
+                            }
+                            ref.child("Group").child(groupId).child("vote").setValue(votes);
+                            ArrayList<String> groupIds = (ArrayList<String>) dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
+                            if (groupIds != null) {
+                                groupIds.add(groupId);
+                            } else {
+                                groupIds = new ArrayList<String>();
+                                groupIds.add(groupId);
+                            }
+                            ref.child("Users").child(uid).child("groupIDs").setValue(groupIds);
+                            joinbutton.setText("voted");
+                            joinbutton.setEnabled(false);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+            });
+
+
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    //final DatabaseReference ref = mDatabase.getReference();
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.child("Group").child(groupId).getValue() == null) {
+                                Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
+                                return;
+                            } else {
+                                ArrayList<String> groupIds = (ArrayList<String>) dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
+                                groupIds.remove(groupId);
+                                long votes = (long) dataSnapshot.child("Group").child(groupId).child("vote").getValue();
+                                votes--;
+                                ref.child("Group").child(groupId).child("vote").setValue(votes);
+                                ref.child("Users").child(uid).child("groupIDs").removeValue();
+                                ref.child("Users").child(uid).child("groupIDs").setValue(groupIds);
+>>>>>>> master2
                         /*
                         ArrayList<String> memberIDs = (ArrayList<String>)dataSnapshot.child("Group").child(groupId).child("member_ids").getValue();
                         memberIDs.remove(uid);
@@ -390,6 +758,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                             ref.child("Group").child(groupId).setValue(null);
                         }
                         */
+<<<<<<< HEAD
                         Intent i = new Intent(group_chat.this, homepage.class);
                         group_chat.this.startActivity(i);
                     }
@@ -401,6 +770,63 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                 });
             }
         });
+=======
+                                Intent i = new Intent(group_chat.this, homepage.class);
+                                group_chat.this.startActivity(i);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            });
+
+
+            reportBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            if (!dataSnapshot.child("Group").child(groupId).child("report").exists()) {
+                                Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
+                                ref.child("Group").child(groupId).child("report").setValue(1);
+
+                                reportBtn.setText("Reported");
+                                reportBtn.setEnabled(false);
+
+                            } else {
+
+                                long report = (long) dataSnapshot.child("Group").child(groupId).child("report").getValue();
+
+                                report++;
+
+                                Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
+                                ref.child("Group").child(groupId).child("report").setValue(report);
+
+                                reportBtn.setText("Reported");
+                                reportBtn.setEnabled(false);
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+            });
+
+        } catch (NullPointerException e) {
+            Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
+        }
+>>>>>>> master2
     }
 
     @Override
@@ -422,7 +848,12 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
         }
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
+<<<<<<< HEAD
         myBitmap.compress(Bitmap.CompressFormat.PNG,100, bos);
+=======
+        myBitmap.compress(Bitmap.CompressFormat.PNG,50, bos);
+        myBitmap.compress(Bitmap.CompressFormat.PNG,50, bos);
+>>>>>>> master2
         byte[] imgByte = bos.toByteArray();
         this.image = Base64.encodeToString(imgByte, Base64.DEFAULT);
 
@@ -436,12 +867,26 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
             groupId = b.getString("groupid");
             groupReference = FirebaseDatabase.getInstance().getReference().child("Group");
             chartMessagesReference = FirebaseDatabase.getInstance().getReference().child("ChartMessages");
+<<<<<<< HEAD
             groupReference.child(groupId).child("messageId").addListenerForSingleValueEvent(new ValueEventListener() {
+=======
+            groupReference.addListenerForSingleValueEvent(new ValueEventListener() {
+>>>>>>> master2
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Global_variable global_variable = (Global_variable) getApplicationContext();
                     String userId = global_variable.getUser_id();
+<<<<<<< HEAD
                     if (dataSnapshot.getValue() == null) {
+=======
+                    if (dataSnapshot.child(groupId).getValue() == null){
+                        Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    else if (dataSnapshot.child(groupId).child("messageId").getValue() == null) {
+                        long message_date = System.currentTimeMillis();
+                        groupReference.child(groupId).child("last_message").setValue(message_date);
+>>>>>>> master2
                         String messageKey = chartMessagesReference.push().getKey();
                         ChartMessage chartMessage = new ChartMessage(null, userId);
                         chartMessage.setImage(image);
@@ -452,12 +897,21 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
 
                         groupReference.child(groupId).child("messageId").setValue(messageId);
                     } else {
+<<<<<<< HEAD
+=======
+                        long message_date = System.currentTimeMillis();
+                        groupReference.child(groupId).child("last_message").setValue(message_date);
+>>>>>>> master2
                         String messageKey = chartMessagesReference.push().getKey();
                         ChartMessage chartMessage = new ChartMessage(null, userId);
                         chartMessage.setImage(image);
                         chartMessage.setMessageKey(messageKey);
                         chartMessagesReference.child(messageKey).setValue(chartMessage);
+<<<<<<< HEAD
                         ArrayList<String> messageId = (ArrayList<String>) dataSnapshot.getValue();
+=======
+                        ArrayList<String> messageId = (ArrayList<String>) dataSnapshot.child(groupId).child("messageId").getValue();
+>>>>>>> master2
                         messageId.add(messageKey);
                         groupReference.child(groupId).child("messageId").setValue(messageId);
 

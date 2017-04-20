@@ -10,16 +10,27 @@ import android.widget.ImageView;
 public class Global_variable extends Application{
 
     private String user_id;
+<<<<<<< HEAD
     private String other_userid;
     //private boolean privacy_mode;
+=======
+    //private String other_userid;
+
+>>>>>>> master2
 
 
     public Global_variable(){
         user_id = "undefined";
 
         //Add by Frank
+<<<<<<< HEAD
         other_userid = "undefined";
         //privacy_mode = true;
+=======
+        //other_userid = "undefined";
+        //temp_GroupId = "undefined";
+
+>>>>>>> master2
 
     }
 
@@ -31,6 +42,7 @@ public class Global_variable extends Application{
     }
 
     //Add by Frank
+<<<<<<< HEAD
     public void setother_userid(String other_userid){
         this.other_userid = other_userid;
     }
@@ -40,4 +52,12 @@ public class Global_variable extends Application{
 
     //public boolean getPrivacy_mode(){ return this.privacy_mode;}
 
+=======
+    //public void setother_userid(String other_userid){
+     //   this.other_userid = other_userid;
+    //}
+    //public String getother_userid(){
+        //return this.other_userid;
+    //}
+>>>>>>> master2
 }

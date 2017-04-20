@@ -42,6 +42,12 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
     private Location mLastLocation;
     Button backButton;
 
+<<<<<<< HEAD
+=======
+    //Add by Frank
+    private ImageButton GoBackBtm;
+
+>>>>>>> master2
     EditText groupName;
     EditText groupTopic;
 
@@ -55,6 +61,12 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
         mGroupReference = FirebaseDatabase.getInstance().getReference().child("Group");
         //mUserRefernece = FirebaseDatabase.getInstance().getReference().child("Users");
 
+<<<<<<< HEAD
+=======
+        //Add by Frank
+        GoBackBtm = (ImageButton) findViewById(R.id.imageButton2);
+
+>>>>>>> master2
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -75,7 +87,11 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
             @Override
             public void onClick(View v) {
                 final String key = mGroupReference.child("Group").push().getKey();
+<<<<<<< HEAD
                 long start_date = System.nanoTime();
+=======
+                long start_date = System.currentTimeMillis();
+>>>>>>> master2
                 ArrayList<String> usr_ids = new ArrayList<String>();
                 //User new_u;
 
@@ -109,12 +125,28 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
 
                 mGroupReference.child(key).setValue(group);
                 mGroupReference.child(key).child("vote").setValue(1);
+<<<<<<< HEAD
+=======
+                mGroupReference.child(key).child("last_message").setValue(start_date);
+>>>>>>> master2
                 //mUserRefernece.child(global_variable.getUser_id()).setValue(new_u);
                 Intent i = new Intent(add_group.this, homepage.class);
                 startActivity(i);
             }
         });
 
+<<<<<<< HEAD
+=======
+
+        //Add by Frank
+        GoBackBtm.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i=new Intent(add_group.this, group_aroudme.class);
+                add_group.this.startActivity(i);
+            }
+        });
+
+>>>>>>> master2
     }
     protected void createLocationRequest() {
         mLocationRequest = LocationRequest.create();

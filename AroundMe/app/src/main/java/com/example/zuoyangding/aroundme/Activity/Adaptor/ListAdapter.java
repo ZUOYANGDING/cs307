@@ -37,7 +37,12 @@ public class ListAdapter extends ArrayAdapter<String> {
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+<<<<<<< HEAD
                 v1.setTag(dataSnapshot.child(group_ids.get(position)).child("key").getValue().toString());
+=======
+                String id = group_ids.get(position);
+                v1.setTag(dataSnapshot.child(id).child("key").getValue().toString());
+>>>>>>> master2
 
                 TextView t = (TextView) v1.findViewById(R.id.item1);
                 t.setText(dataSnapshot.child(group_ids.get(position)).child("groupName").getValue().toString());

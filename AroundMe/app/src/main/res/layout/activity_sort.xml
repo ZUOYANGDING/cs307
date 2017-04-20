@@ -12,14 +12,68 @@
     tools:context="com.example.zuoyangding.aroundme.Activity.homepage">
 
 
+<<<<<<< HEAD
+=======
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:background="@drawable/top_bar">
+
+        <ImageButton
+            android:id="@+id/profileButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@null"
+            android:paddingBottom="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="0dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/avatar" />
+
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/places_ic_search" />
+
+        <ImageButton
+            android:id="@+id/addGroupButton"
+
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="0.05"
+            android:background="@null"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/add" />
+
+    </LinearLayout>
+>>>>>>> master2
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/group_list"
+<<<<<<< HEAD
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/bottomBar" />
+=======
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/bottomBar"
+        android:layout_below="@+id/topBar" />
+>>>>>>> master2
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -36,9 +90,35 @@
             android:background="@null"
             android:layout_width="50dp"
             android:layout_height="50dp"
+<<<<<<< HEAD
             android:layout_marginLeft="155dp"
             android:layout_marginTop="5dp" />
 
+=======
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="5dp" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/favorites_button"
+            android:background="@null"
+            android:id="@+id/favorites_button"
+            android:scaleType="centerInside"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="55dp" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/roommates_button"
+            android:id="@+id/roommate_button"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="55dp" />
+
+>>>>>>> master2
 
     </LinearLayout>
 

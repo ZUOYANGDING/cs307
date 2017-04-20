@@ -50,14 +50,23 @@ public class MergeSort {
             double l2 = helper[j].lat;
             double a2 = helper[j].lon;
 
+<<<<<<< HEAD
             double l0 = mlocation.getLongitude();
             double a0 = mlocation.getAltitude();
+=======
+            double l0 = mlocation.getLatitude();
+            double a0 = mlocation.getLongitude();
+>>>>>>> master2
 
             double distance1 = Math.pow((l1-l0), 2) + Math.pow((a1-a0),2);
             double distance2 = Math.pow((l2-l0), 2) + Math.pow((a2-a0),2);
 
 
+<<<<<<< HEAD
             if (distance1 >= distance2) {
+=======
+            if (distance1 < distance2) {
+>>>>>>> master2
                 numbers[k] = helper[i];
                 i++;
             } else {

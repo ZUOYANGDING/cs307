@@ -11,6 +11,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+<<<<<<< HEAD
+=======
+import android.widget.Toast;
+
+>>>>>>> master2
 import com.example.zuoyangding.aroundme.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +41,13 @@ public class Others_profile_privacy extends AppCompatActivity {
     private TextView landing_Nickname;
     private String Other_userId;
 
+<<<<<<< HEAD
+=======
+
+    private Button reportButton;
+    private FirebaseDatabase mDatabase;
+
+>>>>>>> master2
     //image module by Frank Hu
     private ImageView landing_iv;
     private String landing_imgStr;
@@ -48,9 +60,18 @@ public class Others_profile_privacy extends AppCompatActivity {
         setContentView(R.layout.activity_othersprofile_pravicy);
 
         Global_variable global_variable = (Global_variable)getApplicationContext();
+<<<<<<< HEAD
         Other_userId = global_variable.getother_userid();
         landing_Nickname = (TextView) findViewById(R.id.landing_Nickname);
 
+=======
+        Bundle b = getIntent().getExtras();
+        Other_userId = b.getString("other_uid");
+        landing_Nickname = (TextView) findViewById(R.id.landing_Nickname);
+
+        reportButton = (Button) findViewById(R.id.reportBtn);
+
+>>>>>>> master2
         //image module by Frank
         landing_iv = (ImageView) findViewById(R.id.profile_picture);
         //landing_iv.setOnClickListener(this);
@@ -85,6 +106,40 @@ public class Others_profile_privacy extends AppCompatActivity {
 
             }
         });
+<<<<<<< HEAD
+=======
+
+
+        mDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference ref = mDatabase.getReference();
+        final String userID = global_variable.getUser_id();
+        reportButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        long reports = (long) dataSnapshot.child("Users").child(userID).child("report").getValue();
+
+                        reports ++;
+
+                        ref.child("Users").child(userID).child("report").setValue(reports);
+
+                        Toast.makeText(Others_profile_privacy.this, "Thank you for your report", Toast.LENGTH_LONG).show();
+                        reportButton.setText("Reported");
+                        reportButton.setEnabled(false);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+>>>>>>> master2
     }
 }
 

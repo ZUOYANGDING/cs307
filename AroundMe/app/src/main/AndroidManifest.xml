@@ -4,6 +4,16 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<<<<<<< HEAD
+=======
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
+>>>>>>> master2
 
     <application
         android:name=".Activity.Global_variable"
@@ -54,7 +64,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".Activity.group_chat">
+=======
+        <activity android:name=".Activity.group_chat"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait">
+>>>>>>> master2
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -68,7 +84,29 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".Activity.group_settings"></activity>
+=======
+
+        <activity android:name=".Activity.Others_profile">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.Others_profile_privacy">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.Search_input"></activity>
+        <activity android:name=".Activity.RegisterActivity"></activity>
+        <activity android:name=".Activity.group_aroudme"></activity>
+        <activity android:name=".Activity.Sort_by_topic"></activity>
+>>>>>>> master2
     </application>
 
 </manifest>

@@ -2,23 +2,43 @@ package com.example.zuoyangding.aroundme.Activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+<<<<<<< HEAD
+=======
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+>>>>>>> master2
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+<<<<<<< HEAD
 import android.view.View;
 import android.widget.AdapterView;
+=======
+import android.util.Base64;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
+>>>>>>> master2
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.zuoyangding.aroundme.Activity.Adaptor.GroupListAdapter;
 import com.example.zuoyangding.aroundme.DataModels.GroupClass;
 import com.example.zuoyangding.aroundme.R;
+<<<<<<< HEAD
+=======
+import com.firebase.ui.database.FirebaseListAdapter;
+>>>>>>> master2
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+<<<<<<< HEAD
+=======
+import com.google.firebase.auth.FirebaseAuth;
+>>>>>>> master2
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -59,11 +79,76 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
     private ListView listView;
+<<<<<<< HEAD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sort);
         listView = (ListView)findViewById(R.id.group_list);
+=======
+
+    //Add by Frank Hu
+    private ImageButton findroommate;
+    private ImageButton addGroupButton;
+    private ImageButton profileButton;
+    private ImageButton sortButton;
+    private ImageButton searchButton;
+    private ImageButton startButton;
+
+    //private Button logout;
+    private FirebaseAuth mAuth;
+    private String userId;
+    static FirebaseListAdapter<String> firebaseListAdapter;
+    private DatabaseReference ref;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
+    //image module by Frank Hu
+    private String landing_imgStr;
+    private ImageButton findroomate;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sort);
+        listView = (ListView)findViewById(R.id.group_list);
+
+        //Add by Frank
+        addGroupButton = (ImageButton) findViewById(R.id.addGroupButton);
+        profileButton = (ImageButton) findViewById(R.id.profileButton);
+        searchButton = (ImageButton) findViewById(R.id.imageButton3);
+        sortButton = (ImageButton)findViewById(R.id.homepage_button);
+        findroommate = (ImageButton) findViewById(R.id.roommate_button);
+        startButton = (ImageButton) findViewById(R.id.favorites_button);
+
+        final Global_variable global_variable = (Global_variable)getApplicationContext();
+        //ArrayList<String> group_ids;
+
+        ////image module by Frank Hu (update sortpage user's avatar from firebase )
+        DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
+        ref = FirebaseDatabase.getInstance().getReference();
+        mref.child(global_variable.getUser_id()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //image module by Frank Hu
+                if (dataSnapshot.child("imgStr").getValue() != null) {
+                    landing_imgStr = (String) dataSnapshot.child("imgStr").getValue();
+
+                    //Bitmap way
+                    byte[] imageByte = Base64.decode(landing_imgStr, Base64.DEFAULT);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+                    profileButton.setImageBitmap(bitmap);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+>>>>>>> master2
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -90,11 +175,57 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                 startActivity(i);
             }
         });
+<<<<<<< HEAD
     }
     protected void createLocationRequest() {
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(500);
+=======
+
+        //Add by Frank
+        addGroupButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i=new Intent(group_aroudme.this, add_group.class);
+                group_aroudme.this.startActivity(i);
+            }
+        });
+
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i=new Intent(group_aroudme.this, LandingActivity.class);
+                group_aroudme.this.startActivity(i);
+            }
+        });
+
+        searchButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent i = new Intent(group_aroudme.this, Search_input.class);
+                group_aroudme.this.startActivity(i);
+            }
+        });
+
+        //Add by Frank
+        startButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i=new Intent(group_aroudme.this, homepage.class);
+                group_aroudme.this.startActivity(i);
+            }
+        });
+
+        findroommate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                System.out.println("click profile button");
+                Intent i=new Intent(group_aroudme.this, LandingActivity.class);
+                group_aroudme.this.startActivity(i);
+            }
+        });
+    }
+    protected void createLocationRequest() {
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(10000);
+>>>>>>> master2
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
     @Override
@@ -120,9 +251,26 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     ArrayList<GroupClass> temp = new ArrayList<GroupClass>();
                     for (DataSnapshot it : dataSnapshot.getChildren()) {
+<<<<<<< HEAD
                         //Location temp_lo = new Location(it.child("mlocation").getValue(Location.class));
                         GroupClass group = new GroupClass(it.child("groupName").getValue().toString(), it.child("key").getValue().toString(), it.child("topic").getValue().toString(), it.child("date").getValue(Long.class), null, (ArrayList<String>) it.child("member_ids").getValue(), it.child("lat").getValue(Double.class), it.child("lon").getValue(Double.class), it.child("is_permanent").getValue(Boolean.class));
                         temp.add(group);
+=======
+                        if (it.getValue() != null) {
+                            Long start_time = it.child("date").getValue(long.class);
+                            long current_time = System.currentTimeMillis();
+                            long time_period = current_time - start_time;
+                            double second = (double) Math.abs(time_period) / 1000.0; // 1 followed by 3 0's
+                            double hour = second / 3600;
+                            if (hour >= 24) {
+                                ref.child("Group").child(it.child("key").getValue().toString()).removeValue();
+                            }else {
+                                //Location temp_lo = new Location(it.child("mlocation").getValue(Location.class));
+                                GroupClass group = new GroupClass(it.child("groupName").getValue().toString(), it.child("key").getValue().toString(), it.child("topic").getValue().toString(), it.child("date").getValue(Long.class), null, (ArrayList<String>) it.child("member_ids").getValue(), it.child("lat").getValue(Double.class), it.child("lon").getValue(Double.class), it.child("is_permanent").getValue(Boolean.class));
+                                temp.add(group);
+                            }
+                        }
+>>>>>>> master2
                     }
                     GroupClass[] groups = new GroupClass[temp.size()];
                     groups = temp.toArray(groups);
@@ -164,6 +312,10 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                 temp = new ArrayList<GroupClass>(Arrays.asList(groups));
                 GroupListAdapter adapter = new GroupListAdapter(group_aroudme.this, temp);
                 listView.setAdapter(adapter);
+<<<<<<< HEAD
+=======
+                //listView.setSelection(0);
+>>>>>>> master2
             }
 
             @Override
@@ -185,4 +337,8 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
         }
         return;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master2
 }
