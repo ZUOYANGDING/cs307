@@ -14,35 +14,7 @@
 
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:id="@+id/birthdayLayout"
-        android:layout_below="@+id/nicknameLayout"
-        android:layout_alignParentStart="true"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
 
-        <TextView
-            android:text="Birthday"
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:id="@+id/birthday"
-            android:textSize="24sp"
-            android:textColor="#B9A336" />
-
-        <EditText
-            android:singleLine="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/edit_landing_Birthday"
-            android:textSize="24sp"
-            android:textColor="@color/common_google_signin_btn_text_dark_focused"
-            android:fontFamily="sans-serif"
-            android:gravity="center"
-            android:hint="Bithday" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -54,7 +26,7 @@
         android:layout_height="50dp">
 
         <TextView
-            android:text="Nickname"
+            android:text="Topic"
             android:layout_height="match_parent"
             android:gravity="center"
             android:id="@+id/nickname"
@@ -66,49 +38,17 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/edit_landing_Nickname"
+            android:id="@+id/topic_input"
             android:textSize="24sp"
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
             android:fontFamily="sans-serif"
             android:gravity="center"
-            android:hint="Nickname"
+            android:hint="What's the topic"
             android:layout_below="@+id/topBar"
-            android:layout_alignStart="@+id/enterBirthdayLayout"
-            android:layout_above="@+id/enterBirthdayLayout"
             android:layout_weight="1" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:id="@+id/introLayout"
-        android:layout_below="@+id/birthdayLayout"
-        android:layout_alignParentStart="true"
-        android:layout_width="match_parent"
-        android:background="#fffff4b8"
-        android:layout_height="50dp">
-
-        <TextView
-            android:text="Intro"
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:id="@+id/intro"
-            android:textSize="24sp"
-            android:textColor="#B9A336" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/edit_landing_intro"
-            android:textSize="24sp"
-            android:textColor="@color/common_google_signin_btn_text_dark_focused"
-            android:fontFamily="sans-serif"
-            android:gravity="center"
-            android:hint="Info"
-            android:layout_weight="1" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -131,7 +71,7 @@
         android:id="@+id/bottomBar">
 
         <Button
-            android:id="@+id/edit_landing_Save"
+            android:id="@+id/submit_search"
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@+id/introLayout"
             android:background="@drawable/save_button"
@@ -155,7 +95,6 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        app:srcCompat="@drawable/edit_profile_button"
         android:layout_above="@+id/nicknameLayout"
         android:layout_centerHorizontal="true"
         android:id="@+id/imageView4"
