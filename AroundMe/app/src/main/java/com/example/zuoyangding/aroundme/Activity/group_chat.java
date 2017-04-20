@@ -49,6 +49,9 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
     private ListView listViewOfMessages;
     private Button joinbutton;
 
+    private Button reportBtn;
+
+
     private Button deleteButton;
     //private String groupName;
     private String groupId;
@@ -73,9 +76,11 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
         joinbutton = (Button) findViewById(R.id.joined_button);
 
         deleteButton = (Button) findViewById(R.id.leave_button);
+            reportBtn = (Button) findViewById(R.id.groupReport);
 
 
-        mDatabase = FirebaseDatabase.getInstance();
+
+            mDatabase = FirebaseDatabase.getInstance();
         groupReference = mDatabase.getReference().child("Group");
         chartMessagesReference = mDatabase.getReference().child("ChartMessages");
         Bundle b = getIntent().getExtras();
@@ -460,6 +465,46 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                     });
                 }
             });
+
+
+            reportBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            if (!dataSnapshot.child("Group").child(groupId).child("report").exists()) {
+                                Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
+                                ref.child("Group").child(groupId).child("report").setValue(1);
+
+                                reportBtn.setText("Reported");
+                                reportBtn.setEnabled(false);
+
+                            } else {
+
+                                long report = (long) dataSnapshot.child("Group").child(groupId).child("report").getValue();
+
+                                report++;
+
+                                Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
+                                ref.child("Group").child(groupId).child("report").setValue(report);
+
+                                reportBtn.setText("Reported");
+                                reportBtn.setEnabled(false);
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+            });
+
         } catch (NullPointerException e) {
             Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
         }
