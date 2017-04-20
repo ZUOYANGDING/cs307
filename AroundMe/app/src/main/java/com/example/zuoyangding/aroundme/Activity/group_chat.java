@@ -554,7 +554,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                         return;
                     }
                     else if (dataSnapshot.child(groupId).child("messageId").getValue() == null) {
-                        long message_date = System.nanoTime();
+                        long message_date = System.currentTimeMillis();
                         groupReference.child(groupId).child("last_message").setValue(message_date);
                         String messageKey = chartMessagesReference.push().getKey();
                         ChartMessage chartMessage = new ChartMessage(null, userId);
@@ -566,7 +566,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
 
                         groupReference.child(groupId).child("messageId").setValue(messageId);
                     } else {
-                        long message_date = System.nanoTime();
+                        long message_date = System.currentTimeMillis();
                         groupReference.child(groupId).child("last_message").setValue(message_date);
                         String messageKey = chartMessagesReference.push().getKey();
                         ChartMessage chartMessage = new ChartMessage(null, userId);
