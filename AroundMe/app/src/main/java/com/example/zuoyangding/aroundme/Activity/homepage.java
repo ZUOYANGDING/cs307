@@ -14,10 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.zuoyangding.aroundme.Activity.Adaptor.ListAdapter;
-<<<<<<< HEAD
-=======
 import com.example.zuoyangding.aroundme.DataModels.GroupClass;
->>>>>>> master2
 import com.example.zuoyangding.aroundme.R;
 
 import com.firebase.ui.database.FirebaseListAdapter;
@@ -37,11 +34,7 @@ public class homepage extends AppCompatActivity {
     private ImageButton addGroupButton;
     private ImageButton profileButton;
     private ImageButton sortButton;
-<<<<<<< HEAD
-    private ImageButton searchButton;
-=======
->>>>>>> master2
-//    private Button logout;
+    //    private Button logout;
     private FirebaseAuth mAuth;
     private String userId;
     static FirebaseListAdapter<String> firebaseListAdapter;
@@ -50,11 +43,8 @@ public class homepage extends AppCompatActivity {
 
     //image module by Frank Hu
     private String landing_imgStr;
-<<<<<<< HEAD
-=======
     private ImageButton findroomate;
     private ImageButton startButton;
->>>>>>> master2
 
 
     @Override
@@ -82,16 +72,11 @@ public class homepage extends AppCompatActivity {
         //userId = firebaseAuth.getCurrentUser().getUid();
         addGroupButton = (ImageButton) findViewById(R.id.addGroupButton);
         profileButton = (ImageButton) findViewById(R.id.profileButton);
-<<<<<<< HEAD
-        searchButton = (ImageButton) findViewById(R.id.imageButton3);
-        sortButton = (ImageButton)findViewById(R.id.homepage_button);
-=======
         sortButton = (ImageButton)findViewById(R.id.homepage_button);
         startButton = (ImageButton) findViewById(R.id.favorites_button);
 
         //Add by Frank
         findroomate = (ImageButton) findViewById(R.id.roommate_button);
->>>>>>> master2
 
         final Global_variable global_variable = (Global_variable)getApplicationContext();
         //ArrayList<String> group_ids;
@@ -121,44 +106,30 @@ public class homepage extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
-        ref = FirebaseDatabase.getInstance().getReference().child("Users").child(global_variable.getUser_id()).child("groupIDs");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> group_ids = (ArrayList<String>) dataSnapshot.getValue();
-                //String[] group_array = new String[group_ids.size()];
-                        //group_array = group_ids.toArray(group_array);
-                if (group_ids != null) {
-                    ListAdapter adapter = new ListAdapter(homepage.this, group_ids);
-                    listView.setAdapter(adapter);
-                }
-=======
         ref = FirebaseDatabase.getInstance().getReference();
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> group_ids = new ArrayList<String>();
                 //String[] group_array = new String[group_ids.size()];
-                        //group_array = group_ids.toArray(group_array);
-                    for (DataSnapshot it : dataSnapshot.child("Users").child(global_variable.getUser_id()).child("groupIDs").getChildren()){
-                        if (dataSnapshot.child("Group").child(it.getValue().toString()).getValue() != null) {
-                            Long start_time = dataSnapshot.child("Group").child(it.getValue().toString()).child("date").getValue(long.class);
-                            long current_time = System.currentTimeMillis();
-                            long time_period = current_time - start_time;
-                            double second = (double) Math.abs(time_period) / 1000.0; // 1 followed by 3 0's
-                            double hour = second / 3600;
-                            if (hour >= 24){
-                                ref.child("Group").child(it.getValue().toString()).removeValue();
-                            }
-                            else
-                            group_ids.add(it.getValue().toString());
+                //group_array = group_ids.toArray(group_array);
+                for (DataSnapshot it : dataSnapshot.child("Users").child(global_variable.getUser_id()).child("groupIDs").getChildren()){
+                    if (dataSnapshot.child("Group").child(it.getValue().toString()).getValue() != null) {
+                        Long start_time = dataSnapshot.child("Group").child(it.getValue().toString()).child("date").getValue(long.class);
+                        long current_time = System.currentTimeMillis();
+                        long time_period = current_time - start_time;
+                        double second = (double) Math.abs(time_period) / 1000.0; // 1 followed by 3 0's
+                        double hour = second / 3600;
+                        if (hour >= 24){
+                            ref.child("Group").child(it.getValue().toString()).removeValue();
                         }
+                        else
+                            group_ids.add(it.getValue().toString());
                     }
-                    ref.child("Users").child(global_variable.getUser_id()).child("groupIDs").setValue(group_ids);
-                    ListAdapter adapter = new ListAdapter(homepage.this, group_ids);
-                    listView.setAdapter(adapter);
->>>>>>> master2
+                }
+                ref.child("Users").child(global_variable.getUser_id()).child("groupIDs").setValue(group_ids);
+                ListAdapter adapter = new ListAdapter(homepage.this, group_ids);
+                listView.setAdapter(adapter);
             }
 
             @Override
@@ -176,22 +147,17 @@ public class homepage extends AppCompatActivity {
                 protected void populateView(View v, final String model, int position) {
                     final View v1 = v;
                     DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Group");
-
                         final View vi = v;
-
                     mref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             vi.setTag(dataSnapshot.child(model).child("key").getValue().toString());
-
                             TextView t = (TextView) v1.findViewById(R.id.item1);
                             t.setText(dataSnapshot.child(model).child("groupName").getValue().toString());
                             TextView subt = (TextView) v1.findViewById(R.id.sub_item1);
                             subt.setText(dataSnapshot.child(model).child("topic").getValue().toString());
                             String str = vi.getTag().toString();
-
                         }
-
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                             System.out.println("fetch group failed");
@@ -245,11 +211,6 @@ public class homepage extends AppCompatActivity {
 //                startActivity(login);
 //            }
 //        });
-<<<<<<< HEAD
-        searchButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent i = new Intent(homepage.this, Search_input.class);
-=======
 
         //Add by Frank
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -262,7 +223,6 @@ public class homepage extends AppCompatActivity {
         findroomate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i=new Intent(homepage.this, LandingActivity.class);
->>>>>>> master2
                 homepage.this.startActivity(i);
             }
         });

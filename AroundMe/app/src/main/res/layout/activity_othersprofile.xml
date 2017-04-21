@@ -1,185 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-<<<<<<< HEAD
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/activity_landing"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:paddingBottom="0dp"
-android:paddingLeft="0dp"
-android:paddingRight="0dp"
-android:paddingTop="0dp"
-
-tools:context="com.example.zuoyangding.aroundme.Activity.LandingActivity">
-
-<LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentStart="true"
-    android:background="@drawable/top_bar"
-    android:id="@+id/top_bar">
-
-    <ImageView
-        android:layout_height="30dp"
-        app:srcCompat="@drawable/profile_and_settings"
-        android:id="@+id/imageView2"
-        android:layout_marginLeft="80dp"
-        android:scaleType="centerCrop"
-        android:layout_marginTop="15dp"
-        android:layout_width="200dp" />
-
-
-</LinearLayout>
-
-
-<!--<EditText-->
-<!--android:id="@+id/etUploadName"-->
-<!--android:layout_width="match_parent"-->
-<!--android:layout_height="wrap_content" />-->
-
-<!--<Button-->
-<!--android:id="@+id/bUploadName"-->
-<!--android:text="Change Avatar"-->
-<!--android:layout_width="match_parent"-->
-<!--android:layout_height="wrap_content" />-->
-
-<LinearLayout
-    android:orientation="horizontal"
-    android:id="@+id/nicknameLayout"
-    android:layout_marginLeft="40dp"
-    android:layout_width="350dp"
-    android:background="@drawable/profile_button"
-    android:layout_below="@+id/profile_picture"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="20dp"
-    android:layout_height="50dp">
-
-    <TextView
-        android:text="Nickname"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:id="@+id/nickname"
-        android:textSize="18sp"
-        android:textColor="#B9A336"
-        android:fontFamily="sans-serif"
-        android:layout_width="144dp" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/landing_Nickname"
-        android:textSize="24sp"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:fontFamily="sans-serif"
-        android:layout_alignTop="@+id/enterNicknameLayout"
-        android:layout_alignStart="@+id/enterBirthdayLayout"
-        android:layout_above="@+id/enterBirthdayLayout"
-        android:layout_alignEnd="@+id/enterNicknameLayout"
-        android:gravity="center"
-        android:layout_weight="1" />
-
-
-</LinearLayout>
-
-<LinearLayout
-    android:orientation="horizontal"
-    android:id="@+id/birthdayLayout"
-    android:layout_marginLeft="40dp"
-    android:layout_width="350dp"
-    android:background="@drawable/profile_button"
-    android:layout_below="@+id/nicknameLayout"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="10dp"
-    android:layout_height="50dp">
-
-    <TextView
-        android:text="Birthday"
-        android:layout_width="146dp"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:id="@+id/birthday"
-        android:textSize="18sp"
-        android:textColor="#B9A336" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/landing_Birthday"
-        android:textSize="24sp"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:fontFamily="sans-serif"
-        android:gravity="center"
-        android:layout_weight="1" />
-
-
-</LinearLayout>
-
-<LinearLayout
-    android:orientation="horizontal"
-    android:id="@+id/introLayout"
-    android:layout_marginLeft="40dp"
-    android:layout_width="350dp"
-    android:background="@drawable/profile_button"
-    android:layout_below="@+id/birthdayLayout"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="10dp"
-    android:layout_height="50dp">
-
-    <TextView
-        android:text="Intro"
-        android:layout_width="144dp"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:id="@+id/intro"
-        android:textSize="18sp"
-        android:textColor="#B9A336" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/landing_intro"
-        android:textSize="24sp"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:fontFamily="sans-serif"
-        android:gravity="center"
-        android:layout_weight="1" />
-
-
-</LinearLayout>
-
-    <ImageView
-    android:id="@+id/profile_picture"
-=======
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_landing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
->>>>>>> master2
     android:paddingBottom="0dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-<<<<<<< HEAD
-    app:srcCompat="@drawable/avatar"
-    android:background="@null"
-
-    android:layout_marginTop="80dp"
-    android:layout_below="@+id/topBar"
-    android:layout_centerHorizontal="true"
-    android:layout_width="120dp"
-    android:layout_height="120dp" />
-
-
-<!--android:layout_below="@+id/etUploadName"-->
-<!--android:layout_below="@+id/bUploadName"-->
-=======
 
     tools:context="com.example.zuoyangding.aroundme.Activity.LandingActivity">
 
@@ -351,7 +180,6 @@ tools:context="com.example.zuoyangding.aroundme.Activity.LandingActivity">
 
     <!--android:layout_below="@+id/etUploadName"-->
     <!--android:layout_below="@+id/bUploadName"-->
->>>>>>> master2
 
 
 

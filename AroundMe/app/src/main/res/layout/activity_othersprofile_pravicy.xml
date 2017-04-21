@@ -102,8 +102,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="55dp" />
 
-<<<<<<< HEAD
-=======
     <Button
         android:id="@+id/reportBtn"
         android:layout_width="wrap_content"
@@ -114,7 +112,6 @@
         android:text="Report"
         android:layout_alignEnd="@+id/nicknameLayout" />
 
->>>>>>> master2
 
     <!--android:layout_below="@+id/etUploadName"-->
     <!--android:layout_below="@+id/bUploadName"-->

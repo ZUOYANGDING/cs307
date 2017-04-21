@@ -45,15 +45,15 @@
 
 
     <!--<EditText-->
-        <!--android:id="@+id/etUploadName"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
+    <!--android:id="@+id/etUploadName"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content" />-->
 
     <!--<Button-->
-        <!--android:id="@+id/bUploadName"-->
-        <!--android:text="Change Avatar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
+    <!--android:id="@+id/bUploadName"-->
+    <!--android:text="Change Avatar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content" />-->
 
     <LinearLayout
         android:orientation="horizontal"
@@ -207,21 +207,10 @@
         android:id="@+id/switch_privacy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
-        android:layout_above="@+id/nicknameLayout"
-        android:layout_alignStart="@+id/nicknameLayout"
-        android:layout_marginBottom="33dp"
-        android:text="Privacy"
-        android:textColor="#ffB9A336" />
-=======
-        android:text="Switch" />
->>>>>>> origin/wendizhang
-=======
         android:text="Privacy \nMode"
         android:layout_above="@+id/nicknameLayout"
         android:layout_alignStart="@+id/nicknameLayout"
         android:layout_marginBottom="17dp" />
->>>>>>> master2
 
 
     <!--android:layout_below="@+id/etUploadName"-->

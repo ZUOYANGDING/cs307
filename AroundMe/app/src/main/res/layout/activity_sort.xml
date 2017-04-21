@@ -12,8 +12,6 @@
     tools:context="com.example.zuoyangding.aroundme.Activity.homepage">
 
 
-<<<<<<< HEAD
-=======
     <LinearLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
@@ -59,21 +57,14 @@
             app:srcCompat="@drawable/add" />
 
     </LinearLayout>
->>>>>>> master2
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/group_list"
-<<<<<<< HEAD
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/bottomBar" />
-=======
         android:layout_alignParentStart="true"
         android:layout_above="@+id/bottomBar"
         android:layout_below="@+id/topBar" />
->>>>>>> master2
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -90,11 +81,6 @@
             android:background="@null"
             android:layout_width="50dp"
             android:layout_height="50dp"
-<<<<<<< HEAD
-            android:layout_marginLeft="155dp"
-            android:layout_marginTop="5dp" />
-
-=======
             android:layout_marginLeft="50dp"
             android:layout_marginTop="5dp" />
 
@@ -118,7 +104,6 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="55dp" />
 
->>>>>>> master2
 
     </LinearLayout>
 

@@ -16,10 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/top_bar"
-<<<<<<< HEAD
-        tools:background="@drawable/top_bar"
-=======
->>>>>>> master2
         android:id="@+id/topBar"
         android:weightSum="1"
         android:layout_alignParentTop="true"
@@ -40,15 +36,6 @@
             android:layout_marginTop="5dp"
             app:srcCompat="@drawable/avatar" />
 
-<<<<<<< HEAD
-        <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_height="50dp"
-            app:srcCompat="@drawable/places_ic_search"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="240dp" />
-=======
         <TextView
             android:id="@+id/textView3"
             android:layout_width="330dp"
@@ -60,7 +47,6 @@
             android:textStyle="bold"
             tools:layout_editor_absoluteX="27dp"
             tools:layout_editor_absoluteY="45dp" />
->>>>>>> master2
 
         <ImageButton
             android:id="@+id/addGroupButton"
@@ -72,11 +58,7 @@
             android:scaleType="centerInside"
             android:layout_width="30dp"
             android:layout_height="30dp"
-<<<<<<< HEAD
-            android:layout_marginLeft="10dp" />
-=======
             android:layout_marginLeft="30dp" />
->>>>>>> master2
 
     </LinearLayout>
 
