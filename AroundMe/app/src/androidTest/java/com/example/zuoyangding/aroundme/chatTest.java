@@ -1,6 +1,7 @@
 package com.example.zuoyangding.aroundme;
 
 import android.content.ComponentName;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.core.deps.guava.cache.Weigher;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.rule.ActivityTestRule;
@@ -10,6 +11,7 @@ import com.example.zuoyangding.aroundme.Activity.LandingActivity;
 import com.example.zuoyangding.aroundme.Activity.LoginActivity;
 import com.example.zuoyangding.aroundme.Activity.editLandingActivity;
 import com.example.zuoyangding.aroundme.Activity.RegisterActivity;
+import com.example.zuoyangding.aroundme.Activity.group_chat;
 import com.example.zuoyangding.aroundme.Activity.homepage;
 
 import org.junit.Rule;
@@ -34,6 +36,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -42,53 +45,38 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-
 /**
- * Created by Kenny on 4/2/2017.
+ * Created by Kenny on 4/22/2017.
  */
 
-public class addGroupTest {
+public class chatTest {
 
     @Rule
-    public IntentsTestRule<LoginActivity> editLandingActivityIntentsTestRule =
-            new IntentsTestRule<LoginActivity>(LoginActivity.class);
+    public IntentsTestRule<homepage> groupChatTestRule =
+            new IntentsTestRule<homepage>(homepage.class);
 
 
     @Test
-    public void groupName() throws Exception {
+    public void groupChat() throws Exception {
+        onData(anything()).inAdapterView(withId(R.id.group_list))
+                .atPosition(0)
+                .perform(click());
+        Thread.sleep(4000);
 
-        Thread.sleep(1000);
-        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
-        onView(withId(R.id.password_tx)).perform(typeText("purdue18"));
-        onView(withId(R.id.email_login_btn)).perform(click());
-        Thread.sleep(1000);
-
-        onView(withId(R.id.addGroupButton)).perform(click());
-        Thread.sleep(1000);
-
-        onView(withId(R.id.enterGroupName)).perform(typeText("testGroupName"), closeSoftKeyboard());
-        onView(withId(R.id.Topics)).perform(typeText("testTopics"), closeSoftKeyboard());
-        onView(withId(R.id.createGroup)).perform(click());
-        Thread.sleep(1000);
-
+        onView(withId(R.id.enterMessage)).perform(typeText("chatTest"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.send_message)).perform(click());
     }
 
     @Test
-    public void emptyInputs() throws Exception {
-        Thread.sleep(1000);
-        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
-        onView(withId(R.id.password_tx)).perform(typeText("purdue18"));
-        onView(withId(R.id.email_login_btn)).perform(click());
-        Thread.sleep(1000);
+    public void groupLeave() throws Exception {
+        onData(anything()).inAdapterView(withId(R.id.group_list))
+                .atPosition(0)
+                .perform(click());
+        Thread.sleep(4000);
 
-        onView(withId(R.id.addGroupButton)).perform(click());
+        onView(withId(R.id.leave_button)).perform(click());
         Thread.sleep(1000);
-
-        onView(withId(R.id.createGroup)).perform(click());
-        onView(withText("Please enter either a group name or topic."))
-                .inRoot(withDecorView(not(editLandingActivityIntentsTestRule.getActivity().getWindow().getDecorView())))
-                .check(matches(isDisplayed()));
+        intended(hasComponent(new ComponentName(getTargetContext(), homepage.class)));
     }
-
 
 }

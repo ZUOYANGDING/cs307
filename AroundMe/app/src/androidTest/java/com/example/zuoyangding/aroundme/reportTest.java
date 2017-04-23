@@ -34,6 +34,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -44,51 +45,47 @@ import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 
 /**
- * Created by Kenny on 4/2/2017.
+ * Created by Kenny on 4/22/2017.
  */
 
-public class addGroupTest {
+public class reportTest {
 
     @Rule
-    public IntentsTestRule<LoginActivity> editLandingActivityIntentsTestRule =
-            new IntentsTestRule<LoginActivity>(LoginActivity.class);
+    public IntentsTestRule<homepage> reportButtonTestRule =
+            new IntentsTestRule<homepage>(homepage.class);
 
 
     @Test
-    public void groupName() throws Exception {
+    public void reportOthersprofile() throws Exception {
+        onData(anything()).inAdapterView(withId(R.id.group_list))
+                .atPosition(0)
+                .perform(click());
+        Thread.sleep(4000);
 
-        Thread.sleep(1000);
-        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
-        onView(withId(R.id.password_tx)).perform(typeText("purdue18"));
-        onView(withId(R.id.email_login_btn)).perform(click());
-        Thread.sleep(1000);
-
-        onView(withId(R.id.addGroupButton)).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.chat_messages))
+                .atPosition(0)
+                .perform(click());
         Thread.sleep(1000);
 
-        onView(withId(R.id.enterGroupName)).perform(typeText("testGroupName"), closeSoftKeyboard());
-        onView(withId(R.id.Topics)).perform(typeText("testTopics"), closeSoftKeyboard());
-        onView(withId(R.id.createGroup)).perform(click());
-        Thread.sleep(1000);
+        onView(withId(R.id.reportButton)).perform(click());
+        onView(withId(R.id.reportButton)).check(matches(withText("Reported")));
 
     }
 
     @Test
-    public void emptyInputs() throws Exception {
-        Thread.sleep(1000);
-        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
-        onView(withId(R.id.password_tx)).perform(typeText("purdue18"));
-        onView(withId(R.id.email_login_btn)).perform(click());
+    public void reportOthersprofile_privacy() throws Exception {
+        onData(anything()).inAdapterView(withId(R.id.group_list))
+                .atPosition(0)
+                .perform(click());
+        Thread.sleep(4000);
+
+        onData(anything()).inAdapterView(withId(R.id.chat_messages))
+                .atPosition(0)
+                .perform(click());
         Thread.sleep(1000);
 
-        onView(withId(R.id.addGroupButton)).perform(click());
-        Thread.sleep(1000);
+        onView(withId(R.id.reportBtn)).perform(click());
+        onView(withId(R.id.reportBtn)).check(matches(withText("Reported")));
 
-        onView(withId(R.id.createGroup)).perform(click());
-        onView(withText("Please enter either a group name or topic."))
-                .inRoot(withDecorView(not(editLandingActivityIntentsTestRule.getActivity().getWindow().getDecorView())))
-                .check(matches(isDisplayed()));
     }
-
-
 }

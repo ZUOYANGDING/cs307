@@ -80,47 +80,53 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String key = mGroupReference.child("Group").push().getKey();
-                long start_date = System.nanoTime();
-                ArrayList<String> usr_ids = new ArrayList<String>();
-                //User new_u;
 
-                Global_variable global_variable = (Global_variable)getApplicationContext();
-                final DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
-                mref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        ArrayList<String> group_ids = (ArrayList<String>) dataSnapshot.child("groupIDs").getValue();
-                        User new_u;
-                        if(group_ids != null) {
-                            group_ids.add(key);
-                            mref.child(dataSnapshot.child("userID").getValue().toString()).child("groupIDs").setValue(group_ids);
+                if (groupName.getText().toString().length() == 0 && groupTopic.getText().toString().length() == 0) {
+                    Toast.makeText(add_group.this, "Please enter either a group name or topic.", Toast.LENGTH_LONG).show();
+                } else {
 
-                        }else {
-                            group_ids = new ArrayList<String>();
-                            group_ids.add(key);
-                            mref.child(dataSnapshot.child("userID").getValue().toString()).child("groupIDs").setValue(group_ids);
+                    final String key = mGroupReference.child("Group").push().getKey();
+                    long start_date = System.nanoTime();
+                    ArrayList<String> usr_ids = new ArrayList<String>();
+                    //User new_u;
+
+                    Global_variable global_variable = (Global_variable) getApplicationContext();
+                    final DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
+                    mref.child(global_variable.getUser_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            ArrayList<String> group_ids = (ArrayList<String>) dataSnapshot.child("groupIDs").getValue();
+                            User new_u;
+                            if (group_ids != null) {
+                                group_ids.add(key);
+                                mref.child(dataSnapshot.child("userID").getValue().toString()).child("groupIDs").setValue(group_ids);
+
+                            } else {
+                                group_ids = new ArrayList<String>();
+                                group_ids.add(key);
+                                mref.child(dataSnapshot.child("userID").getValue().toString()).child("groupIDs").setValue(group_ids);
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
                         }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-                usr_ids.add(global_variable.getUser_id());
-                GroupClass group = new GroupClass(groupName.getText().toString(), key, groupTopic.getText().toString(),
-                        start_date, null, usr_ids, mLastLocation.getLatitude(), mLastLocation.getLongitude() ,false);
+                    });
+                    usr_ids.add(global_variable.getUser_id());
+                    GroupClass group = new GroupClass(groupName.getText().toString(), key, groupTopic.getText().toString(),
+                            start_date, null, usr_ids, mLastLocation.getLatitude(), mLastLocation.getLongitude(), false);
 
 
-                mGroupReference.child(key).setValue(group);
-                mGroupReference.child(key).child("vote").setValue(1);
-                mGroupReference.child(key).child("last_message").setValue(start_date);
-                mGroupReference.child(key).child("report").setValue(0);
-                //mUserRefernece.child(global_variable.getUser_id()).setValue(new_u);
-                Intent i = new Intent(add_group.this, homepage.class);
-                startActivity(i);
+                    mGroupReference.child(key).setValue(group);
+                    mGroupReference.child(key).child("vote").setValue(1);
+                    mGroupReference.child(key).child("last_message").setValue(start_date);
+                    mGroupReference.child(key).child("report").setValue(0);
+                    //mUserRefernece.child(global_variable.getUser_id()).setValue(new_u);
+                    Intent i = new Intent(add_group.this, homepage.class);
+                    startActivity(i);
+                }
             }
         });
 

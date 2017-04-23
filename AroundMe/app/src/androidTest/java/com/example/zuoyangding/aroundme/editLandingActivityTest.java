@@ -98,6 +98,25 @@ public class editLandingActivityTest {
         Thread.sleep(1000);
     }
 
+    @Test
+    public void invalidBirthday() throws Exception {
+        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
+        onView(withId(R.id.password_tx)).perform(typeText("purdue18"));
+        onView(withId(R.id.email_login_btn)).perform(click());
+        Thread.sleep(1000);
+
+        onView(withId(R.id.profileButton)).perform(click());
+        Thread.sleep(1000);
+
+        onView(withId(R.id.landing_Edit)).perform(click());
+        Thread.sleep(1000);
+        onView(withId(R.id.edit_landing_Birthday)).perform(typeText("testBirthday"));
+        onView(withText("Invalid birthday, please follow the format: 01012001"))
+                .inRoot(withDecorView(not(editLandingActivityIntentsTestRule.getActivity().getWindow().getDecorView())));
+
+
+    }
+
 
     @Test
     public void validInputs() throws Exception {
