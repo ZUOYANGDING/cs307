@@ -120,7 +120,7 @@ public class homepage extends AppCompatActivity {
                             long time_period = current_time - start_time;
                             double second = (double) Math.abs(time_period) / 1000.0; // 1 followed by 3 0's
                             double hour = second / 3600;
-                            if (hour >= 24){
+                            if (hour >= 24 && (Boolean) it.child("is_permanent").getValue() == false){
                                 ref.child("Group").child(it.getValue().toString()).removeValue();
                             }
                             else
