@@ -135,10 +135,14 @@ public class Others_profile_privacy extends AppCompatActivity {
                                 reportIDs.add(uid);
                                 mref.child(dataSnapshot.child("userID").getValue().toString()).child("reportIDs").setValue(reportIDs);
                                 Toast.makeText(Others_profile_privacy.this, "Thank you for your report", Toast.LENGTH_LONG).show();
+                                reportButton.setEnabled(false);
+                                reportButton.setText("Reported");
                             }
-                            reportButton.setEnabled(false);
-                            reportButton.setText("Reported");
-
+                            else {
+                                Toast.makeText(Others_profile_privacy.this, "You already reported this user", Toast.LENGTH_LONG).show();
+                                reportButton.setEnabled(false);
+                                reportButton.setText("Reported");
+                            }
                         }
 
                     }
