@@ -36,29 +36,25 @@
             android:layout_marginTop="5dp"
             app:srcCompat="@drawable/avatar" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="330dp"
-            android:layout_height="31dp"
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:text="Joined Groups"
-            android:textAlignment="center"
-            android:textAppearance="@android:style/TextAppearance.Material.Large"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="27dp"
-            tools:layout_editor_absoluteY="45dp" />
+            app:srcCompat="@drawable/joined_group" />
 
         <ImageButton
             android:id="@+id/addGroupButton"
 
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
             android:layout_weight="0.05"
             android:background="@null"
-            app:srcCompat="@drawable/add"
             android:scaleType="centerInside"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="30dp" />
+            app:srcCompat="@drawable/add" />
 
     </LinearLayout>
 
