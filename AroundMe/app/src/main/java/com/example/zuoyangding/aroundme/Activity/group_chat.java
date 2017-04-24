@@ -478,7 +478,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                 Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
                                 ref.child("Group").child(groupId).child("report").setValue(1);
 
-                                reportBtn.setText("Reported");
+                                //reportBtn.setText("Reported");
                                 reportBtn.setEnabled(false);
 
                             } else {
@@ -490,7 +490,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                 Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
                                 ref.child("Group").child(groupId).child("report").setValue(report);
 
-                                reportBtn.setText("Reported");
+                                //reportBtn.setText("Reported");
                                 reportBtn.setEnabled(false);
                             }
 

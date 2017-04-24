@@ -45,15 +45,15 @@
 
 
     <!--<EditText-->
-        <!--android:id="@+id/etUploadName"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
+    <!--android:id="@+id/etUploadName"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content" />-->
 
     <!--<Button-->
-        <!--android:id="@+id/bUploadName"-->
-        <!--android:text="Change Avatar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
+    <!--android:id="@+id/bUploadName"-->
+    <!--android:text="Change Avatar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content" />-->
 
     <LinearLayout
         android:orientation="horizontal"

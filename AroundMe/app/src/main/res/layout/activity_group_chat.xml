@@ -22,12 +22,12 @@
         android:layout_alignParentStart="true">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/leave_layout"
             android:layout_width="70dp"
             android:layout_height="50dp"
-            android:id="@+id/leave_layout"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="15dp">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/leave_button"
@@ -40,30 +40,45 @@
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_height="match_parent"
             android:id="@+id/group_name_layout"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
-            android:layout_width="160dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/group_name"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="0dp"
                 android:layout_weight="1"
                 android:gravity="fill_vertical|center_horizontal"
                 android:text="Group name"
                 android:textColor="@color/common_google_signin_btn_text_dark_default"
-                android:textSize="24sp"
-                android:layout_width="match_parent" />
+                android:textSize="24sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/report_layout"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/groupReport"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/report_button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/join_layout"
             android:layout_width="70dp"
             android:layout_height="50dp"
-            android:id="@+id/join_layout"
-            android:layout_marginLeft="15dp">
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/joined_button"
@@ -75,13 +90,9 @@
                 android:text="Join"
                 android:textColor="#B9A336" />
 
-            <Button
-                android:id="@+id/groupReport"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="report" />
         </LinearLayout>
+
+
 
     </LinearLayout>
 
