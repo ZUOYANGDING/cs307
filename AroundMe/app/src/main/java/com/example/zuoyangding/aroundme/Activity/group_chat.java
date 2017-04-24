@@ -176,7 +176,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                 if (dataSnapshot.child("Users").child(userId).child("nickName").getValue() == null) {
                                     nickName = "anonymous";
                                 } else {
-                                    nickName = dataSnapshot.child("Users").child(userId).child("nickName").getValue().toString();
+                                    nickName = dataSnapshot.child("Users").child(userId).child("nickName").getValue().toString()+ ":";
                                 }
                                 if (dataSnapshot.child("ChartMessages").child(model_1).child("message").getValue() != null) {
                                     message = dataSnapshot.child("ChartMessages").child(model_1).child("message").getValue().toString();
@@ -196,7 +196,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                     imageString = dataSnapshot.child("ChartMessages").child(model_1).child("image").getValue().toString();
                                     byte[] imageByte = Base64.decode(imageString, Base64.DEFAULT);
                                     BitmapFactory.Options opt = new BitmapFactory.Options();
-                                    opt.inSampleSize = 3;
+                                    opt.inSampleSize = 1;
                                     Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length, opt);
                                     //ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
                                     showImage.setVisibility(View.VISIBLE);
@@ -527,8 +527,8 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
         }
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.PNG,50, bos);
-        myBitmap.compress(Bitmap.CompressFormat.PNG,50, bos);
+        myBitmap.compress(Bitmap.CompressFormat.PNG,100, bos);
+        myBitmap.compress(Bitmap.CompressFormat.PNG,100, bos);
         byte[] imgByte = bos.toByteArray();
         this.image = Base64.encodeToString(imgByte, Base64.DEFAULT);
 
