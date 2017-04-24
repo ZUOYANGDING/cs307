@@ -1,5 +1,4 @@
 package com.example.zuoyangding.aroundme.Activity;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -128,7 +127,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                         //Add by Group
                         MeInThisGroup = true;
 
-                        joinbutton.setText("voted");
+                        joinbutton.setText("joined");
                         joinbutton.setEnabled(false);
                         Long start_date = (long) dataSnapshot.child("Group").child(groupId).child("date").getValue();
                         long current_time = System.currentTimeMillis();
@@ -410,8 +409,9 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                 groupIds.add(groupId);
                             }
                             ref.child("Users").child(uid).child("groupIDs").setValue(groupIds);
-                            joinbutton.setText("voted");
+                            joinbutton.setText("joined");
                             joinbutton.setEnabled(false);
+                            deleteButton.setEnabled(true);
                         }
 
                         @Override
@@ -427,8 +427,6 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-
                     //final DatabaseReference ref = mDatabase.getReference();
                     ref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -478,7 +476,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                 Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
                                 ref.child("Group").child(groupId).child("report").setValue(1);
 
-                                reportBtn.setText("Reported");
+                                //reportBtn.setText("Reported");
                                 reportBtn.setEnabled(false);
 
                             } else {
@@ -490,7 +488,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                 Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
                                 ref.child("Group").child(groupId).child("report").setValue(report);
 
-                                reportBtn.setText("Reported");
+                                //reportBtn.setText("Reported");
                                 reportBtn.setEnabled(false);
                             }
 
