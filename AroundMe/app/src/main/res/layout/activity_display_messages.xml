@@ -6,24 +6,17 @@
     android:weightSum="1">
 
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/nick_name"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05" />
 
-        <TextView
-            android:id="@+id/nick_name"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/text_message"
-            android:layout_width="270dp"
-            android:layout_height="60dp"
-            android:layout_weight="1" />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/text_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05" />
 
 
     <ImageView
