@@ -1,3 +1,4 @@
+
 package com.example.zuoyangding.aroundme.Activity;
 
 import android.Manifest;
@@ -7,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,6 +22,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 
 ////image module by Frank Hu
@@ -45,8 +49,8 @@ public class Others_profile extends AppCompatActivity {
 
     private Button report;
     private FirebaseDatabase mDatabase;
+    private DatabaseReference mGroupReference;
 
-    private Global_variable global_variable;
     private Button logout;
 
     //image module by Frank Hu
@@ -62,7 +66,7 @@ public class Others_profile extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         //userId = firebaseAuth.getCurrentUser().getUid();
-        Global_variable global_variable = (Global_variable)getApplicationContext();
+        final Global_variable global_variable = (Global_variable)getApplicationContext();
         Bundle b = getIntent().getExtras();
         Other_userId = b.getString("other_uid");
         landing_Edit = (Button) findViewById(R.id.landing_Edit);
@@ -70,6 +74,7 @@ public class Others_profile extends AppCompatActivity {
         landing_Birthday = (TextView) findViewById(R.id.landing_Birthday);
         landing_info = (TextView) findViewById(R.id.landing_intro);
 
+        report = (Button) findViewById(R.id.reportButton);
 
 
         //image module by Frank
@@ -83,6 +88,21 @@ public class Others_profile extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //DataSnapshot usnap = dataSnapshot.child(global_variable.getUser_id());
+
+                final String uid = global_variable.getUser_id();
+                ArrayList<String> reportIDs = (ArrayList<String>) dataSnapshot.child("reportIDs").getValue();
+
+                if (Other_userId.equals(uid)) {
+                    report.setVisibility(View.INVISIBLE);
+                }
+
+                if (reportIDs != null) {
+                    if (reportIDs.contains(uid)) {
+                        report.setEnabled(false);
+                        report.setText("Reported");
+                    }
+                }
+
 
                 if(dataSnapshot.child("nickName").getValue() != null) {
                     landing_Nickname.setText(dataSnapshot.child("nickName").getValue().toString());
@@ -123,27 +143,40 @@ public class Others_profile extends AppCompatActivity {
             }
         });
 
-        report = (Button) findViewById(R.id.reportButton);
         mDatabase = FirebaseDatabase.getInstance();
-        final DatabaseReference ref = mDatabase.getReference();
-        final String userID = global_variable.getUser_id();
-        report.setOnClickListener(new View.OnClickListener() {
+        final String uid = global_variable.getUser_id();
 
+        report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                final DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("Users");
+                mref.child(Other_userId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        long reports = (long) dataSnapshot.child("Users").child(userID).child("report").getValue();
+                        ArrayList<String> reportIDs = (ArrayList<String>) dataSnapshot.child("reportIDs").getValue();
 
-                        reports ++;
+                        if (reportIDs == null) {
+                            reportIDs = new ArrayList<String>();
+                            reportIDs.add(global_variable.getUser_id());
+                            mref.child(dataSnapshot.child("userID").getValue().toString()).child("reportIDs").setValue(reportIDs);
+                            Toast.makeText(Others_profile.this, "Thank you for your report", Toast.LENGTH_LONG).show();
+                            report.setEnabled(false);
+                            report.setText("Reported");
+                        } else {
+                            if (!reportIDs.contains(global_variable.getUser_id())) {
+                                reportIDs.add(global_variable.getUser_id());
+                                mref.child(dataSnapshot.child("userID").getValue().toString()).child("reportIDs").setValue(reportIDs);
+                                Toast.makeText(Others_profile.this, "Thank you for your report", Toast.LENGTH_LONG).show();
+                                report.setEnabled(false);
+                                report.setText("Reported");
+                            }
+                            else {
+                                Toast.makeText(Others_profile.this, "You already reported this user", Toast.LENGTH_LONG).show();
+                                report.setEnabled(false);
+                                report.setText("Reported");
+                            }
+                        }
 
-                        ref.child("Users").child(userID).child("report").setValue(reports);
-
-                        Toast.makeText(Others_profile.this, "Thank you for your report", Toast.LENGTH_LONG).show();
-                        report.setText("Reported");
-                        report.setEnabled(false);
                     }
 
                     @Override
