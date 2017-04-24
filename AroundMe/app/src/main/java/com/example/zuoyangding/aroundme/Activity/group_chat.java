@@ -60,99 +60,97 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
     //Add by Frank
     private boolean MeInThisGroup = false;
     private boolean OtherInThisGroup = false;
+
     //private int message_count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_chat);
-        listViewOfMessages = (ListView) findViewById(R.id.chat_messages);
-        showGroupName = (TextView) findViewById(R.id.group_name);
-        sendMessage = (ImageButton) findViewById(R.id.send_message);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_group_chat);
+            listViewOfMessages = (ListView) findViewById(R.id.chat_messages);
+            showGroupName = (TextView) findViewById(R.id.group_name);
+            sendMessage = (ImageButton) findViewById(R.id.send_message);
 
-        sendImage = (ImageButton) findViewById(R.id.add_picture);
-        enterTheMessage = (EditText) findViewById(R.id.enterMessage);
-        joinbutton = (Button) findViewById(R.id.joined_button);
+            sendImage = (ImageButton) findViewById(R.id.add_picture);
+            enterTheMessage = (EditText) findViewById(R.id.enterMessage);
+            joinbutton = (Button) findViewById(R.id.joined_button);
 
-        deleteButton = (Button) findViewById(R.id.leave_button);
+            deleteButton = (Button) findViewById(R.id.leave_button);
             reportBtn = (Button) findViewById(R.id.groupReport);
-
-
-
             mDatabase = FirebaseDatabase.getInstance();
-        groupReference = mDatabase.getReference().child("Group");
-        chartMessagesReference = mDatabase.getReference().child("ChartMessages");
-        Bundle b = getIntent().getExtras();
-        groupId = b.getString("groupid");
 
-        groupReference.child(groupId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                try {
-                    //GroupClass group = dataSnapshot.getValue(GroupClass.class);
-                    if (dataSnapshot.child("groupName") != null) {
-                        String groupName = dataSnapshot.child("groupName").getValue().toString();
-                        showGroupName.setText(groupName);
-                    } else {
-                        Toast.makeText(group_chat.this, "cannot find groupName", Toast.LENGTH_LONG).show();
+            groupReference = mDatabase.getReference().child("Group");
+            chartMessagesReference = mDatabase.getReference().child("ChartMessages");
+            Bundle b = getIntent().getExtras();
+            groupId = b.getString("groupid");
+
+            groupReference.child(groupId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    try {
+                        //GroupClass group = dataSnapshot.getValue(GroupClass.class);
+                        if (dataSnapshot.child("groupName") != null) {
+                            String groupName = dataSnapshot.child("groupName").getValue().toString();
+                            showGroupName.setText(groupName);
+                        } else {
+                            Toast.makeText(group_chat.this, "cannot find groupName", Toast.LENGTH_LONG).show();
+                        }
+                    }catch (NullPointerException e){
+                        Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
                     }
-                }catch (NullPointerException e){
-                    Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
 
 
-        //showGroupName.setText(groupName);
+            //showGroupName.setText(groupName);
 
-        final Global_variable global_variable = (Global_variable) getApplicationContext();
-        final String uid = global_variable.getUser_id();
-        final DatabaseReference ref = mDatabase.getReference();
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                try {
-                    ArrayList<String> groupIDs = (ArrayList<String>) dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
-                    if (groupIDs == null)
-                        return;
-                    if ((Boolean) dataSnapshot.child("Group").child(groupId).child("is_permanent").getValue() && groupIDs.contains(groupId)) {
-                        joinbutton.setText("permanent");
-                        joinbutton.setEnabled(false);
-                    } else if (groupIDs.contains(groupId)) {
-                        //Add by Group
-                        MeInThisGroup = true;
+            final Global_variable global_variable = (Global_variable) getApplicationContext();
+            final String uid = global_variable.getUser_id();
+            final DatabaseReference ref = mDatabase.getReference();
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    try {
+                        ArrayList<String> groupIDs = (ArrayList<String>) dataSnapshot.child("Users").child(uid).child("groupIDs").getValue();
+                        if (groupIDs == null)
+                            return;
+                        if ((Boolean) dataSnapshot.child("Group").child(groupId).child("is_permanent").getValue() && groupIDs.contains(groupId)) {
+                            joinbutton.setText("permanent");
+                            joinbutton.setEnabled(false);
+                        } else if (groupIDs.contains(groupId)) {//Add by Group
+                            MeInThisGroup = true;
 
-                        joinbutton.setText("joined");
-                        joinbutton.setEnabled(false);
-                        Long start_date = (long) dataSnapshot.child("Group").child(groupId).child("date").getValue();
-                        long current_time = System.currentTimeMillis();
-                        long time_period = current_time - start_date;
-                        double second = (double) time_period / 1000.0;
-                        double hour = second / 3600;
-                        if (hour >= 24)
+                            joinbutton.setText("joined");
+                            joinbutton.setEnabled(false);
+                            Long start_date = (long) dataSnapshot.child("Group").child(groupId).child("date").getValue();
+                            long current_time = System.currentTimeMillis();
+                            long time_period = current_time - start_date;
+                            double second = (double) time_period / 1000.0;
+                            double hour = second / 3600;
+                            if (hour >= 24)
                             Toast.makeText(group_chat.this, "This group is about to expired", Toast.LENGTH_LONG).show();
-                    } else if (!groupIDs.contains(groupIDs)) {
-                        deleteButton.setEnabled(false);
+                        } else if (!groupIDs.contains(groupIDs)) {
+                            deleteButton.setEnabled(false);
+                        }
+                    }catch (NullPointerException e){
+                        Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
                     }
-                }catch (NullPointerException e){
-                    Toast.makeText(group_chat.this, "This group is not existing anymore. Please go back.", Toast.LENGTH_LONG).show();
                 }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-
+                }
+            });
             adapter = new FirebaseListAdapter<String>(group_chat.this, String.class,
                     R.layout.activity_display_messages, groupReference.child(groupId).child("messageId")) {
                 @Override
                 protected void populateView(View v, final String model, final int position) {
+
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
                     //v = getLayoutInflater().inflate(R.layout.activity_display_messages,null);
                     final View v1 = v;
@@ -164,6 +162,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                             ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
                             showMessage.setVisibility(View.GONE);
                             showImage.setVisibility(View.GONE);
+
                             /*SHOW USER AVATAR(FRANK)*/
                             //TODO
 
@@ -173,16 +172,24 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                 String message = null;
                                 String imageString = null;
                                 String nickName;
+                                String landing_imgStr = null;
+
                                 if (dataSnapshot.child("Users").child(userId).child("nickName").getValue() == null) {
                                     nickName = "anonymous";
                                 } else {
                                     nickName = dataSnapshot.child("Users").child(userId).child("nickName").getValue().toString()+ ":";
+                                    //landing_imgStr = dataSnapshot.child(userId).child("imgStr").getValue().toString();
+
+                                    if (landing_imgStr == null){
+                                        System.out.println(nickName + "str == null");
+                                    }
                                 }
+
                                 if (dataSnapshot.child("ChartMessages").child(model_1).child("message").getValue() != null) {
                                     message = dataSnapshot.child("ChartMessages").child(model_1).child("message").getValue().toString();
                                     //TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
                                     showMessage.setVisibility(View.VISIBLE);
-                                    showMessage.setText(message);
+                                    showMessage.setText(message + "\n");
                                     //showMessage.setVisibility(View.VISIBLE);
                                     //ImageView showImage = (ImageView) v1.findViewById(R.id.send_image);
                                     //((ViewGroup) v1).removeView(showImage);
@@ -192,6 +199,7 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                     //showMessage.setVisibility(View.GONE);
                                     //((ViewGroup) v1).removeView(showMessage);
                                 }
+
                                 if (dataSnapshot.child("ChartMessages").child(model_1).child("image").getValue() != null) {
                                     imageString = dataSnapshot.child("ChartMessages").child(model_1).child("image").getValue().toString();
                                     byte[] imageByte = Base64.decode(imageString, Base64.DEFAULT);
@@ -222,9 +230,19 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
                                 //COMMENT THIS OUT IF FINISH AVATAR(FRANK)
                                 TextView showNickName = (TextView) v1.findViewById(R.id.nick_name);
                                 //TextView showMessage = (TextView) v1.findViewById(R.id.text_message);
-
                                 //showMessage.setText(message);
                                 showNickName.setText(nickName);
+
+                                /*SHOW USER AVATAR(FRANK)*/
+//                                if (landing_imgStr != null) {
+//                                    System.out.print("Pass");
+//
+//                                    byte[] imageByte = Base64.decode(landing_imgStr, Base64.DEFAULT);
+//                                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+//
+//                                    ImageButton Avatar = (ImageButton) findViewById(R.id.avatar);
+//                                    Avatar.setImageBitmap(bitmap);
+//                                }
 
                             }
 
@@ -468,28 +486,32 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
             reportBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Group");
+                    ref.child(groupId).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            ArrayList<String> reportIDs = (ArrayList<String>) dataSnapshot.child("reportIDs").getValue();
 
-                            if (!dataSnapshot.child("Group").child(groupId).child("report").exists()) {
+                            if (reportIDs == null) {
+                                reportIDs = new ArrayList<String>();
+                                reportIDs.add(uid);
+                                ref.child(dataSnapshot.child("key").getValue().toString()).child("reportIDs").setValue(reportIDs);
                                 Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
-                                ref.child("Group").child(groupId).child("report").setValue(1);
-
-                                //reportBtn.setText("Reported");
                                 reportBtn.setEnabled(false);
-
+                                //reportBtn.setText("Reported");
                             } else {
-
-                                long report = (long) dataSnapshot.child("Group").child(groupId).child("report").getValue();
-
-                                report++;
-
-                                Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
-                                ref.child("Group").child(groupId).child("report").setValue(report);
-
-                                //reportBtn.setText("Reported");
-                                reportBtn.setEnabled(false);
+                                if (!reportIDs.contains(uid)) {
+                                    reportIDs.add(uid);
+                                    ref.child(dataSnapshot.child("key").getValue().toString()).child("reportIDs").setValue(reportIDs);
+                                    Toast.makeText(group_chat.this, "Thank you for your report", Toast.LENGTH_LONG).show();
+                                    reportBtn.setEnabled(false);
+                                    //reportBtn.setText("Reported");
+                                }
+                                else {
+                                    Toast.makeText(group_chat.this, "You already reported this group", Toast.LENGTH_LONG).show();
+                                    reportBtn.setEnabled(false);
+                                    //reportBtn.setText("Reported");
+                                }
                             }
 
                         }

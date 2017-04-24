@@ -38,7 +38,7 @@ public class GroupListAdapter extends ArrayAdapter<GroupClass> {
                 TextView t = (TextView) vi.findViewById(R.id.item1);
                 t.setText(groups.get(position).groupName);
                 TextView subt = (TextView) vi.findViewById(R.id.sub_item1);
-                subt.setText(groups.get(position).topic);
+                subt.setText("Topic: "+groups.get(position).topic);
                 //String str = vi.getTag().toString();
         return v;
     }
