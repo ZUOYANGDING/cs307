@@ -146,9 +146,13 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.child("privacy_mode") != null) {
+                        if (dataSnapshot.child("privacy_mode").getValue() != null) {
                             boolean mode = (boolean) dataSnapshot.child("privacy_mode").getValue();
                             landing_switch.setChecked(mode);
+                        }
+                        else {
+                            landing_switch.setChecked(false);
+                            ref.child("privacy_mode").setValue(false);
                         }
                     }
 
@@ -198,20 +202,24 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //DataSnapshot usnap = dataSnapshot.child(global_variable.getUser_id());
-                        boolean current_mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
-                        System.out.print(userId + "\' Current mode is " + current_mode + ". ");
-                        if( current_mode == true) {
-                            switch_ref.child(userId).child("privacy_mode").setValue(false);
-                            current_mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
-                            System.out.println("Now set to : " + current_mode + ".");
-                        } else {
+                        if (dataSnapshot.child("privacy_mode").getValue() == null) {
                             switch_ref.child(userId).child("privacy_mode").setValue(true);
-                            current_mode = (boolean)dataSnapshot.child("privacy_mode").getValue();
-                            System.out.println("Now set to : " + current_mode + ".");
+                            //current_mode = (boolean) dataSnapshot.child("privacy_mode").getValue();
+                        } else {
+                            boolean current_mode = (boolean) dataSnapshot.child("privacy_mode").getValue();
+                            System.out.print(userId + "\' Current mode is " + current_mode + ". ");
+                            if (current_mode == true) {
+                                switch_ref.child(userId).child("privacy_mode").setValue(false);
+                                current_mode = (boolean) dataSnapshot.child("privacy_mode").getValue();
+                                System.out.println("Now set to : " + current_mode + ".");
+                            } else {
+                                switch_ref.child(userId).child("privacy_mode").setValue(true);
+                                current_mode = (boolean) dataSnapshot.child("privacy_mode").getValue();
+                                System.out.println("Now set to : " + current_mode + ".");
+                            }
+                            //global_variable.changePrivacy_mode();
                         }
-                        //global_variable.changePrivacy_mode();
                     }
-
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
