@@ -31,7 +31,7 @@ public class homepage extends AppCompatActivity {
 
 
     private ListView listView;
-    private ImageButton addGroupButton;
+    //private ImageButton addGroupButton;
     private ImageButton profileButton;
     private ImageButton sortButton;
 //    private Button logout;
@@ -70,7 +70,7 @@ public class homepage extends AppCompatActivity {
         mAuth.addAuthStateListener(mAuthListener);
         */
         //userId = firebaseAuth.getCurrentUser().getUid();
-        addGroupButton = (ImageButton) findViewById(R.id.addGroupButton);
+        //addGroupButton = (ImageButton) findViewById(R.id.addGroupButton);
         profileButton = (ImageButton) findViewById(R.id.profileButton);
         sortButton = (ImageButton)findViewById(R.id.homepage_button);
         startButton = (ImageButton) findViewById(R.id.favorites_button);
@@ -186,12 +186,12 @@ public class homepage extends AppCompatActivity {
             }
         });
 
-        addGroupButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent i=new Intent(homepage.this, add_group.class);
-                homepage.this.startActivity(i);
-            }
-        });
+//        addGroupButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                Intent i=new Intent(homepage.this, add_group.class);
+//                homepage.this.startActivity(i);
+//            }
+//        });
 
         profileButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
