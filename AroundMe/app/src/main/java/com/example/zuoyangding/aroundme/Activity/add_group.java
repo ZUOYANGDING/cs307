@@ -81,7 +81,7 @@ public class add_group extends AppCompatActivity implements GoogleApiClient.Conn
             @Override
             public void onClick(View v) {
                 final String key = mGroupReference.child("Group").push().getKey();
-                long start_date = System.nanoTime();
+                long start_date = System.currentTimeMillis();
                 ArrayList<String> usr_ids = new ArrayList<String>();
                 //User new_u;
 

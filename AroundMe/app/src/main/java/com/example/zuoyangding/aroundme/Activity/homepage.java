@@ -116,11 +116,11 @@ public class homepage extends AppCompatActivity {
                     for (DataSnapshot it : dataSnapshot.child("Users").child(global_variable.getUser_id()).child("groupIDs").getChildren()){
                         if (dataSnapshot.child("Group").child(it.getValue().toString()).getValue() != null) {
                             Long start_time = dataSnapshot.child("Group").child(it.getValue().toString()).child("date").getValue(long.class);
-                            long current_time = System.nanoTime();
+                            long current_time = System.currentTimeMillis();
                             long time_period = current_time - start_time;
-                            double second = (double) Math.abs(time_period) / 10000000000.0;
+                            double second = (double) Math.abs(time_period) / 1000.0; // 1 followed by 3 0's
                             double hour = second / 3600;
-                            if (hour >= 24){
+                            if (hour >= 24 && (Boolean) it.child("is_permanent").getValue() == false){
                                 ref.child("Group").child(it.getValue().toString()).removeValue();
                             }
                             else

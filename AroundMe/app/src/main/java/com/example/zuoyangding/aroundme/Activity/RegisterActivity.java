@@ -126,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity {
         userReference = mDatabase.child("Users");
         userId = firebaseAuth.getCurrentUser().getUid();
 
-        user = new User(userId, email, password, null, nickName, null, null, new ArrayList<String>(), null, true);
+        user = new User(userId, email, password, null, nickName, null, null, new ArrayList<String>(), null, true,0);
 
         user.setUserID(userId);
         user.setEmail(email);

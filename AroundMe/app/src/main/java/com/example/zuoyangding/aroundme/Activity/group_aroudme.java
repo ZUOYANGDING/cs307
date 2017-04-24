@@ -222,12 +222,13 @@ public class group_aroudme extends AppCompatActivity implements GoogleApiClient.
                     ArrayList<GroupClass> temp = new ArrayList<GroupClass>();
                     for (DataSnapshot it : dataSnapshot.getChildren()) {
                         if (it.getValue() != null) {
+
                             Long start_time = it.child("date").getValue(long.class);
-                            long current_time = System.nanoTime();
+                            long current_time = System.currentTimeMillis();
                             long time_period = current_time - start_time;
-                            double second = (double) Math.abs(time_period) / 100000000.0;
+                            double second = (double) Math.abs(time_period) / 1000.0; // 1 followed by 3 0's
                             double hour = second / 3600;
-                            if (hour >= 24) {
+                            if (hour >= 24 && (Boolean) it.child("is_permanent").getValue()!= true) {
                                 ref.child("Group").child(it.child("key").getValue().toString()).removeValue();
                             }else {
                                 //Location temp_lo = new Location(it.child("mlocation").getValue(Location.class));
