@@ -517,23 +517,26 @@ public class group_chat extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri imgUri = data.getData();
 
-        Bitmap myBitmap = null;
-        try {
-            myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (data != null) { //Add by Frank fix null image select bug
+            Uri imgUri = data.getData();
+
+            Bitmap myBitmap = null;
+            try {
+                myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            myBitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            myBitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            byte[] imgByte = bos.toByteArray();
+            this.image = Base64.encodeToString(imgByte, Base64.DEFAULT);
+
+            //Uri way
+            //this.landing_imgStr = imgUri.toString();
         }
-
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.PNG,100, bos);
-        myBitmap.compress(Bitmap.CompressFormat.PNG,100, bos);
-        byte[] imgByte = bos.toByteArray();
-        this.image = Base64.encodeToString(imgByte, Base64.DEFAULT);
-
-        //Uri way
-        //this.landing_imgStr = imgUri.toString();
 
         if (this.image == null) {
             Toast.makeText(group_chat.this, "message cannot be empty", Toast.LENGTH_LONG).show();
