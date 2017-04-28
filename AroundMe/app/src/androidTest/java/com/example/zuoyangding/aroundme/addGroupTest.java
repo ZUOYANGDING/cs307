@@ -58,8 +58,8 @@ public class addGroupTest {
     public void groupName() throws Exception {
 
         Thread.sleep(1000);
-        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
-        onView(withId(R.id.password_tx)).perform(typeText("purdue18"));
+        onView(withId(R.id.email_tx)).perform(typeText("test1@test.com"));
+        onView(withId(R.id.password_tx)).perform(typeText("1234567"));
         onView(withId(R.id.email_login_btn)).perform(click());
         Thread.sleep(1000);
 
@@ -76,8 +76,8 @@ public class addGroupTest {
     @Test
     public void emptyInputs() throws Exception {
         Thread.sleep(1000);
-        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
-        onView(withId(R.id.password_tx)).perform(typeText("purdue18"));
+        onView(withId(R.id.email_tx)).perform(typeText("test1@test.com"));
+        onView(withId(R.id.password_tx)).perform(typeText("1234567"));
         onView(withId(R.id.email_login_btn)).perform(click());
         Thread.sleep(1000);
 

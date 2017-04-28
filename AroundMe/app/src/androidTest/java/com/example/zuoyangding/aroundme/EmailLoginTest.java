@@ -90,7 +90,7 @@ public class EmailLoginTest {
 
     @Test
     public void wrongPassword() throws Exception {
-        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
+        onView(withId(R.id.email_tx)).perform(typeText("test1@test.com"));
         onView(withId(R.id.password_tx)).perform(typeText("purdue"));
         onView(withId(R.id.email_login_btn)).perform(click());
         Thread.sleep(1000);
@@ -102,8 +102,8 @@ public class EmailLoginTest {
     @Test
     public void sucessEmailLogin() throws Exception {
         Thread.sleep(1000);
-        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
-        onView(withId(R.id.password_tx)).perform(typeText("purdue18"));
+        onView(withId(R.id.email_tx)).perform(typeText("test1@test.com"));
+        onView(withId(R.id.password_tx)).perform(typeText("1234567"));
         onView(withId(R.id.email_login_btn)).perform(click());
         Thread.sleep(1000);
     }

@@ -56,8 +56,8 @@ public class editLandingActivityTest {
     public void nickNameOInly() throws Exception {
 
         Thread.sleep(1000);
-        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
-        onView(withId(R.id.password_tx)).perform(typeText("purdue18"));
+        onView(withId(R.id.email_tx)).perform(typeText("test1@test.com"));
+        onView(withId(R.id.password_tx)).perform(typeText("1234567"));
         onView(withId(R.id.email_login_btn)).perform(click());
         Thread.sleep(1000);
 
@@ -79,8 +79,8 @@ public class editLandingActivityTest {
     public void emptyBirthday() throws Exception {
 
         Thread.sleep(1000);
-        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
-        onView(withId(R.id.password_tx)).perform(typeText("purdue18"));
+        onView(withId(R.id.email_tx)).perform(typeText("test1@test.com"));
+        onView(withId(R.id.password_tx)).perform(typeText("1234567"));
         onView(withId(R.id.email_login_btn)).perform(click());
         Thread.sleep(1000);
 
@@ -100,8 +100,8 @@ public class editLandingActivityTest {
 
     @Test
     public void invalidBirthday() throws Exception {
-        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
-        onView(withId(R.id.password_tx)).perform(typeText("purdue18"));
+        onView(withId(R.id.email_tx)).perform(typeText("test1@test.com"));
+        onView(withId(R.id.password_tx)).perform(typeText("1234567"));
         onView(withId(R.id.email_login_btn)).perform(click());
         Thread.sleep(1000);
 
@@ -122,8 +122,8 @@ public class editLandingActivityTest {
     public void validInputs() throws Exception {
         // Login
         Thread.sleep(1000);
-        onView(withId(R.id.email_tx)).perform(typeText("zheng323@purdue.edu"));
-        onView(withId(R.id.password_tx)).perform(typeText("purdue18"));
+        onView(withId(R.id.email_tx)).perform(typeText("test1@test.com"));
+        onView(withId(R.id.password_tx)).perform(typeText("1234567"));
         onView(withId(R.id.email_login_btn)).perform(click());
         Thread.sleep(1000);
 
